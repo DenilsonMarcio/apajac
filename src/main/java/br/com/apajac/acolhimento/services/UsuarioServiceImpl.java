@@ -7,6 +7,8 @@ import br.com.apajac.acolhimento.services.interfaces.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
@@ -23,5 +25,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         entity.setLogin(usuario.getLogin());
 
         repository.save(entity);
+    }
+
+    @Override
+    public List<UsuarioEntity> listarUsuarios() {
+        return repository.findAll();
     }
 }
