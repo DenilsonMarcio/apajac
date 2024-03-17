@@ -19,7 +19,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         UsuarioEntity entity = new UsuarioEntity();
         entity.setName(usuario.getName());
-        entity.setType(usuario.getType());
+        entity.setRole(usuario.getRole());
         entity.setStatus(usuario.getStatus());
         entity.setPassword(usuario.getPassword());
         entity.setLogin(usuario.getLogin());
