@@ -9,8 +9,8 @@ import lombok.*;
 @Setter
 public class UsuarioDTO {
     private String name;
-    private String type;
-    private int status;
-    private String password;
+    private String role;
+    private Character status;
     private String login;
+    private String password;
 }
