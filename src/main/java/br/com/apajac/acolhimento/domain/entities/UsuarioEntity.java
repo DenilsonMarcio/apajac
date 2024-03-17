@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 
-@Table(name = "usuario_db_seq")
+@Table(name = "usuario_db")
 public class UsuarioEntity {
 
     @Id
@@ -19,7 +19,7 @@ public class UsuarioEntity {
     private Integer id;
     private String name;
     private String type;
-    private int status;
-    private String password;
+    private Boolean status;
     private String login;
+    private String password;
 }
