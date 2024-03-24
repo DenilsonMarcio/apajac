@@ -5,27 +5,27 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "usuario")
-public class UsuarioEntity {
+@Table(name = "composicao_familiar")
+public class ComposicaoFamiliarEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String nome;
-    private String role;
-    private Character status;
-    private String login;
-    private String password;
+    private Integer anoNascimento;
+    private String parentesco;
+    private String ocupacao;
 
-    @CreatedDate
-    private LocalDate created;
+    @Column(length = 1000)
+    private String observacoes;
+
+    @ManyToOne
+    @JoinColumn(name = "acolhido_id")
+    private AcolhidoEntity acolhido;
 }

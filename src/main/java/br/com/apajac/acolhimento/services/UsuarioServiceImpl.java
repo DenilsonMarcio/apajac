@@ -18,7 +18,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void cadastrar(UsuarioDTO usuario) {
 
         UsuarioEntity entity = new UsuarioEntity();
-        entity.setName(usuario.getName());
+        entity.setNome(usuario.getNome());
         entity.setRole(usuario.getRole());
         entity.setStatus(usuario.getStatus());
         entity.setPassword(usuario.getPassword());

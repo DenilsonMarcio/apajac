@@ -7,10 +7,9 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class UsuarioDTO {
+public class ComposicaoFamiliarDTO {
     private String nome;
-    private String role;
-    private Character status;
-    private String login;
-    private String password;
+    private Integer anoNascimento;
+    private String parentesco;
+    private String ocupacao;
 }
