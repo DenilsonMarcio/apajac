@@ -1,14 +1,13 @@
 package br.com.apajac.acolhimento.domain.entities;
 
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "composicao_familiar")
 public class ComposicaoFamiliarEntity {
@@ -28,4 +27,5 @@ public class ComposicaoFamiliarEntity {
     @ManyToOne
     @JoinColumn(name = "acolhido_id")
     private AcolhidoEntity acolhido;
+
 }

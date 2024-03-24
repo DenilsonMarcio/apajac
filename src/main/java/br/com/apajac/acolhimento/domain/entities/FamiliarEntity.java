@@ -2,15 +2,17 @@ package br.com.apajac.acolhimento.domain.entities;
 
 import br.com.apajac.acolhimento.domain.enums.TipoParentesco;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.proxy.HibernateProxy;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "familiar")
 public class FamiliarEntity {

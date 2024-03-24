@@ -23,7 +23,7 @@ public class ConsultarAcolhidoServiceImpl implements ConsultarAcolhidoService {
     @Override
     public AcolhidoEntity buscarAcolhidoPorId(Long id) {
         Optional<AcolhidoEntity> acolhidoOpt = acolhidoRepository.findById(id);
-        if (!acolhidoOpt.isPresent()){
+        if (acolhidoOpt.isEmpty()){
             throw new NotFoundException("Acolhido não encontrado.");
         }
         return acolhidoOpt.get();

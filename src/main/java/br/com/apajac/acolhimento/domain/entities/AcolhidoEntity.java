@@ -1,16 +1,16 @@
 package br.com.apajac.acolhimento.domain.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "acolhido")
 public class AcolhidoEntity {
@@ -37,8 +37,10 @@ public class AcolhidoEntity {
     private String observacoes;
 
     @OneToMany(mappedBy = "acolhido", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<FamiliarEntity> familiares;
 
     @OneToMany(mappedBy = "acolhido", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<ComposicaoFamiliarEntity> composicaoFamiliar;
 }
