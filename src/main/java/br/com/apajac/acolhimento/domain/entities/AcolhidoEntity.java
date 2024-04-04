@@ -15,19 +15,19 @@ import lombok.NoArgsConstructor;
 public class AcolhidoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     private String nome;
-    private LocalDate data_nascimento;
+    private LocalDate dataNascimento;
     private String escolaridade;
     private String escola;
-    private String tel_escola;
-    private boolean cadastro_instituicao;
+    private String telEscola;
+    private boolean cadastroInstituicao;
     private String instituicao;
-    private String encaminhado_para;
-    private String quem_indicou_apajac;
-    private String informacoes_fornecidas_por;
+    private String encaminhadoPara;
+    private String quemIndicouApajac;
+    private String informacoesFornecidasPor;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_cep", referencedColumnName = "cep")

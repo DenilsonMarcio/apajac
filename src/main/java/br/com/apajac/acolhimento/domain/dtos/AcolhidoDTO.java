@@ -1,6 +1,8 @@
 package br.com.apajac.acolhimento.domain.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
+import jakarta.persistence.Column;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -10,36 +12,26 @@ import java.time.LocalDate;
 @Builder
 @Getter
 @Setter
+@ToString
 public class AcolhidoDTO {
 
     private String nome;
-    private LocalDate data_nascimento;
+    @JsonProperty("data_nascimento")
+    private LocalDate dataNascimento;
     private String escolaridade;
     private String escola;
-    private String tel_escola;
-    private boolean cadastro_instituicao;
+    @JsonProperty("tel_escola")
+    private String telEscola;
+    @JsonProperty("cadastro_instituicao")
+    private boolean cadastroInstituicao;
     private String instituicao;
-    private String encaminhado_para;
-    private String quem_indicou_apajac;
-    private String informacoes_fornecidas_por;
+    @JsonProperty("encaminhado_para")
+    private String encaminhadoPara;
+    @JsonProperty("quem_indicou_apajac")
+    private String quemIndicouApajac;
+    @JsonProperty("informacoes_fornecidas_por")
+    private String informacoesFornecidasPor;
     private EnderecoDTO endereco;
     private String observacoes;
-
-    @Override
-    public String toString() {
-        return  "nome='" + nome + '\'' +
-                ", data_nascimento=" + data_nascimento +
-                ", escolaridade='" + escolaridade + '\'' +
-                ", escola='" + escola + '\'' +
-                ", tel_escola='" + tel_escola + '\'' +
-                ", cadastro_instituicao=" + cadastro_instituicao +
-                ", instituicao='" + instituicao + '\'' +
-                ", encaminhado_para='" + encaminhado_para + '\'' +
-                ", quem_indicou_apajac='" + quem_indicou_apajac + '\'' +
-                ", informacoes_fornecidas_por='" + informacoes_fornecidas_por + '\'' +
-                ", endereco=" + endereco +
-                ", observacoes='" + observacoes + '\'' +
-                '}';
-    }
 
 }

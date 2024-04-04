@@ -13,11 +13,10 @@ import lombok.NoArgsConstructor;
 public class EnderecoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     private String cep;
-
     private String endereco;
     private int numero;
     private String bairro;

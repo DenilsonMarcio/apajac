@@ -7,6 +7,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
+@ToString
 public class EnderecoDTO {
 
     private String cep;
@@ -16,15 +17,6 @@ public class EnderecoDTO {
     private String cidade;
     private String uf;
 
-    @Override
-    public String toString() {
-        return  "endereco='" + endereco + '\'' +
-                ", numero=" + numero +
-                ", bairro='" + bairro + '\'' +
-                ", cidade='" + cidade + '\'' +
-                ", UF='" + uf + '\'' +
-                ", cep='" + cep + '\'' +
-                '}';
-    }
+
 
 }

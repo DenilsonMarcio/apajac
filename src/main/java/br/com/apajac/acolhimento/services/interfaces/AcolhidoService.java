@@ -9,6 +9,5 @@ public interface AcolhidoService {
 
     AcolhidoEntity cadastrarAcolhido(AcolhidoDTO acolhido);
     List<AcolhidoEntity> listarAcolhidos();
-    AcolhidoDTO buscarAcolhidoPorId(Integer id);
 
 }

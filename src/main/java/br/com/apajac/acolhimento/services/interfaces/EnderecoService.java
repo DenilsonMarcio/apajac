@@ -6,6 +6,5 @@ public interface EnderecoService {
     
     void cadastrarEndereco(EnderecoDTO endereco);
 
-    EnderecoDTO buscarEnderecoCEP(String cep);
 }
 

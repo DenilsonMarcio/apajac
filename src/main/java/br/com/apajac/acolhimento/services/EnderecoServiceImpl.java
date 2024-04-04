@@ -9,21 +9,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EnderecoServiceImpl implements EnderecoService {
-    private final EnderecoRepository erepository;
+    private final EnderecoRepository eRepository;
 
     public EnderecoServiceImpl(EnderecoRepository erepository) {
-        this.erepository = erepository;
+        this.eRepository = erepository;
     }
 
     @Override
     public void cadastrarEndereco(EnderecoDTO endereco) {
         EnderecoEntity entity = new EnderecoEntity();
         BeanUtils.copyProperties(endereco, entity);
-        erepository.save(entity);
+        eRepository.save(entity);
     }
 
-    @Override
-    public EnderecoDTO buscarEnderecoCEP(String cep) {
-        return null;
-    }
 }

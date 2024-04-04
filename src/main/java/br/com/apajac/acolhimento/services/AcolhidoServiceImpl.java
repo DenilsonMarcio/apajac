@@ -32,8 +32,5 @@ public class AcolhidoServiceImpl implements AcolhidoService {
         return aRepository.findAll();
     }
 
-    @Override
-    public AcolhidoDTO buscarAcolhidoPorId(Integer id) {
-        return null;
-    }
+
 }
