@@ -2,6 +2,7 @@ package br.com.apajac.acolhimento.controllers;
 
 import br.com.apajac.acolhimento.domain.dtos.AcolhidoDTO;
 import br.com.apajac.acolhimento.domain.dtos.ParenteDTO;
+import br.com.apajac.acolhimento.domain.dtos.ResponsavelDTO;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,10 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test1")
 public class Test1Controller {
 
-
     @PostMapping
-    public void test1(@RequestBody ParenteDTO parenteDTO)
+    public void test1(@RequestBody ResponsavelDTO responsavelDTO)
     {
-        System.out.println(parenteDTO);
+        System.out.println(responsavelDTO);
     }
 }
