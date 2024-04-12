@@ -1,9 +1,9 @@
 package br.com.apajac.acolhimento.domain.Enum;
 
 public enum Familiar {
-    Pai,
-    Mae,
-    Tia,
-    Tio,
-    Avo,
+    PAI,
+    MAE,
+    TIA,
+    TIO,
+    AVO,
 }

@@ -17,9 +17,10 @@ public class ResponsavelServiceImpl implements ResponsavelService {
     }
 
     @Override
-    public void cadastrarResponsavel(ResponsavelDTO responsavel) {
+    public ResponsavelEntity cadastrarResponsavel(ResponsavelDTO responsavel) {
         ResponsavelEntity entity = new ResponsavelEntity();
         BeanUtils.copyProperties(responsavel, entity);
         rRepository.save(entity);
+        return entity;
     }
 }

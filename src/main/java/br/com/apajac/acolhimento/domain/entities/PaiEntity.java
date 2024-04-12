@@ -1,18 +1,23 @@
-package br.com.apajac.acolhimento.domain.dtos;
+package br.com.apajac.acolhimento.domain.entities;
 
 import br.com.apajac.acolhimento.domain.Enum.Familiar;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Getter
-@Setter
-@ToString
-public class ParenteDTO {
+@Entity
+@Table(name = "tb_pai")
+public class PaiEntity {
 
-    private Familiar familiar;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
     private String nome;
     private String tel;
     private String cel;
@@ -22,4 +27,5 @@ public class ParenteDTO {
     private Double salario;
     @JsonProperty("vinculo_empregaticio")
     private String vinculoEmpregaticio;
+
 }

@@ -16,10 +16,11 @@ public class EnderecoServiceImpl implements EnderecoService {
     }
 
     @Override
-    public void cadastrarEndereco(EnderecoDTO endereco) {
+    public EnderecoEntity cadastrarEndereco(EnderecoDTO endereco) {
         EnderecoEntity entity = new EnderecoEntity();
         BeanUtils.copyProperties(endereco, entity);
         eRepository.save(entity);
+        return entity;
     }
 
 }

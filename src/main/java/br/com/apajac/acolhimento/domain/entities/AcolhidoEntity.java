@@ -29,10 +29,6 @@ public class AcolhidoEntity {
     private String quemIndicouApajac;
     private String informacoesFornecidasPor;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "endereco_cep", referencedColumnName = "cep")
-    private EnderecoEntity enderecoEntity;
-
     private String observacoes;
 
 }

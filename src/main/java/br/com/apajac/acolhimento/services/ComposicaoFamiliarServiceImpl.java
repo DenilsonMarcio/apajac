@@ -7,6 +7,8 @@ import br.com.apajac.acolhimento.services.interfaces.ComposicaoFamiliarService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ComposicaoFamiliarServiceImpl implements ComposicaoFamiliarService {
 
@@ -17,9 +19,10 @@ public class ComposicaoFamiliarServiceImpl implements ComposicaoFamiliarService 
     }
 
     @Override
-    public void cadastrarComposicaoFamiliar(ComposicaoFamiliarDTO composicaoFamiliar) {
+    public List<ComposicaoFamiliarEntity> cadastrarComposicaoFamiliar(List<ComposicaoFamiliarDTO> composicaoFamiliar) {
         ComposicaoFamiliarEntity entity = new ComposicaoFamiliarEntity();
         BeanUtils.copyProperties(composicaoFamiliar, entity);
         cRepository.save(entity);
+        return null;
     }
 }

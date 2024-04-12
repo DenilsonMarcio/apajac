@@ -7,21 +7,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_parente")
-public class ParenteEntity {
+@Table(name = "tb_mae")
+public class MaeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private Familiar familiar;
     private String nome;
-    private String tel;
-    private String cel;
+    private List<String> tel;
     private String ocupacao;
     @JsonProperty("local_trabalho")
     private String localTrabalho;
