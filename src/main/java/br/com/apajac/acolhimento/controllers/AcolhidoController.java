@@ -1,7 +1,6 @@
 package br.com.apajac.acolhimento.controllers;
 
-import br.com.apajac.acolhimento.domain.dtos.AcolhidoDTO;
-import br.com.apajac.acolhimento.domain.dtos.ComposicaoFamiliarDTO;
+import br.com.apajac.acolhimento.domain.dtos.ContratoAcolhidoDTO;
 import br.com.apajac.acolhimento.services.interfaces.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,16 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/acolhidos")
 public class AcolhidoController {
 
-    private final AcolhidoService acolhidoService;
+    private final ContratoAcolhidoService contratoAcolhidoService;
 
 
-    public AcolhidoController(AcolhidoService acolhidoService) {
-        this.acolhidoService = acolhidoService;
+    public AcolhidoController(ContratoAcolhidoService contratoAcolhidoService) {
+        this.contratoAcolhidoService = contratoAcolhidoService;
     }
 
     @PostMapping
-    public ResponseEntity<Void> cadastrarContrato(@RequestBody AcolhidoDTO acolhidoDTO) {
-        acolhidoService.cadastrarAcolhido(acolhidoDTO);
+    public ResponseEntity<Void> cadastrarContrato(@RequestBody ContratoAcolhidoDTO contratoAcolhidoDTO) {
+        contratoAcolhidoService.cadastrarContrato(contratoAcolhidoDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
