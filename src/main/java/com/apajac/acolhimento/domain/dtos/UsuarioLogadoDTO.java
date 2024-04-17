@@ -7,9 +7,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class UsuarioDTO {
+public class UsuarioLogadoDTO {
     private String nome;
     private String role;
-    private String login;
-    private String password;
 }

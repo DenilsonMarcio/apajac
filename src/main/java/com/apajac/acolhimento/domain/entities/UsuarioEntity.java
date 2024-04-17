@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-
-import java.time.LocalDate;
 
 @Data
 @RequiredArgsConstructor
@@ -22,10 +19,8 @@ public class UsuarioEntity {
 
     private String nome;
     private String role;
-    private Character status;
+    private Boolean status = Boolean.TRUE;
     private String login;
     private String password;
 
-    @CreatedDate
-    private LocalDate created;
 }

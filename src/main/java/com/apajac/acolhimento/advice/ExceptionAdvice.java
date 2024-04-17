@@ -1,6 +1,7 @@
 package com.apajac.acolhimento.advice;
 
 import com.apajac.acolhimento.exceptions.NotFoundException;
+import com.apajac.acolhimento.exceptions.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,5 +65,15 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         body.put(MESSAGE, ex.getMessage());
 
         return new ResponseEntity<>(body, HttpStatus.BAD_GATEWAY);
+    }
+
+    @ExceptionHandler(value = {UnauthorizedException.class})
+    public ResponseEntity<Object> tratarExcecaoUnauthorizedException(final UnauthorizedException ex) {
+        Map<String, String> body = new HashMap<>();
+
+        body.put(CODE, UNAUTHORIZED);
+        body.put(MESSAGE, ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 }
