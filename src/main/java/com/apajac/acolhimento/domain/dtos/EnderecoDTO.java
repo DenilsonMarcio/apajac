@@ -14,4 +14,5 @@ public class EnderecoDTO {
     private String bairro;
     private String cidade;
     private String UF;
+    private String complemento;
 }
