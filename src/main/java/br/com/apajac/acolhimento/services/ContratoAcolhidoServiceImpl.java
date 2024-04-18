@@ -1,54 +1,44 @@
 package br.com.apajac.acolhimento.services;
 
-import br.com.apajac.acolhimento.domain.dtos.ComposicaoFamiliarDTO;
 import br.com.apajac.acolhimento.domain.dtos.ContratoAcolhidoDTO;
+import br.com.apajac.acolhimento.domain.dtos.FamiliaresDTO;
 import br.com.apajac.acolhimento.domain.entities.*;
 import br.com.apajac.acolhimento.repositories.*;
 import br.com.apajac.acolhimento.services.interfaces.ContratoAcolhidoService;
 import jakarta.transaction.Transactional;
+
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class ContratoAcolhidoServiceImpl implements ContratoAcolhidoService {
 
-    private final AcolhidoRepository aRepository;
-    private final MaeRepository mRepository;
-    private final PaiRepository pRepository;
-    private final ResponsavelRepository respRepository;
-    private final ComposicaoFamiliarRepository cfRepository;
+    private final ContratoAcolhidoRepository repository;
+    private final AcolhidoServiceImpl aervice;
+    private final FamiliaresServiceImpl fService;
 
-    public ContratoAcolhidoServiceImpl(AcolhidoRepository aRepository, MaeRepository mRepository, PaiRepository pRepository, ResponsavelRepository respRepository, ComposicaoFamiliarRepository cfRepository) {
-        this.aRepository = aRepository;
-        this.mRepository = mRepository;
-        this.pRepository = pRepository;
-        this.respRepository = respRepository;
-        this.cfRepository = cfRepository;
+
+    public ContratoAcolhidoServiceImpl(ContratoAcolhidoRepository repository, AcolhidoServiceImpl aervice, FamiliaresServiceImpl fService) {
+
+        this.repository = repository;
+        this.aervice = aervice;
+        this.fService = fService;
     }
 
     @Override
-    @Transactional
-    public ContratoAcolhidoEntity cadastrarContrato(ContratoAcolhidoDTO contratoAcolhido)
-    {
+    public ContratoAcolhidoEntity cadastrarContrato(ContratoAcolhidoDTO contratoAcolhido) {
+
         ContratoAcolhidoEntity contratoAcolhidoEntity = new ContratoAcolhidoEntity();
+        BeanUtils.copyProperties(contratoAcolhido, contratoAcolhidoEntity);
+        aervice.cadastrarAcolhido(contratoAcolhido.getAcolhido());
 
-        AcolhidoEntity aEntity = new AcolhidoEntity();
-        BeanUtils.copyProperties(contratoAcolhido.getAcolhido(), aEntity);
-        aRepository.save(aEntity);
+        for (FamiliaresDTO familiare : contratoAcolhido.getFamiliares()) {
+            fService.cadastrarFamiliar(familiare);
+        }
 
-        MaeEntity mEntity = new MaeEntity();
-        BeanUtils.copyProperties(contratoAcolhido.getMae(), mEntity);
-        mRepository.save(mEntity);
-
-        PaiEntity pEntity = new PaiEntity();
-        BeanUtils.copyProperties(contratoAcolhido.getPai(), pEntity);
-        pRepository.save(pEntity);
-
-        ResponsavelEntity respEntity = new ResponsavelEntity();
-        BeanUtils.copyProperties(contratoAcolhido.getResponsavel(), respEntity);
-        respRepository.save(respEntity);
-
-        return contratoAcolhidoEntity;
-
+        return repository.save(contratoAcolhidoEntity);
     }
 }

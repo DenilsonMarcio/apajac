@@ -1,5 +1,6 @@
 package br.com.apajac.acolhimento.domain.dtos;
 
+import jakarta.annotation.Nullable;
 import lombok.*;
 
 import java.util.List;
@@ -13,8 +14,6 @@ import java.util.List;
 public class ContratoAcolhidoDTO {
 
     private AcolhidoDTO acolhido;
-    private MaeDTO mae;
-    private PaiDTO pai;
-    private ResponsavelDTO responsavel;
+    private List<FamiliaresDTO> familiares;
 
 }

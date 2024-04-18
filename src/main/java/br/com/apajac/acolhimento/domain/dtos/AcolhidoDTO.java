@@ -1,8 +1,6 @@
 package br.com.apajac.acolhimento.domain.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.annotation.Nullable;
-import jakarta.persistence.Column;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -31,6 +29,8 @@ public class AcolhidoDTO {
     private String quemIndicouApajac;
     @JsonProperty("informacoes_fornecidas_por")
     private String informacoesFornecidasPor;
+    @JsonProperty("status_acolhido")
+    private String statusAcolhido;
     private EnderecoDTO endereco;
     private String observacoes;
 

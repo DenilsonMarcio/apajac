@@ -28,6 +28,11 @@ public class AcolhidoEntity {
     private String encaminhadoPara;
     private String quemIndicouApajac;
     private String informacoesFornecidasPor;
+    private String statusAcolhido;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
+    private EnderecoEntity endereco;
 
     private String observacoes;
 

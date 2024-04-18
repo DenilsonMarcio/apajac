@@ -1,5 +1,6 @@
 package br.com.apajac.acolhimento.domain.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @AllArgsConstructor
@@ -15,6 +16,7 @@ public class EnderecoDTO {
     private int numero;
     private String bairro;
     private String cidade;
+    @JsonProperty("UF")
     private String uf;
 
 
