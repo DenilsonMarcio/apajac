@@ -1,5 +1,6 @@
 package br.com.apajac.acolhimento.domain.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
 import lombok.*;
 
@@ -15,5 +16,8 @@ public class ContratoAcolhidoDTO {
 
     private AcolhidoDTO acolhido;
     private List<FamiliaresDTO> familiares;
+    private ResponsavelDTO responsavel;
+    @JsonProperty("composicao_familiar")
+    private List<ComposicaoFamiliarDTO> composicaoFamiliar;
 
 }

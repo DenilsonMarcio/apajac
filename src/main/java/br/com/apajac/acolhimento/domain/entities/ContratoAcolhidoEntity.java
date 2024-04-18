@@ -25,5 +25,12 @@ public class ContratoAcolhidoEntity {
     @JoinColumn(name = "familiar_id", referencedColumnName = "id")
     private List<FamiliaresEntity> familiares;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "responsavel_id", referencedColumnName = "id")
+    private AcolhidoEntity responsavel;
+
+    @OneToMany
+    @JoinColumn(name = "composicao_familiar_id", referencedColumnName = "id")
+    private List<ComposicaoFamiliarEntity> composicaoFamiliar;
 
 }

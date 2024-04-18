@@ -19,10 +19,11 @@ public class ComposicaoFamiliarServiceImpl implements ComposicaoFamiliarService 
     }
 
     @Override
-    public List<ComposicaoFamiliarEntity> cadastrarComposicaoFamiliar(List<ComposicaoFamiliarDTO> composicaoFamiliar) {
+    public ComposicaoFamiliarEntity cadastrarComposicaoFamiliar(ComposicaoFamiliarDTO composicaoFamiliar) {
+
         ComposicaoFamiliarEntity entity = new ComposicaoFamiliarEntity();
         BeanUtils.copyProperties(composicaoFamiliar, entity);
         cRepository.save(entity);
-        return null;
+        return entity;
     }
 }

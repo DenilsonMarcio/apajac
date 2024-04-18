@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ComposicaoFamiliarService {
 
-    List<ComposicaoFamiliarEntity> cadastrarComposicaoFamiliar(List<ComposicaoFamiliarDTO> composicaoFamiliar);
+    ComposicaoFamiliarEntity cadastrarComposicaoFamiliar(ComposicaoFamiliarDTO composicaoFamiliar);
 
 
 }

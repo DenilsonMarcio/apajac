@@ -1,6 +1,10 @@
 package br.com.apajac.acolhimento.domain.dtos;
 
+import br.com.apajac.acolhimento.domain.Enum.Familiar;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,7 +15,8 @@ import lombok.*;
 public class ResponsavelDTO {
 
     private String nome;
-    private String tel;
-    private String cel;
+    private List<String> telefone;
+    @JsonProperty("tipo_parentesco")
+    private Familiar tipoParentesco;
 
 }
