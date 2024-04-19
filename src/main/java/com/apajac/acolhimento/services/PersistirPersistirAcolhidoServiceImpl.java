@@ -154,6 +154,7 @@ public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoS
             composicaoFamiliarEntity.setParentesco(composicaoFamiliarDTO.getParentesco());
             composicaoFamiliarEntity.setOcupacao(composicaoFamiliarDTO.getOcupacao());
             composicaoFamiliarEntity.setAcolhido(acolhido);
+            composicaoFamiliarEntity.setObservacoes(composicaoFamiliarDTO.getObservacoes());
             composicaoFamiliar.add(composicaoFamiliarEntity);
         }
         composicaoFamiliarRepository.saveAll(composicaoFamiliar);
