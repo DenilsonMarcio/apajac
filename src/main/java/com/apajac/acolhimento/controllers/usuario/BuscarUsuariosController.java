@@ -1,6 +1,8 @@
 package com.apajac.acolhimento.controllers.usuario;
 
+import com.apajac.acolhimento.domain.dtos.UsuarioSemSenhaDTO;
 import com.apajac.acolhimento.domain.entities.UsuarioEntity;
+import com.apajac.acolhimento.mappers.UsuarioMapper;
 import com.apajac.acolhimento.services.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,11 +22,13 @@ import java.util.List;
 public class BuscarUsuariosController {
 
     private final UsuarioServiceImpl usuarioService;
+    private final UsuarioMapper usuarioMapper;
     @GetMapping
-    ResponseEntity<List<UsuarioEntity>> listarUsuarios(){
+    ResponseEntity<List<UsuarioSemSenhaDTO>> listarUsuarios(){
         try {
             List<UsuarioEntity> entities = usuarioService.listarUsuarios();
-            return ResponseEntity.status(HttpStatus.OK).body(entities);
+            List<UsuarioSemSenhaDTO> usuarioSemSenhaDTOS = usuarioMapper.convertEntitesToDtos(entities);
+            return ResponseEntity.status(HttpStatus.OK).body(usuarioSemSenhaDTOS);
         } catch (HttpClientErrorException e) {
             throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
         }

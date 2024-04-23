@@ -1,12 +1,9 @@
 package com.apajac.acolhimento.controllers.usuario;
 
-import com.apajac.acolhimento.domain.dtos.UsuarioDTO;
 import com.apajac.acolhimento.services.UsuarioServiceImpl;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -14,17 +11,14 @@ import org.springframework.web.client.HttpClientErrorException;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/usuario")
-public class CadastrarUsuarioController {
-
+public class RemoverUsuarioController {
     private final UsuarioServiceImpl usuarioService;
-    @PostMapping
-    public ResponseEntity<String> inserir(@Valid @RequestBody UsuarioDTO usuarioDTO, BindingResult bindingResult){
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> remover(@PathVariable Integer id){
         try {
-            if (bindingResult.hasErrors()){
-                throw new RuntimeException("Falha ao cadastrar o Usuário.");
-            }
-            usuarioService.cadastrar(usuarioDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            usuarioService.remover(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (HttpClientErrorException e) {
             throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
         }

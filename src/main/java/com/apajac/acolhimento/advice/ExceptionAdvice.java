@@ -1,6 +1,8 @@
 package com.apajac.acolhimento.advice;
 
+import com.apajac.acolhimento.exceptions.BusinessException;
 import com.apajac.acolhimento.exceptions.NotFoundException;
+import com.apajac.acolhimento.exceptions.PermissionException;
 import com.apajac.acolhimento.exceptions.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,21 +18,13 @@ import java.util.Map;
 @ControllerAdvice
 @RequiredArgsConstructor
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
-    public static final String MESSAGE = "Message";
-    public static final String CODE = "Código";
-    public static final String BAD_REQUEST_CODE = "400";
-    public static final String NOT_FOUND_CODE = "404";
-    public static final String UNAUTHORIZED = "401";
-    public static final String BAD_GATEWAY = "502";
+    public static final String MESSAGE = "message";
 
     //Faz o tratamento das exceções do tipo "Não encontrado".
     @ExceptionHandler(value = {NotFoundException.class})
     public ResponseEntity<Object> tratarExcecaoNotFoundException(final NotFoundException ex) {
         Map<String, String> body = new HashMap<>();
-
-        body.put(CODE, NOT_FOUND_CODE);
         body.put(MESSAGE, ex.getMessage());
-
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
@@ -38,10 +32,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {HttpClientErrorException.class})
     public ResponseEntity<Object> tratarExcecaoHttpClientErrorException(final HttpClientErrorException ex) {
         Map<String, String> body = new HashMap<>();
-
-        body.put(CODE, UNAUTHORIZED);
         body.put(MESSAGE, ex.getMessage());
-
         return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 
@@ -49,10 +40,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {IllegalArgumentException.class})
     public ResponseEntity<Object> tratarExcecaoIllegalArgumentException(final IllegalArgumentException ex) {
         Map<String, String> body = new HashMap<>();
-
-        body.put(CODE, BAD_REQUEST_CODE);
         body.put(MESSAGE, ex.getMessage());
-
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
@@ -60,20 +48,30 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {RuntimeException.class})
     public ResponseEntity<Object> tratarExcecaoRuntimeException(final RuntimeException ex) {
         Map<String, String> body = new HashMap<>();
-
-        body.put(CODE, BAD_GATEWAY);
         body.put(MESSAGE, ex.getMessage());
-
         return new ResponseEntity<>(body, HttpStatus.BAD_GATEWAY);
     }
 
+    //Faz o tratamento das exceções do tipo "Não Autenticado".
     @ExceptionHandler(value = {UnauthorizedException.class})
     public ResponseEntity<Object> tratarExcecaoUnauthorizedException(final UnauthorizedException ex) {
         Map<String, String> body = new HashMap<>();
-
-        body.put(CODE, UNAUTHORIZED);
         body.put(MESSAGE, ex.getMessage());
-
         return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+    }
+
+    //Faz o tratamento das exceções do tipo "Não Permitido".
+    @ExceptionHandler(value = {PermissionException.class})
+    public ResponseEntity<Object> tratarPermissionException(final PermissionException ex) {
+        Map<String, String> body = new HashMap<>();
+        body.put(MESSAGE, ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(value = {BusinessException.class})
+    public ResponseEntity<Object> tratarBusinessException(final BusinessException ex) {
+        Map<String, String> body = new HashMap<>();
+        body.put(MESSAGE, ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_ACCEPTABLE);
     }
 }
