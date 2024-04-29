@@ -98,25 +98,19 @@ public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoS
     }
 
     private void persistirContatos(FamiliarDTO familiarDTO, FamiliarEntity familiar) {
-        List<ContatoEntity> contatoList = familiar.getContatos();
-        List<ContatoDTO> contatos = familiarDTO.getContatos();
-        if (isNull(contatoList)){
-            List<ContatoEntity> contatoEntities = new ArrayList<>();
-            for (ContatoDTO dto : contatos) {
-                ContatoEntity entity = new ContatoEntity();
-                entity.setContato(dto.getContato());
-                entity.setFamiliar(familiar);
-                contatoEntities.add(entity);
-            }
-            contatoRepository.saveAll(contatoEntities);
-        } else {
-            for (ContatoEntity contatoEntity : contatoList){
-                for (ContatoDTO dto : contatos){
-                    contatoEntity.setContato(dto.getContato());
-                    contatoRepository.save(contatoEntity);
-                }
-            }
+        List<ContatoEntity> contatosList = contatoRepository.findByFamiliar(familiar);
+        if (!isNull(contatosList)){
+            contatoRepository.deleteAll(contatosList);
         }
+        List<ContatoDTO> contatos = familiarDTO.getContatos();
+        List<ContatoEntity> contatoEntities = new ArrayList<>();
+        for (ContatoDTO dto : contatos) {
+            ContatoEntity entity = new ContatoEntity();
+            entity.setContato(dto.getContato());
+            entity.setFamiliar(familiar);
+            contatoEntities.add(entity);
+        }
+        contatoRepository.saveAll(contatoEntities);
     }
 
     private void createComposicaoFamiliar(List<ComposicaoFamiliarDTO> composicaoFamiliarDTOS, AcolhidoEntity acolhido) {
@@ -153,25 +147,19 @@ public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoS
     }
 
     private void persistirContatos(ResponsavelDTO responsavelDTO, ResponsavelEntity responsavel) {
-        List<ContatoEntity> contatosList = responsavel.getContatos();
-        List<ContatoDTO> contatos = responsavelDTO.getContatos();
-        if (isNull(contatosList)){
-            List<ContatoEntity> contatoEntities = new ArrayList<>();
-            for (ContatoDTO dto : contatos) {
-                ContatoEntity entity = new ContatoEntity();
-                entity.setContato(dto.getContato());
-                entity.setResponsavel(responsavel);
-                contatoEntities.add(entity);
-            }
-            contatoRepository.saveAll(contatoEntities);
-        } else {
-            for (ContatoEntity contatoEntity : contatosList){
-                for (ContatoDTO dto : contatos){
-                    contatoEntity.setContato(dto.getContato());
-                    contatoRepository.save(contatoEntity);
-                }
-            }
+        List<ContatoEntity> contatosList = contatoRepository.findByResponsavel(responsavel);
+        if (!isNull(contatosList)){
+            contatoRepository.deleteAll(contatosList);
         }
+        List<ContatoDTO> contatos = responsavelDTO.getContatos();
+        List<ContatoEntity> contatoEntities = new ArrayList<>();
+        for (ContatoDTO dto : contatos) {
+            ContatoEntity entity = new ContatoEntity();
+            entity.setContato(dto.getContato());
+            entity.setResponsavel(responsavel);
+            contatoEntities.add(entity);
+        }
+        contatoRepository.saveAll(contatoEntities);
     }
 
     private AcolhidoEntity updateAcolhido(AcolhidoDTO acolhidoDTO) {
@@ -211,7 +199,8 @@ public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoS
             familiarEntity.setVinculoEmpregaticio(familiarDTO.getVinculoEmpregaticio());
             familiarEntity.setTipoParentesco(TipoParentesco.valueOf(familiarDTO.getTipoParentesco()));
             familiarEntity.setAcolhido(acolhido);
-            familiarRepository.save(familiarEntity);
+            FamiliarEntity familiar = familiarRepository.save(familiarEntity);
+            persistirContatos(familiarDTO, familiar);
         }
     }
 
