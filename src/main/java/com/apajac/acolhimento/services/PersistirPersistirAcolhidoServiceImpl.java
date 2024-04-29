@@ -198,14 +198,12 @@ public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoS
     }
 
     private void updateFamiliares(List<FamiliarDTO> familiarDTOS, AcolhidoEntity acolhido) {
-        List<FamiliarEntity> familiarEntities = acolhido.getFamiliares();
+        List<FamiliarEntity> familiarEntities = familiarRepository.findByAcolhido(acolhido);
+        if(!isNull(familiarEntities)){
+            familiarRepository.deleteAll(familiarEntities);
+        }
         for (FamiliarDTO familiarDTO : familiarDTOS) {
-            FamiliarEntity familiarEntity = familiarEntities.stream()
-                    .filter(entity -> entity.getNome().equals(familiarDTO.getNome()) &&
-                            entity.getTipoParentesco().equals(TipoParentesco.valueOf(familiarDTO.getTipoParentesco())))
-                    .findFirst()
-                    .orElse(new FamiliarEntity());
-
+            FamiliarEntity familiarEntity = new FamiliarEntity();
             familiarEntity.setNome(familiarDTO.getNome());
             familiarEntity.setOcupacao(familiarDTO.getOcupacao());
             familiarEntity.setLocalTrabalho(familiarDTO.getLocalTrabalho());
@@ -213,27 +211,24 @@ public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoS
             familiarEntity.setVinculoEmpregaticio(familiarDTO.getVinculoEmpregaticio());
             familiarEntity.setTipoParentesco(TipoParentesco.valueOf(familiarDTO.getTipoParentesco()));
             familiarEntity.setAcolhido(acolhido);
-
             familiarRepository.save(familiarEntity);
         }
     }
 
     private void updateComposicaoFamiliar(List<ComposicaoFamiliarDTO> composicaoFamiliarDTOS, AcolhidoEntity acolhido) {
-        List<ComposicaoFamiliarEntity> composicaoFamiliarEntities = acolhido.getComposicaoFamiliar();
+        List<ComposicaoFamiliarEntity> composicaoFamiliarEntities = composicaoFamiliarRepository.findByAcolhido(acolhido);
+        if(!isNull(composicaoFamiliarEntities)){
+            composicaoFamiliarRepository.deleteAll(composicaoFamiliarEntities);
+        }
+        composicaoFamiliarRepository.deleteAll(composicaoFamiliarEntities);
         for (ComposicaoFamiliarDTO composicaoFamiliarDTO : composicaoFamiliarDTOS) {
-            ComposicaoFamiliarEntity composicaoFamiliarEntity = composicaoFamiliarEntities.stream()
-                    .filter(entity -> entity.getNome().equals(composicaoFamiliarDTO.getNome()) &&
-                            entity.getAnoNascimento().equals(composicaoFamiliarDTO.getAnoNascimento()))
-                    .findFirst()
-                    .orElse(new ComposicaoFamiliarEntity());
-
+            ComposicaoFamiliarEntity composicaoFamiliarEntity = new ComposicaoFamiliarEntity();
             composicaoFamiliarEntity.setNome(composicaoFamiliarDTO.getNome());
             composicaoFamiliarEntity.setAnoNascimento(composicaoFamiliarDTO.getAnoNascimento());
             composicaoFamiliarEntity.setParentesco(composicaoFamiliarDTO.getParentesco());
             composicaoFamiliarEntity.setOcupacao(composicaoFamiliarDTO.getOcupacao());
             composicaoFamiliarEntity.setObservacoes(composicaoFamiliarDTO.getObservacoes());
             composicaoFamiliarEntity.setAcolhido(acolhido);
-
             composicaoFamiliarRepository.save(composicaoFamiliarEntity);
         }
     }

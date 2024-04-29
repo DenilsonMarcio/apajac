@@ -27,4 +27,5 @@ public class AcolhidoDTO {
     private List<FamiliarDTO> familiares;
     private List<ComposicaoFamiliarDTO> composicaoFamiliar;
     private ResponsavelDTO responsavel;
+    private boolean statusAcolhido;
 }

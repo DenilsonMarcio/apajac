@@ -8,9 +8,9 @@ import lombok.*;
 @Getter
 @Setter
 public class AcolhidoSimplificadoDTO {
-    private boolean statusAcolhido;
+    private Long id;
     private String nome;
     private Integer idade;
-    private String mae;
-    private String pai;
+    private String responsavel;
+    private boolean statusAcolhido;
 }
