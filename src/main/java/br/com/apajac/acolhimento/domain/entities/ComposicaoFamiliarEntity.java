@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.Year;
 
@@ -23,5 +24,10 @@ public class ComposicaoFamiliarEntity {
     private String parentesco;
     private String ocupacao;
     private String observacoes;
+
+    @ManyToOne
+    @JoinColumn(name = "acolhido_id", referencedColumnName = "id")
+    @Setter
+    private AcolhidoEntity acolhido;
 
 }

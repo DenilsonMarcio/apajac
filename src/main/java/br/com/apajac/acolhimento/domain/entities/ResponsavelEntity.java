@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -24,4 +25,10 @@ public class ResponsavelEntity {
     @Enumerated(EnumType.STRING)
     private Familiar tipoParentesco;
 
+    @OneToMany(mappedBy = "responsavel")
+    @Setter
+    private List<AcolhidoEntity> acolhidos;
+
 }
+
+

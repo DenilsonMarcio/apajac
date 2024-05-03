@@ -5,14 +5,16 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Data
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_Familiares")
+@Table(name = "tb_familiares")
 public class FamiliaresEntity {
 
     @Id
@@ -24,7 +26,6 @@ public class FamiliaresEntity {
     @ElementCollection
     private List<String> telefone;
 
-
     private String ocupacao;
     private String localTrabalho;
     private Double salario;
@@ -33,6 +34,9 @@ public class FamiliaresEntity {
     @Enumerated(EnumType.STRING)
     private Familiar tipoParentesco;
 
-    public void setContratoAcolhido(ContratoAcolhidoEntity contratoAcolhidoEntity) {
-    }
+    @ManyToOne
+    @JoinColumn(name = "acolhido_id", referencedColumnName = "id")
+    @Setter
+    private AcolhidoEntity acolhido;
+
 }

@@ -1,11 +1,13 @@
 package br.com.apajac.acolhimento.domain.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @AllArgsConstructor
@@ -29,11 +31,21 @@ public class AcolhidoEntity {
     private String quemIndicouApajac;
     private String informacoesFornecidasPor;
     private String statusAcolhido;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private EnderecoEntity endereco;
-
     private String observacoes;
 
+    private LocalDate date = LocalDate.now();
+
+    @OneToMany(mappedBy = "acolhido")
+    private List<FamiliaresEntity> familiar;
+
+    @ManyToOne
+    @Setter
+    @JoinColumn(name = "responsavel_id", referencedColumnName = "id")
+    private ResponsavelEntity responsavel;
+
+    @OneToMany(mappedBy = "acolhido")
+    private List<ComposicaoFamiliarEntity> composicaoFamiliar;
 }
