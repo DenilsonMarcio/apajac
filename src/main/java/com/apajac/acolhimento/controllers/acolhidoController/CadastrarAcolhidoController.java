@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 @CrossOrigin("*")
 @RequiredArgsConstructor
@@ -17,6 +19,9 @@ public class CadastrarAcolhidoController {
     @PostMapping
     public ResponseEntity<String> createAcolhido(@RequestBody AcolhidoDTO acolhidoDTO) {
         acolhidoService.persistirAcolhido(acolhidoDTO);
-        return new ResponseEntity<>("Acolhido cadastrado com sucesso!", HttpStatus.CREATED);
+        if (Objects.isNull(acolhidoDTO.getId())){
+            return new ResponseEntity<>("Acolhido cadastrado com sucesso!", HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>("Acolhido atualizado com sucesso!", HttpStatus.ACCEPTED);
     }
 }

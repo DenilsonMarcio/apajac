@@ -23,10 +23,10 @@ public class AcolhidoMapper {
         for (AcolhidoEntity entity : entities) {
 
             simplificadoDTOS.add(AcolhidoSimplificadoDTO.builder()
+                    .id(entity.getId())
                     .nome(entity.getNome())
                     .statusAcolhido(entity.isStatusAcolhido())
-                    .mae(entity.getFamiliares().get(0).getNome())
-                    .pai(entity.getFamiliares().get(1).getNome())
+                    .responsavel(entity.getResponsavel().getNome())
                     .idade(getIdade(entity.getDataNascimento()))
                     .build());
         }

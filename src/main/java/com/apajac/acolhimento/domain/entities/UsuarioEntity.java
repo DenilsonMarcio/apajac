@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-
-import java.time.LocalDate;
 
 @Data
 @RequiredArgsConstructor
@@ -20,12 +17,12 @@ public class UsuarioEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(unique = true)
     private String nome;
     private String role;
-    private Character status;
+    private Boolean status = Boolean.TRUE;
+    @Column(unique = true)
     private String login;
     private String password;
 
-    @CreatedDate
-    private LocalDate created;
 }
