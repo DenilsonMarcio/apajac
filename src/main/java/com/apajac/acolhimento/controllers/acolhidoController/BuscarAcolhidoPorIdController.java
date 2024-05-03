@@ -1,18 +1,14 @@
 package com.apajac.acolhimento.controllers.acolhidoController;
 
 import com.apajac.acolhimento.domain.dtos.AcolhidoDTO;
-import com.apajac.acolhimento.domain.dtos.AcolhidoSimplificadoDTO;
 import com.apajac.acolhimento.domain.entities.AcolhidoEntity;
 import com.apajac.acolhimento.mappers.AcolhidoMapper;
 import com.apajac.acolhimento.services.interfaces.ConsultarAcolhidoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -31,19 +27,6 @@ public class BuscarAcolhidoPorIdController {
             AcolhidoDTO acolhidoDTO = acolhidoMapper.convertEntityToDto(acolhido);
 
             return ResponseEntity.status(HttpStatus.OK).body(acolhidoDTO);
-        } catch (HttpClientErrorException e) {
-            throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
-        }
-    }
-
-    @GetMapping("/por_nome/{nome}")
-    ResponseEntity<List<AcolhidoSimplificadoDTO>> buscarAcolhidosPorNome(@PathVariable("nome") String nome, Pageable pageable){
-        try {
-            List<AcolhidoEntity> acolhidos = acolhidoService.buscarAcolhidosPorNome(nome, pageable).getContent();
-
-            List<AcolhidoSimplificadoDTO> acolhidosDTO = acolhidoMapper.convertEntitesToDtos(acolhidos);
-
-            return ResponseEntity.status(HttpStatus.OK).body(acolhidosDTO);
         } catch (HttpClientErrorException e) {
             throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
         }

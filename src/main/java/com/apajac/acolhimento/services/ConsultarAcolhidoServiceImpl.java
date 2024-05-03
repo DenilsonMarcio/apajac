@@ -32,6 +32,6 @@ public class ConsultarAcolhidoServiceImpl implements ConsultarAcolhidoService {
 
     @Override
     public Page<AcolhidoEntity> buscarAcolhidosPorNome(String nome, Pageable pageable) {
-        return acolhidoRepository.findAllByNome(nome, pageable);
+        return acolhidoRepository.findAllByNomeContainingIgnoreCase(nome, pageable);
     }
 }
