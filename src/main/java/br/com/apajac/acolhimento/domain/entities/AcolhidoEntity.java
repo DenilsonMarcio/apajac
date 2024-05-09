@@ -36,8 +36,6 @@ public class AcolhidoEntity {
     private EnderecoEntity endereco;
     private String observacoes;
 
-    private LocalDate date = LocalDate.now();
-
     @OneToMany(mappedBy = "acolhido")
     private List<FamiliaresEntity> familiar;
 
@@ -48,4 +46,7 @@ public class AcolhidoEntity {
 
     @OneToMany(mappedBy = "acolhido")
     private List<ComposicaoFamiliarEntity> composicaoFamiliar;
+
+    private LocalDate criadoEm = LocalDate.now();
+
 }

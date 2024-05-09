@@ -18,7 +18,4 @@ public class EnderecoDTO {
     private String cidade;
     @JsonProperty("UF")
     private String uf;
-
-
-
 }
