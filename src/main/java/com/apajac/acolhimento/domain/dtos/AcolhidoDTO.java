@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 public class AcolhidoDTO {
-    private Long id;
     private String nome;
     private LocalDate dataNascimento;
     private String escolaridade;
@@ -28,4 +27,5 @@ public class AcolhidoDTO {
     private List<ComposicaoFamiliarDTO> composicaoFamiliar;
     private ResponsavelDTO responsavel;
     private boolean statusAcolhido;
+
 }
