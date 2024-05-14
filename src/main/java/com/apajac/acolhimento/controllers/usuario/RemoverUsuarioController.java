@@ -15,7 +15,7 @@ public class RemoverUsuarioController {
     private final UsuarioServiceImpl usuarioService;
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> remover(@PathVariable Integer id){
+    public ResponseEntity<Void> remover(@PathVariable Long id){
         try {
             usuarioService.remover(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

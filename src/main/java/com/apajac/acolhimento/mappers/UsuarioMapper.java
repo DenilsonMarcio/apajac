@@ -21,10 +21,14 @@ public class UsuarioMapper {
                     .id(entity.getId())
                     .nome(entity.getNome())
                     .login(entity.getLogin())
-                    .role(entity.getRole())
+                    .roles(entity.getRoles())
                     .status(entity.getStatus())
                     .build());
         }
         return dtos;
+    }
+
+    public UsuarioSemSenhaDTO convertEntityToDto(UsuarioEntity usuario) {
+        return mapper.map(usuario, UsuarioSemSenhaDTO.class);
     }
 }

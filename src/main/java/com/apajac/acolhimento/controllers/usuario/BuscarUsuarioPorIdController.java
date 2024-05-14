@@ -7,28 +7,25 @@ import com.apajac.acolhimento.services.interfaces.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin("*")
 @RequiredArgsConstructor
-@RequestMapping("/lista-usuarios")
-public class BuscarUsuariosController {
+@RequestMapping("/usuario")
+public class BuscarUsuarioPorIdController {
 
     private final UsuarioService usuarioService;
     private final UsuarioMapper usuarioMapper;
-    @GetMapping
-    ResponseEntity<List<UsuarioSemSenhaDTO>> listarUsuarios(){
+    @GetMapping("/por_id/{id}")
+    ResponseEntity<UsuarioSemSenhaDTO> buscarUsuario(@PathVariable("id") Long id){
         try {
-            List<UsuarioEntity> entities = usuarioService.listarUsuarios();
-            List<UsuarioSemSenhaDTO> usuarioSemSenhaDTOS = usuarioMapper.convertEntitesToDtos(entities);
-            return ResponseEntity.status(HttpStatus.OK).body(usuarioSemSenhaDTOS);
+            UsuarioEntity usuario = usuarioService.buscarUsuarioPorId(id);
+
+            UsuarioSemSenhaDTO usuarioSemSenhaDTO = usuarioMapper.convertEntityToDto(usuario);
+
+            return ResponseEntity.status(HttpStatus.OK).body(usuarioSemSenhaDTO);
         } catch (HttpClientErrorException e) {
             throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
         }

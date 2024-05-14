@@ -8,5 +8,7 @@ import java.util.List;
 public interface UsuarioService {
     void cadastrar(UsuarioDTO usuario);
     List<UsuarioEntity> listarUsuarios();
-    void remover(Integer id);
+    void remover(Long id);
+
+    UsuarioEntity buscarUsuarioPorId(Long id);
 }

@@ -30,7 +30,7 @@ public class LoginUsuarioServiceImpl implements LoginUsuarioService {
 
     private UsuarioLogadoDTO validUsuarioLogado(Optional<UsuarioEntity> optionalUsuario) {
         if (optionalUsuario.isEmpty()){
-            throw new UnauthorizedException("Usuário informado não autorizado.");
+            throw new UnauthorizedException("credenciais de acesso invalidas.");
         }
 
         UsuarioEntity usuarioEntity = optionalUsuario.get();
@@ -41,7 +41,8 @@ public class LoginUsuarioServiceImpl implements LoginUsuarioService {
 
         return UsuarioLogadoDTO.builder()
                 .nome(usuarioEntity.getNome())
-                .role(usuarioEntity.getRole())
+                .login(usuarioEntity.getLogin())
+                .roles(usuarioEntity.getRoles())
                 .build();
     }
 }

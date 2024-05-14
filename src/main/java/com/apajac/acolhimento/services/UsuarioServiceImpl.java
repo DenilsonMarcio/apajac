@@ -27,8 +27,9 @@ public class UsuarioServiceImpl implements UsuarioService {
             validDTO(usuario);
 
             UsuarioEntity entity = new UsuarioEntity();
+            entity.setId(usuario.getId() != null ? usuario.getId() : null);
             entity.setNome(usuario.getNome());
-            entity.setRole(usuario.getRole());
+            entity.setRoles(usuario.getRoles());
             entity.setPassword(usuario.getPassword());
             entity.setLogin(usuario.getLogin());
 
@@ -50,11 +51,20 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public void remover(Integer id) {
+    public void remover(Long id) {
         Optional<UsuarioEntity> usuario = repository.findById(id);
         if (usuario.isEmpty()){
             throw new NotFoundException("Usuário não encontrado.");
         }
         repository.delete(usuario.get());
+    }
+
+    @Override
+    public UsuarioEntity buscarUsuarioPorId(Long id) {
+        Optional<UsuarioEntity> optionalUsuario = repository.findById(id);
+        if (optionalUsuario.isEmpty()){
+            throw new NotFoundException("Usuário não encontrado.");
+        }
+        return optionalUsuario.get();
     }
 }
