@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Service
 @RequiredArgsConstructor
@@ -22,18 +23,29 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository repository;
     @Override
-    public void cadastrar(UsuarioDTO usuario) {
+    public void cadastrar(UsuarioDTO usuarioDTO) {
         try {
-            validDTO(usuario);
 
-            UsuarioEntity entity = new UsuarioEntity();
-            entity.setId(usuario.getId() != null ? usuario.getId() : null);
-            entity.setNome(usuario.getNome());
-            entity.setRoles(usuario.getRoles());
-            entity.setPassword(usuario.getPassword());
-            entity.setLogin(usuario.getLogin());
+            validDTO(usuarioDTO);
 
-            repository.save(entity);
+            if (nonNull(usuarioDTO.getId())){
+                UsuarioEntity usuarioEntity = buscarUsuarioPorId(usuarioDTO.getId());
+                usuarioEntity.setNome(usuarioDTO.getNome());
+                usuarioEntity.setRoles(usuarioDTO.getRoles());
+                usuarioEntity.setPassword(usuarioDTO.getPassword() != null ? usuarioDTO.getPassword() : usuarioEntity.getPassword());
+                usuarioEntity.setLogin(usuarioDTO.getLogin());
+
+                repository.save(usuarioEntity);
+            } else {
+                UsuarioEntity entity = new UsuarioEntity();
+                entity.setNome(usuarioDTO.getNome());
+                entity.setRoles(usuarioDTO.getRoles());
+                entity.setPassword(usuarioDTO.getPassword());
+                entity.setLogin(usuarioDTO.getLogin());
+
+                repository.save(entity);
+            }
+
         } catch (DataIntegrityViolationException e){
             throw new BusinessException(ExtrairMessageErroUsuario.extrairMensagemDeErro(e.getMessage()));
         }
