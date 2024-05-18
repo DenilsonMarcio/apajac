@@ -8,6 +8,7 @@ import com.apajac.acolhimento.repositories.UsuarioRepository;
 import com.apajac.acolhimento.services.interfaces.UsuarioService;
 import com.apajac.acolhimento.utils.ExtrairMessageErroUsuario;
 import lombok.RequiredArgsConstructor;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -22,37 +23,48 @@ import static java.util.Objects.nonNull;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository repository;
+
     @Override
     public void cadastrar(UsuarioDTO usuarioDTO) {
         try {
-
             validDTO(usuarioDTO);
 
-            if (nonNull(usuarioDTO.getId())){
+            if (nonNull(usuarioDTO.getId())) {
                 UsuarioEntity usuarioEntity = buscarUsuarioPorId(usuarioDTO.getId());
                 usuarioEntity.setNome(usuarioDTO.getNome());
                 usuarioEntity.setRoles(usuarioDTO.getRoles());
-                usuarioEntity.setPassword(usuarioDTO.getPassword() != null ? usuarioDTO.getPassword() : usuarioEntity.getPassword());
+                usuarioEntity.setPassword(usuarioDTO.getPassword() != null
+                        ? encryptPasswordUser(usuarioDTO.getPassword())
+                        : usuarioEntity.getPassword());
                 usuarioEntity.setLogin(usuarioDTO.getLogin());
 
                 repository.save(usuarioEntity);
+
             } else {
+                Optional<UsuarioEntity> existingUser = repository.findByLogin(usuarioDTO.getLogin());
+                if (existingUser.isPresent()) {
+                    throw new BusinessException("Login já existe.");
+                }
+
                 UsuarioEntity entity = new UsuarioEntity();
                 entity.setNome(usuarioDTO.getNome());
                 entity.setRoles(usuarioDTO.getRoles());
-                entity.setPassword(usuarioDTO.getPassword());
+                entity.setPassword(encryptPasswordUser(usuarioDTO.getPassword()));
                 entity.setLogin(usuarioDTO.getLogin());
 
                 repository.save(entity);
             }
-
-        } catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new BusinessException(ExtrairMessageErroUsuario.extrairMensagemDeErro(e.getMessage()));
         }
     }
 
+    private String encryptPasswordUser(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
     private void validDTO(UsuarioDTO usuario) {
-        if (isNull(usuario)){
+        if (isNull(usuario)) {
             throw new IllegalArgumentException();
         }
     }
@@ -65,7 +77,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void remover(Long id) {
         Optional<UsuarioEntity> usuario = repository.findById(id);
-        if (usuario.isEmpty()){
+        if (usuario.isEmpty()) {
             throw new NotFoundException("Usuário não encontrado.");
         }
         repository.delete(usuario.get());
@@ -74,7 +86,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioEntity buscarUsuarioPorId(Long id) {
         Optional<UsuarioEntity> optionalUsuario = repository.findById(id);
-        if (optionalUsuario.isEmpty()){
+        if (optionalUsuario.isEmpty()) {
             throw new NotFoundException("Usuário não encontrado.");
         }
         return optionalUsuario.get();
