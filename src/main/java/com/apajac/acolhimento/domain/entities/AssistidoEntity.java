@@ -12,8 +12,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "acolhido")
-public class AcolhidoEntity {
+@Table(name = "assistido")
+public class AssistidoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,6 +30,9 @@ public class AcolhidoEntity {
     private String quemIndicouApajac;
     private String informacoesFornecidasPor;
 
+    private Long idResponsavelPeloCadastro;
+    private LocalDate cadastradoEm;
+
     private boolean statusAcolhido = Boolean.TRUE;
 
     @Embedded
@@ -38,15 +41,15 @@ public class AcolhidoEntity {
     @Column(length = 1000)
     private String observacoes;
 
-    @OneToMany(mappedBy = "acolhido", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "assistido", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<FamiliarEntity> familiares;
 
-    @OneToMany(mappedBy = "acolhido", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "assistido", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<ComposicaoFamiliarEntity> composicaoFamiliar;
 
-    @OneToOne(mappedBy = "acolhido", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "assistido", cascade = CascadeType.ALL)
     @ToString.Exclude
     private ResponsavelEntity responsavel;
 }

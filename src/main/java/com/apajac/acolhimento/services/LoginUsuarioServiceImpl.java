@@ -45,6 +45,7 @@ public class LoginUsuarioServiceImpl implements LoginUsuarioService {
             throw new UnauthorizedException("Acesso Negado.");
         }
         return UsuarioLogadoDTO.builder()
+                .id(usuarioEntity.getId())
                 .nome(usuarioEntity.getNome())
                 .login(usuarioEntity.getLogin())
                 .roles(usuarioEntity.getRoles())

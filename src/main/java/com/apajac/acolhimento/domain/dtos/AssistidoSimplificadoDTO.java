@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class AcolhidoSimplificadoDTO {
+public class AssistidoSimplificadoDTO {
     private Long id;
     private String nome;
     private Integer idade;

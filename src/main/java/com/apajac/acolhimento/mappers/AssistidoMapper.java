@@ -1,8 +1,8 @@
 package com.apajac.acolhimento.mappers;
 
-import com.apajac.acolhimento.domain.dtos.AcolhidoDTO;
-import com.apajac.acolhimento.domain.dtos.AcolhidoSimplificadoDTO;
-import com.apajac.acolhimento.domain.entities.AcolhidoEntity;
+import com.apajac.acolhimento.domain.dtos.AssistidoDTO;
+import com.apajac.acolhimento.domain.dtos.AssistidoSimplificadoDTO;
+import com.apajac.acolhimento.domain.entities.AssistidoEntity;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -16,14 +16,14 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
-public class AcolhidoMapper {
+public class AssistidoMapper {
 
     private final ModelMapper mapper;
 
-    public List<AcolhidoSimplificadoDTO> convertEntitesToDtos(List<AcolhidoEntity> entities, String paramSort) {
-        List<AcolhidoSimplificadoDTO> simplificadoDTOS = new ArrayList<>();
-        for (AcolhidoEntity entity : entities) {
-            simplificadoDTOS.add(AcolhidoSimplificadoDTO.builder()
+    public List<AssistidoSimplificadoDTO> convertEntitesToDtos(List<AssistidoEntity> entities, String paramSort) {
+        List<AssistidoSimplificadoDTO> simplificadoDTOS = new ArrayList<>();
+        for (AssistidoEntity entity : entities) {
+            simplificadoDTOS.add(AssistidoSimplificadoDTO.builder()
                     .id(entity.getId())
                     .nome(entity.getNome())
                     .statusAcolhido(entity.isStatusAcolhido())
@@ -37,24 +37,24 @@ public class AcolhidoMapper {
         return simplificadoDTOS;
     }
 
-    private void orderByResponsavel(List<AcolhidoSimplificadoDTO> simplificadoDTOS, String paramSort) {
+    private void orderByResponsavel(List<AssistidoSimplificadoDTO> simplificadoDTOS, String paramSort) {
         String[] split = paramSort.split(":");
         String param = split[0].strip();
         String sort = split[1].strip();
 
         if (param.equals("responsavel")) {
             if (sort.equals("DESC")) {
-                Collections.sort(simplificadoDTOS, new Comparator<AcolhidoSimplificadoDTO>() {
+                Collections.sort(simplificadoDTOS, new Comparator<AssistidoSimplificadoDTO>() {
                     @Override
-                    public int compare(AcolhidoSimplificadoDTO acolhido1, AcolhidoSimplificadoDTO acolhido2) {
-                        return acolhido2.getResponsavel().compareTo(acolhido1.getResponsavel());
+                    public int compare(AssistidoSimplificadoDTO assistido1, AssistidoSimplificadoDTO assistido2) {
+                        return assistido2.getResponsavel().compareTo(assistido1.getResponsavel());
                     }
                 });
             } else if (sort.equals("ASC")) {
-                Collections.sort(simplificadoDTOS, new Comparator<AcolhidoSimplificadoDTO>() {
+                Collections.sort(simplificadoDTOS, new Comparator<AssistidoSimplificadoDTO>() {
                     @Override
-                    public int compare(AcolhidoSimplificadoDTO acolhido1, AcolhidoSimplificadoDTO acolhido2) {
-                        return acolhido1.getResponsavel().compareTo(acolhido2.getResponsavel());
+                    public int compare(AssistidoSimplificadoDTO assistido1, AssistidoSimplificadoDTO assistido2) {
+                        return assistido1.getResponsavel().compareTo(assistido2.getResponsavel());
                     }
                 });
             }
@@ -66,7 +66,7 @@ public class AcolhidoMapper {
         return Period.between(dataNascimento, hoje).getYears();
     }
 
-    public AcolhidoDTO convertEntityToDto(AcolhidoEntity acolhido) {
-        return mapper.map(acolhido, AcolhidoDTO.class);
+    public AssistidoDTO convertEntityToDto(AssistidoEntity assistido) {
+        return mapper.map(assistido, AssistidoDTO.class);
     }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class UsuarioLogadoDTO {
+    private Long id;
     private String nome;
     private String login;
     private List<String> roles;

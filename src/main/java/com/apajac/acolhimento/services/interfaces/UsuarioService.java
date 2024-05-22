@@ -9,6 +9,5 @@ public interface UsuarioService {
     void cadastrar(UsuarioDTO usuario);
     List<UsuarioEntity> listarUsuarios();
     void remover(Long id);
-
     UsuarioEntity buscarUsuarioPorId(Long id);
 }

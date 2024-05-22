@@ -28,6 +28,6 @@ public class ResponsavelEntity {
     private List<ContatoEntity> contatos;
 
     @OneToOne
-    @JoinColumn(name = "acolhido_id")
-    private AcolhidoEntity acolhido;
+    @JoinColumn(name = "assistido_id")
+    private AssistidoEntity assistido;
 }

@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequiredArgsConstructor
-@RequestMapping("/lista-usuarios")
+@RequestMapping("/lista_usuarios")
 public class BuscarUsuariosController {
 
     private final UsuarioService usuarioService;

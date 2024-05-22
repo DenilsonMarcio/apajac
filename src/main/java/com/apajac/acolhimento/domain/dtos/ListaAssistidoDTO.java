@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-public class ListaAcolhidoDTO {
+public class ListaAssistidoDTO {
     private Boolean isLastPage;
-    private List<AcolhidoSimplificadoDTO> acolhidos;
+    private List<AssistidoSimplificadoDTO> assistidos;
 }
