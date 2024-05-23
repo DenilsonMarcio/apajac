@@ -26,7 +26,7 @@ public class AssistidoMapper {
             simplificadoDTOS.add(AssistidoSimplificadoDTO.builder()
                     .id(entity.getId())
                     .nome(entity.getNome())
-                    .statusAcolhido(entity.isStatusAcolhido())
+                    .statusAssistido(entity.isStatusAssistido())
                     .responsavel(entity.getResponsavel().getNome())
                     .idade(getIdade(entity.getDataNascimento()))
                     .build());

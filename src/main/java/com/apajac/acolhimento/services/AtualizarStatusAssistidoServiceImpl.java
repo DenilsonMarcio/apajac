@@ -15,13 +15,23 @@ public class AtualizarStatusAssistidoServiceImpl implements AtualizarStatusAssis
 
     private final AssistidoRepository assistidoRepository;
     @Override
-    public void updateStatusAssistido(Long id, Boolean status, Long id_responsavel) {
-        Optional<AssistidoEntity> acolhidoOpt = assistidoRepository.findById(id);
-        if (acolhidoOpt.isEmpty()){
-            throw new NotFoundException("Acolhido não encontrado.");
+    public void updateStatusAssistido(Long id, Long id_responsavel) {
+        Optional<AssistidoEntity> assistidoOpt = assistidoRepository.findById(id);
+        if (assistidoOpt.isEmpty()){
+            throw new NotFoundException("Assistido não encontrado.");
         }
-        AssistidoEntity assistidoEntity = acolhidoOpt.get();
-        assistidoEntity.setStatusAcolhido(status);
-        assistidoRepository.save(assistidoEntity);
+        AssistidoEntity assistidoEntity = assistidoOpt.get();
+        assistidoRepository.save(atualizaStatusAssistido(assistidoEntity));
+
+        //TODO UTILIZAR ID_RESPONSAVEL PARA TABELA DE HISTORICO
+    }
+
+    private AssistidoEntity atualizaStatusAssistido(AssistidoEntity assistidoEntity) {
+        if (assistidoEntity.isStatusAssistido()) {
+            assistidoEntity.setStatusAssistido(Boolean.FALSE);
+        } else {
+            assistidoEntity.setStatusAssistido(Boolean.TRUE);
+        }
+        return assistidoEntity;
     }
 }

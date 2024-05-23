@@ -32,39 +32,39 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
     @Override
     public void persistirAssistido(AssistidoDTO assistidoDTO) {
         try {
-            AssistidoEntity acolhido = inserirAcolhido(assistidoDTO);
-            inserirFamiliares(assistidoDTO, acolhido);
-            inserirComposicaoFamiliar(assistidoDTO, acolhido);
-            cadastrarResponsavel(assistidoDTO.getResponsavel(), acolhido);
+            AssistidoEntity assistido = inserirAssistido(assistidoDTO);
+            inserirFamiliares(assistidoDTO, assistido);
+            inserirComposicaoFamiliar(assistidoDTO, assistido);
+            cadastrarResponsavel(assistidoDTO.getResponsavel(), assistido);
         } catch (Exception ex) {
-            throw new BusinessException(format("Não foi possivel inserir o Acolhido: %s", ex.getMessage()));
+            throw new BusinessException(format("Não foi possivel inserir o Assistido: %s", ex.getMessage()));
         }
     }
 
-    private AssistidoEntity inserirAcolhido(AssistidoDTO assistidoDTO) {
+    private AssistidoEntity inserirAssistido(AssistidoDTO assistidoDTO) {
         if (isNull(assistidoDTO.getId())){
-            return createAcolhido(assistidoDTO);
+            return createAssistido(assistidoDTO);
         }
-        return updateAcolhido(assistidoDTO);
+        return updateAssistido(assistidoDTO);
     }
 
-    private void inserirFamiliares(AssistidoDTO assistidoDTO, AssistidoEntity acolhido) {
+    private void inserirFamiliares(AssistidoDTO assistidoDTO, AssistidoEntity assistido) {
         if (isNull(assistidoDTO.getId())){
-            createFamiliares(assistidoDTO.getFamiliares(), acolhido);
+            createFamiliares(assistidoDTO.getFamiliares(), assistido);
         } else {
-            updateFamiliares(assistidoDTO.getFamiliares(), acolhido);
+            updateFamiliares(assistidoDTO.getFamiliares(), assistido);
         }
     }
 
-    private void inserirComposicaoFamiliar(AssistidoDTO assistidoDTO, AssistidoEntity acolhido) {
+    private void inserirComposicaoFamiliar(AssistidoDTO assistidoDTO, AssistidoEntity assistido) {
         if (isNull(assistidoDTO.getId())){
-            createComposicaoFamiliar(assistidoDTO.getComposicaoFamiliar(), acolhido);
+            createComposicaoFamiliar(assistidoDTO.getComposicaoFamiliar(), assistido);
         } else {
-            updateComposicaoFamiliar(assistidoDTO.getComposicaoFamiliar(), acolhido);
+            updateComposicaoFamiliar(assistidoDTO.getComposicaoFamiliar(), assistido);
         }
     }
 
-    private AssistidoEntity createAcolhido(AssistidoDTO assistidoDTO) {
+    private AssistidoEntity createAssistido(AssistidoDTO assistidoDTO) {
         AssistidoEntity assistidoEntity = new AssistidoEntity();
 
         assistidoEntity.setNome(assistidoDTO.getNome());
@@ -79,8 +79,13 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
         assistidoEntity.setInformacoesFornecidasPor(assistidoDTO.getInformacoesFornecidasPor());
         assistidoEntity.setEndereco(getEndereco(assistidoDTO.getEndereco()));
         assistidoEntity.setObservacoes(assistidoDTO.getObservacoes());
+        assistidoEntity.setIdResponsavelPeloCadastro(assistidoDTO.getIdResponsavelPeloCadastro());
+        assistidoEntity.setCadastradoEm(assistidoDTO.getCadastradoEm());
+
+        //TODO UTILIZAR ID_RESPONSAVEL PARA TABELA DE HISTORICO - CREATE
 
         return assistidoRepository.save(assistidoEntity);
+
     }
     private void createFamiliares(List<FamiliarDTO> familiares, AssistidoEntity assistido) {
         for (FamiliarDTO familiarDTO : familiares) {
@@ -162,12 +167,12 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
         contatoRepository.saveAll(contatoEntities);
     }
 
-    private AssistidoEntity updateAcolhido(AssistidoDTO assistidoDTO) {
-        Optional<AssistidoEntity> optionalAcolhido = assistidoRepository.findById(assistidoDTO.getId());
-        if (optionalAcolhido.isEmpty()){
-            throw new NotFoundException("Acolhido não encontrado.");
+    private AssistidoEntity updateAssistido(AssistidoDTO assistidoDTO) {
+        Optional<AssistidoEntity> optionalAssistido = assistidoRepository.findById(assistidoDTO.getId());
+        if (optionalAssistido.isEmpty()){
+            throw new NotFoundException("Assistido não encontrado.");
         }
-        AssistidoEntity entity = optionalAcolhido.get();
+        AssistidoEntity entity = optionalAssistido.get();
         entity.setId(assistidoDTO.getId());
         entity.setNome(assistidoDTO.getNome());
         entity.setDataNascimento(assistidoDTO.getDataNascimento());
@@ -181,6 +186,10 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
         entity.setInformacoesFornecidasPor(assistidoDTO.getInformacoesFornecidasPor());
         entity.setEndereco(getEndereco(assistidoDTO.getEndereco()));
         entity.setObservacoes(assistidoDTO.getObservacoes());
+        entity.setIdResponsavelPeloCadastro(assistidoDTO.getIdResponsavelPeloCadastro());
+        entity.setCadastradoEm(assistidoDTO.getCadastradoEm());
+
+        //TODO UTILIZAR ID_RESPONSAVEL PARA TABELA DE HISTORICO - UPDATE
 
         return assistidoRepository.save(entity);
     }

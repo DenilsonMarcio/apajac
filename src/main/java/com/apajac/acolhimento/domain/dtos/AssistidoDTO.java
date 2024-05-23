@@ -31,5 +31,5 @@ public class AssistidoDTO {
     private List<FamiliarDTO> familiares;
     private List<ComposicaoFamiliarDTO> composicaoFamiliar;
     private ResponsavelDTO responsavel;
-    private boolean statusAcolhido;
+    private boolean statusAssistido;
 }

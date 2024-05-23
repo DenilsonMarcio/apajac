@@ -23,11 +23,11 @@ public class ConsultarAssistidoServiceImpl implements ConsultarAssistidoService 
 
     @Override
     public AssistidoEntity buscarAssistidoPorId(Long id) {
-        Optional<AssistidoEntity> acolhidoOpt = assistidoRepository.findById(id);
-        if (acolhidoOpt.isEmpty()){
-            throw new NotFoundException("Acolhido não encontrado.");
+        Optional<AssistidoEntity> assistidoOpt = assistidoRepository.findById(id);
+        if (assistidoOpt.isEmpty()){
+            throw new NotFoundException("Assistido não encontrado.");
         }
-        return acolhidoOpt.get();
+        return assistidoOpt.get();
     }
 
     @Override

@@ -33,7 +33,7 @@ public class AssistidoEntity {
     private Long idResponsavelPeloCadastro;
     private LocalDate cadastradoEm;
 
-    private boolean statusAcolhido = Boolean.TRUE;
+    private boolean statusAssistido = Boolean.TRUE;
 
     @Embedded
     private Endereco endereco;
