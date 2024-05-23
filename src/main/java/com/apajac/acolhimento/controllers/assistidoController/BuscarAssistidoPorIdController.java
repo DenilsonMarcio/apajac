@@ -13,7 +13,7 @@ import org.springframework.web.client.HttpClientErrorException;
 @RestController
 @CrossOrigin("*")
 @RequiredArgsConstructor
-@RequestMapping("/assitido")
+@RequestMapping("/assistido")
 public class BuscarAssistidoPorIdController {
 
     private final ConsultarAssistidoService assistidoService;
