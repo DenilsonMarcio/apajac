@@ -1,10 +1,13 @@
 package com.apajac.acolhimento.controllers.usuario;
 
+import com.apajac.acolhimento.domain.dtos.ListaUsuarioDTO;
 import com.apajac.acolhimento.domain.dtos.UsuarioSemSenhaDTO;
 import com.apajac.acolhimento.domain.entities.UsuarioEntity;
 import com.apajac.acolhimento.mappers.UsuarioMapper;
 import com.apajac.acolhimento.services.interfaces.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,11 +27,18 @@ public class BuscarUsuariosController {
     private final UsuarioService usuarioService;
     private final UsuarioMapper usuarioMapper;
     @GetMapping
-    ResponseEntity<List<UsuarioSemSenhaDTO>> listarUsuarios(){
+    ResponseEntity<ListaUsuarioDTO> listarUsuarios(Pageable pageable){
         try {
-            List<UsuarioEntity> entities = usuarioService.listarUsuarios();
-            List<UsuarioSemSenhaDTO> usuarioSemSenhaDTOS = usuarioMapper.convertEntitesToDtos(entities);
-            return ResponseEntity.status(HttpStatus.OK).body(usuarioSemSenhaDTOS);
+            ListaUsuarioDTO usuarioResponse = new ListaUsuarioDTO();
+            Page<UsuarioEntity> entities = usuarioService.listarUsuarios(pageable);
+
+            boolean lastPage = entities.isLast();
+
+            List<UsuarioSemSenhaDTO> usuarioSemSenha = usuarioMapper.convertEntitesToDtos(entities.getContent());
+            usuarioResponse.setIsLastPage(lastPage);
+            usuarioResponse.setUsuarios(usuarioSemSenha);
+
+            return ResponseEntity.status(HttpStatus.OK).body(usuarioResponse);
         } catch (HttpClientErrorException e) {
             throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
         }

@@ -12,10 +12,11 @@ import com.apajac.acolhimento.utils.ExtrairMessageErroUsuario;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 import static java.util.Objects.isNull;
@@ -87,8 +88,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List<UsuarioEntity> listarUsuarios() {
-        return repository.findAll();
+    public Page<UsuarioEntity> listarUsuarios(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     @Override
