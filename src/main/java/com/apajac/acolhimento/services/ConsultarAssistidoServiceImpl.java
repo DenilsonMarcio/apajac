@@ -4,7 +4,7 @@ import com.apajac.acolhimento.domain.entities.AssistidoEntity;
 import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.AssistidoRepository;
 import com.apajac.acolhimento.services.interfaces.ConsultarAssistidoService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ConsultarAssistidoServiceImpl implements ConsultarAssistidoService {
 
     private final AssistidoRepository assistidoRepository;

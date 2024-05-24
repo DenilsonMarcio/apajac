@@ -1,19 +1,25 @@
 package com.apajac.acolhimento.services;
 
 import com.apajac.acolhimento.domain.entities.AssistidoEntity;
+import com.apajac.acolhimento.domain.enums.AuditoriaEnum;
 import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.AssistidoRepository;
 import com.apajac.acolhimento.services.interfaces.AtualizarStatusAssistidoService;
-import lombok.AllArgsConstructor;
+import com.apajac.acolhimento.services.interfaces.AuditoriaService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Transactional
 public class AtualizarStatusAssistidoServiceImpl implements AtualizarStatusAssistidoService {
 
     private final AssistidoRepository assistidoRepository;
+
+    private final AuditoriaService auditoria;
     @Override
     public void updateStatusAssistido(Long id, Long id_responsavel) {
         Optional<AssistidoEntity> assistidoOpt = assistidoRepository.findById(id);
@@ -21,9 +27,18 @@ public class AtualizarStatusAssistidoServiceImpl implements AtualizarStatusAssis
             throw new NotFoundException("Assistido não encontrado.");
         }
         AssistidoEntity assistidoEntity = assistidoOpt.get();
-        assistidoRepository.save(atualizaStatusAssistido(assistidoEntity));
 
-        //TODO UTILIZAR ID_RESPONSAVEL PARA TABELA DE HISTORICO
+        auditar(id.toString(), id_responsavel);
+
+        assistidoRepository.save(atualizaStatusAssistido(assistidoEntity));
+    }
+
+    private void auditar(String body, Long idResponsavel) {
+        auditoria.inserirDadosDeAuditoria(
+                idResponsavel,
+                AuditoriaEnum.UPDATED.getValues(),
+                AtualizarStatusAssistidoService.class.getSimpleName(),
+                body);
     }
 
     private AssistidoEntity atualizaStatusAssistido(AssistidoEntity assistidoEntity) {

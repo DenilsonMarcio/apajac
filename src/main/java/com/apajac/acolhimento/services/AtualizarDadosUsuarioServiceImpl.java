@@ -2,19 +2,26 @@ package com.apajac.acolhimento.services;
 
 import com.apajac.acolhimento.domain.dtos.UsuarioDTO;
 import com.apajac.acolhimento.domain.entities.UsuarioEntity;
+import com.apajac.acolhimento.domain.enums.AuditoriaEnum;
 import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.UsuarioRepository;
 import com.apajac.acolhimento.services.interfaces.AtualizarDadosUsuarioService;
+import com.apajac.acolhimento.services.interfaces.AuditoriaService;
+import com.apajac.acolhimento.services.interfaces.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AtualizarDadosUsuarioServiceImpl implements AtualizarDadosUsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+
+    private final AuditoriaService auditoria;
 
     @Override
     public void updateDadosUsuario(Long id, UsuarioDTO usuarioDTO) {
@@ -34,7 +41,16 @@ public class AtualizarDadosUsuarioServiceImpl implements AtualizarDadosUsuarioSe
             usuarioEntity.setPassword(usuarioDTO.getPassword());
         }
 
-        usuarioRepository.save(usuarioEntity);
+        auditar(usuarioDTO.toString(), usuarioDTO.getIdResponsavelPeloCadastro());
 
+        usuarioRepository.save(usuarioEntity);
+    }
+
+    private void auditar(String body, Long idResponsavel) {
+        auditoria.inserirDadosDeAuditoria(
+                idResponsavel,
+                AuditoriaEnum.UPDATED.getValues(),
+                UsuarioService.class.getSimpleName(),
+                body);
     }
 }

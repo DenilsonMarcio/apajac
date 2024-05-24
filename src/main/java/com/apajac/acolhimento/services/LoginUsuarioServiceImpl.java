@@ -35,7 +35,7 @@ public class LoginUsuarioServiceImpl implements LoginUsuarioService {
             throw new NotFoundException("Usuário não cadastrado.");
         }
         UsuarioEntity usuarioEntity = optionalUsuario.get();
-        if (!usuarioEntity.getStatus()){
+        if (usuarioEntity.isStatus()){
             throw new PermissionException("Usuário informado com status inativo.");
         }
 

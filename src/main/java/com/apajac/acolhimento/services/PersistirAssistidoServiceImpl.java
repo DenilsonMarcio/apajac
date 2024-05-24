@@ -2,10 +2,12 @@ package com.apajac.acolhimento.services;
 
 import com.apajac.acolhimento.domain.dtos.*;
 import com.apajac.acolhimento.domain.entities.*;
+import com.apajac.acolhimento.domain.enums.AuditoriaEnum;
 import com.apajac.acolhimento.domain.enums.TipoParentesco;
 import com.apajac.acolhimento.exceptions.BusinessException;
 import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.*;
+import com.apajac.acolhimento.services.interfaces.AuditoriaService;
 import com.apajac.acolhimento.services.interfaces.PersistirAssistidoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
     private final ContatoRepository contatoRepository;
     private final ResponsavelRepository responsavelRepository;
 
+    private final AuditoriaService auditoria;
     @Override
     public void persistirAssistido(AssistidoDTO assistidoDTO) {
         try {
@@ -82,11 +85,15 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
         assistidoEntity.setIdResponsavelPeloCadastro(assistidoDTO.getIdResponsavelPeloCadastro());
         assistidoEntity.setCadastradoEm(assistidoDTO.getCadastradoEm());
 
-        //TODO UTILIZAR ID_RESPONSAVEL PARA TABELA DE HISTORICO - CREATE
+        auditar(assistidoEntity.toString(),
+                assistidoDTO.getIdResponsavelPeloCadastro(),
+                AuditoriaEnum.CREATED.getValues());
 
         return assistidoRepository.save(assistidoEntity);
 
     }
+
+
     private void createFamiliares(List<FamiliarDTO> familiares, AssistidoEntity assistido) {
         for (FamiliarDTO familiarDTO : familiares) {
             FamiliarEntity familiarEntity = new FamiliarEntity();
@@ -100,6 +107,10 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
             FamiliarEntity familiar = familiarRepository.save(familiarEntity);
             persistirContatos(familiarDTO, familiar);
         }
+
+        auditar(familiares.toString(),
+                assistido.getIdResponsavelPeloCadastro(),
+                AuditoriaEnum.CREATED.getValues());
     }
 
     private void persistirContatos(FamiliarDTO familiarDTO, FamiliarEntity familiar) {
@@ -130,6 +141,11 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
             composicaoFamiliarEntity.setObservacoes(composicaoFamiliarDTO.getObservacoes());
             composicaoFamiliar.add(composicaoFamiliarEntity);
         }
+
+        auditar(composicaoFamiliar.toString(),
+                assistido.getIdResponsavelPeloCadastro(),
+                AuditoriaEnum.CREATED.getValues());
+
         composicaoFamiliarRepository.saveAll(composicaoFamiliar);
     }
 
@@ -142,13 +158,24 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
             responsavelEntity.setAssistido(assistido);
             ResponsavelEntity responsavel = responsavelRepository.save(responsavelEntity);
             persistirContatos(responsavelDTO, responsavel);
+
+            auditar(responsavelEntity.toString(),
+                    assistido.getIdResponsavelPeloCadastro(),
+                    AuditoriaEnum.CREATED.getValues());
+
         } else {
             entity.setNome(responsavelDTO.getNome());
             entity.setTipoParentesco(TipoParentesco.valueOf(responsavelDTO.getTipoParentesco()));
             entity.setAssistido(assistido);
             ResponsavelEntity responsavel = responsavelRepository.save(entity);
             persistirContatos(responsavelDTO, responsavel);
+
+            auditar(entity.toString(),
+                    assistido.getIdResponsavelPeloCadastro(),
+                    AuditoriaEnum.UPDATED.getValues());
+
         }
+
     }
 
     private void persistirContatos(ResponsavelDTO responsavelDTO, ResponsavelEntity responsavel) {
@@ -189,7 +216,9 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
         entity.setIdResponsavelPeloCadastro(assistidoDTO.getIdResponsavelPeloCadastro());
         entity.setCadastradoEm(assistidoDTO.getCadastradoEm());
 
-        //TODO UTILIZAR ID_RESPONSAVEL PARA TABELA DE HISTORICO - UPDATE
+        auditar(entity.toString(),
+                assistidoDTO.getIdResponsavelPeloCadastro(),
+                AuditoriaEnum.UPDATED.getValues());
 
         return assistidoRepository.save(entity);
     }
@@ -211,6 +240,10 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
             FamiliarEntity familiar = familiarRepository.save(familiarEntity);
             persistirContatos(familiarDTO, familiar);
         }
+
+        auditar(familiarDTOS.toString(),
+                assistido.getIdResponsavelPeloCadastro(),
+                AuditoriaEnum.UPDATED.getValues());
     }
 
     private void updateComposicaoFamiliar(List<ComposicaoFamiliarDTO> composicaoFamiliarDTOS, AssistidoEntity assistido) {
@@ -229,6 +262,11 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
             composicaoFamiliarEntity.setAssistido(assistido);
             composicaoFamiliarRepository.save(composicaoFamiliarEntity);
         }
+
+        auditar(composicaoFamiliarDTOS.toString(),
+                assistido.getIdResponsavelPeloCadastro(),
+                AuditoriaEnum.UPDATED.getValues());
+
     }
 
     private Endereco getEndereco(EnderecoDTO enderecoDTO) {
@@ -241,5 +279,12 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
         endereco.setUF(enderecoDTO.getUF());
         endereco.setComplemento(enderecoDTO.getComplemento());
         return endereco;
+    }
+    private void auditar(String body, Long idResponsavel, String tipo) {
+        auditoria.inserirDadosDeAuditoria(
+                idResponsavel,
+                tipo,
+                PersistirAssistidoService.class.getSimpleName(),
+                body);
     }
 }
