@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class AtualizarStatusAssistidoController {
 
     private final AtualizarStatusAssistidoService statusAssistidoService;
-    @PutMapping("/{id}/responsavel_cadastro/{id_responsavel}")
+    @PutMapping("/{id}/status/{id_responsavel}")
     public ResponseEntity<String> updateStatusAssistido(
                 @PathVariable("id") Long id,
                 @PathVariable("id_responsavel") Long id_responsavel) {
