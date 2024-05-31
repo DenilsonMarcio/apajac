@@ -10,4 +10,6 @@ public interface UsuarioService {
     Page<UsuarioEntity> listarUsuarios(Pageable pageable);
     void remover(Long id);
     UsuarioEntity buscarUsuarioPorId(Long id);
+
+    Page<UsuarioEntity> buscarUsuariosPorNome(String nome, Pageable pageable);
 }

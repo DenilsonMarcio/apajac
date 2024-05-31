@@ -2,6 +2,7 @@ package com.apajac.acolhimento.services;
 
 import com.apajac.acolhimento.domain.entities.UsuarioEntity;
 import com.apajac.acolhimento.domain.enums.AuditoriaEnum;
+import com.apajac.acolhimento.exceptions.BusinessException;
 import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.UsuarioRepository;
 import com.apajac.acolhimento.services.interfaces.AtualizarStatusAssistidoService;
@@ -22,15 +23,34 @@ public class AtualizarStatusUsuarioServiceImpl implements AtualizarStatusUsuario
     private final AuditoriaService auditoria;
     @Override
     public void updateStatusUsuario(Long id, Long id_responsavel) {
+
+        validarSeEhMesmoUsuario(id, id_responsavel);
+
         Optional<UsuarioEntity> optionalUsuarioEntity = usuarioRepository.findById(id);
         if (optionalUsuarioEntity.isEmpty()){
             throw new NotFoundException("Usuário não encontrado.");
         }
         UsuarioEntity usuarioEntity = optionalUsuarioEntity.get();
 
+        validaUsuarioRoot(usuarioEntity);
+
         auditar(id.toString(), id_responsavel);
 
         usuarioRepository.save(atualizaStatusUsuario(usuarioEntity));
+    }
+
+    private void validarSeEhMesmoUsuario(Long id, Long id_responsavel) {
+        boolean equals = id.equals(id_responsavel);
+        if (equals){
+            throw new BusinessException("Não é possível desativar o seu próprio usuário.");
+        }
+    }
+
+    private void validaUsuarioRoot(UsuarioEntity usuarioEntity) {
+        boolean root = usuarioEntity.getRoles().contains("root");
+        if (root){
+            throw new BusinessException("Usuário ROOT não pode ser desativado.");
+        }
     }
 
     private void auditar(String body, Long idResponsavel) {

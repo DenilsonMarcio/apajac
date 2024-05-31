@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @RequiredArgsConstructor
@@ -25,5 +25,5 @@ public class UsuarioEntity {
     private String password;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    private List<String> roles;
+    private Set<String> roles;
 }

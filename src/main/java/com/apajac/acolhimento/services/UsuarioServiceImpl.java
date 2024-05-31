@@ -37,6 +37,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
             if (nonNull(usuarioDTO.getId())) {
                 UsuarioEntity usuarioEntity = buscarUsuarioPorId(usuarioDTO.getId());
+
+                validaUsuarioRoot(usuarioEntity);
+
                 usuarioEntity.setNome(usuarioDTO.getNome());
                 usuarioEntity.setRoles(usuarioDTO.getRoles());
                 usuarioEntity.setPassword(usuarioDTO.getPassword() != null
@@ -98,6 +101,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (usuario.isEmpty()) {
             throw new NotFoundException("Usuário não encontrado.");
         }
+
+        validaUsuarioRoot(usuario.get());
+
         repository.delete(usuario.get());
     }
 
@@ -109,4 +115,17 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
         return optionalUsuario.get();
     }
+
+    @Override
+    public Page<UsuarioEntity> buscarUsuariosPorNome(String nome, Pageable pageable) {
+        return repository.findAllByNomeContainingIgnoreCase(nome, pageable);
+    }
+
+    private void validaUsuarioRoot(UsuarioEntity usuarioEntity) {
+        boolean root = usuarioEntity.getRoles().contains("root");
+        if (root){
+            throw new BusinessException("Usuário ROOT não pode ser removido/alterado.");
+        }
+    }
+
 }
