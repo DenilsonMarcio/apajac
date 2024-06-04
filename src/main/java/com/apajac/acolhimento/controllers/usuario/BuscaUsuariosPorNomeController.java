@@ -10,10 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
@@ -21,26 +18,28 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequiredArgsConstructor
-@RequestMapping("/lista_usuarios")
-public class BuscarUsuariosController {
+@RequestMapping("/lista_usuarios_por_nome")
+public class BuscaUsuariosPorNomeController {
 
     private final UsuarioService usuarioService;
+
     private final UsuarioMapper usuarioMapper;
-    @GetMapping
-    ResponseEntity<ListaUsuarioDTO> listarUsuarios(Pageable pageable){
+    @GetMapping("/{nome}")
+    ResponseEntity<ListaUsuarioDTO> buscarUsuariosPorNome(@PathVariable("nome") String nome, Pageable pageable){
         try {
             ListaUsuarioDTO usuarioResponse = new ListaUsuarioDTO();
-            Page<UsuarioEntity> entities = usuarioService.listarUsuarios(pageable);
+            Page<UsuarioEntity> entities = usuarioService.buscarUsuariosPorNome(nome, pageable);
 
             boolean lastPage = entities.isLast();
 
-            List<UsuarioSemSenhaDTO> usuarioSemSenha = usuarioMapper.convertEntitesToDtos(entities.getContent());
+            List<UsuarioSemSenhaDTO> response = usuarioMapper.convertEntitesToDtos(entities.getContent());
             usuarioResponse.setIsLastPage(lastPage);
-            usuarioResponse.setUsuarios(usuarioSemSenha);
+            usuarioResponse.setUsuarios(response);
 
             return ResponseEntity.status(HttpStatus.OK).body(usuarioResponse);
         } catch (HttpClientErrorException e) {
             throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
         }
     }
+
 }

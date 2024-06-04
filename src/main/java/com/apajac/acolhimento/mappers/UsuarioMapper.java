@@ -22,7 +22,7 @@ public class UsuarioMapper {
                     .nome(entity.getNome())
                     .login(entity.getLogin())
                     .roles(entity.getRoles())
-                    .status(entity.getStatus())
+                    .status(entity.isStatus())
                     .build());
         }
         return dtos;

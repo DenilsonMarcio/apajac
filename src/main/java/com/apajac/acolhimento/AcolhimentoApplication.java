@@ -3,6 +3,7 @@ package com.apajac.acolhimento;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -17,7 +18,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
                         "Nossa missão é fortalecer laços familiares, promover a cidadania e oferecer oportunidades para que os jovens alcancem seu pleno potencial " +
                         "e construam um futuro promissor.",
                 contact = @Contact(name = "Equipe DevTeam PI 1 - Univesp")
-        )
+        ),
+        servers = {
+                @Server(url = "http://localhost:80", description = "Servidor Local"),
+                @Server(url = "https://acolhimento-apajac-dev.squareweb.app/", description = "Servidor de Desenvolvimento")
+        }
 )
 public class AcolhimentoApplication {
 

@@ -1,6 +1,7 @@
 package com.apajac.acolhimento.controllers.usuario;
 
 import com.apajac.acolhimento.domain.dtos.UsuarioDTO;
+import com.apajac.acolhimento.exceptions.BusinessException;
 import com.apajac.acolhimento.services.UsuarioServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +18,17 @@ import org.springframework.web.client.HttpClientErrorException;
 public class CadastrarUsuarioController {
 
     private final UsuarioServiceImpl usuarioService;
+
     @PostMapping
-    public ResponseEntity<String> inserir(@Valid @RequestBody UsuarioDTO usuarioDTO, BindingResult bindingResult){
+    public ResponseEntity<String> inserir(@Valid @RequestBody UsuarioDTO usuarioDTO, BindingResult bindingResult) {
         try {
-            if (bindingResult.hasErrors()){
+            if (bindingResult.hasErrors()) {
                 throw new RuntimeException("Falha ao cadastrar o Usuário.");
             }
             usuarioService.cadastrar(usuarioDTO);
             return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (BusinessException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (HttpClientErrorException e) {
             throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
         }

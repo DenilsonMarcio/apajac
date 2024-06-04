@@ -1,29 +1,26 @@
 package com.apajac.acolhimento.domain.entities;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Set;
+import java.time.LocalDateTime;
 
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "usuario")
-public class UsuarioEntity {
+@Table(name = "auditoria")
+public class AuditoriaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    private String nome;
-    private boolean status = Boolean.TRUE;
-    private String login;
-    private String password;
-
-    @ElementCollection(fetch = FetchType.LAZY)
-    private Set<String> roles;
+    private Long idUsuario;
+    private String tipo;
+    private String servico;
+    @Column(length = 2000)
+    private String body;
+    private LocalDateTime data;
 }

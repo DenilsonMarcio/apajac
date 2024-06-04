@@ -10,7 +10,8 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-public class AcolhidoDTO {
+public class AssistidoDTO {
+    private Long id;
     private String nome;
     private LocalDate dataNascimento;
     private String escolaridade;
@@ -21,11 +22,14 @@ public class AcolhidoDTO {
     private String encaminhadoPara;
     private String quemIndicouApajac;
     private String informacoesFornecidasPor;
+
+    private Long idResponsavelPeloCadastro;
+    private LocalDate cadastradoEm;
+
     private EnderecoDTO endereco;
     private String observacoes;
     private List<FamiliarDTO> familiares;
     private List<ComposicaoFamiliarDTO> composicaoFamiliar;
     private ResponsavelDTO responsavel;
-    private boolean statusAcolhido;
-
+    private boolean statusAssistido;
 }

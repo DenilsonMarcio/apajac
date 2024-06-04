@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class AtualizarDadosUsuarioController {
 
     private final AtualizarDadosUsuarioService atualizarDadosUsuarioService;
-    @PutMapping("/{id}/atualizar-dados")
+    @PutMapping("/{id}/atualizar_dados")
     public ResponseEntity<String> updateStatusUsuario(@PathVariable("id") Long id, @RequestBody UsuarioDTO usuarioDTO) {
         atualizarDadosUsuarioService.updateDadosUsuario(id, usuarioDTO);
         return new ResponseEntity<>("Status alterado com sucesso!", HttpStatus.NO_CONTENT);

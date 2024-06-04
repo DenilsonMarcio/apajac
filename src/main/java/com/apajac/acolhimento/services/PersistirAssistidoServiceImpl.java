@@ -2,11 +2,13 @@ package com.apajac.acolhimento.services;
 
 import com.apajac.acolhimento.domain.dtos.*;
 import com.apajac.acolhimento.domain.entities.*;
+import com.apajac.acolhimento.domain.enums.AuditoriaEnum;
 import com.apajac.acolhimento.domain.enums.TipoParentesco;
 import com.apajac.acolhimento.exceptions.BusinessException;
 import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.*;
-import com.apajac.acolhimento.services.interfaces.PersistirAcolhidoService;
+import com.apajac.acolhimento.services.interfaces.AuditoriaService;
+import com.apajac.acolhimento.services.interfaces.PersistirAssistidoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,68 +23,78 @@ import static java.util.Objects.isNull;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoService {
+public class PersistirAssistidoServiceImpl implements PersistirAssistidoService {
 
-    private final AcolhidoRepository acolhidoRepository;
+    private final AssistidoRepository assistidoRepository;
     private final FamiliarRepository familiarRepository;
     private final ComposicaoFamiliarRepository composicaoFamiliarRepository;
     private final ContatoRepository contatoRepository;
     private final ResponsavelRepository responsavelRepository;
 
+    private final AuditoriaService auditoria;
     @Override
-    public void persistirAcolhido(AcolhidoDTO acolhidoDTO) {
+    public void persistirAssistido(AssistidoDTO assistidoDTO) {
         try {
-            AcolhidoEntity acolhido = inserirAcolhido(acolhidoDTO);
-            inserirFamiliares(acolhidoDTO, acolhido);
-            inserirComposicaoFamiliar(acolhidoDTO, acolhido);
-            cadastrarResponsavel(acolhidoDTO.getResponsavel(), acolhido);
+            AssistidoEntity assistido = inserirAssistido(assistidoDTO);
+            inserirFamiliares(assistidoDTO, assistido);
+            inserirComposicaoFamiliar(assistidoDTO, assistido);
+            cadastrarResponsavel(assistidoDTO.getResponsavel(), assistido);
         } catch (Exception ex) {
-            throw new BusinessException(format("Não foi possivel inserir o Acolhido: %s", ex.getMessage()));
+            throw new BusinessException(format("Não foi possivel inserir o Assistido: %s", ex.getMessage()));
         }
     }
 
-    private AcolhidoEntity inserirAcolhido(AcolhidoDTO acolhidoDTO) {
-        if (isNull(acolhidoDTO.getId())){
-            return createAcolhido(acolhidoDTO);
+    private AssistidoEntity inserirAssistido(AssistidoDTO assistidoDTO) {
+        if (isNull(assistidoDTO.getId())){
+            return createAssistido(assistidoDTO);
         }
-        return updateAcolhido(acolhidoDTO);
+        return updateAssistido(assistidoDTO);
     }
 
-    private void inserirFamiliares(AcolhidoDTO acolhidoDTO, AcolhidoEntity acolhido) {
-        if (isNull(acolhidoDTO.getId())){
-            createFamiliares(acolhidoDTO.getFamiliares(), acolhido);
+    private void inserirFamiliares(AssistidoDTO assistidoDTO, AssistidoEntity assistido) {
+        if (isNull(assistidoDTO.getId())){
+            createFamiliares(assistidoDTO.getFamiliares(), assistido);
         } else {
-            updateFamiliares(acolhidoDTO.getFamiliares(), acolhido);
+            updateFamiliares(assistidoDTO.getFamiliares(), assistido);
         }
     }
 
-    private void inserirComposicaoFamiliar(AcolhidoDTO acolhidoDTO, AcolhidoEntity acolhido) {
-        if (isNull(acolhidoDTO.getId())){
-            createComposicaoFamiliar(acolhidoDTO.getComposicaoFamiliar(), acolhido);
+    private void inserirComposicaoFamiliar(AssistidoDTO assistidoDTO, AssistidoEntity assistido) {
+        if (isNull(assistidoDTO.getId())){
+            createComposicaoFamiliar(assistidoDTO.getComposicaoFamiliar(), assistido);
         } else {
-            updateComposicaoFamiliar(acolhidoDTO.getComposicaoFamiliar(), acolhido);
+            updateComposicaoFamiliar(assistidoDTO.getComposicaoFamiliar(), assistido);
         }
     }
 
-    private AcolhidoEntity createAcolhido(AcolhidoDTO acolhidoDTO) {
-        AcolhidoEntity acolhidoEntity = new AcolhidoEntity();
+    private AssistidoEntity createAssistido(AssistidoDTO assistidoDTO) {
+        AssistidoEntity assistidoEntity = new AssistidoEntity();
 
-        acolhidoEntity.setNome(acolhidoDTO.getNome());
-        acolhidoEntity.setDataNascimento(acolhidoDTO.getDataNascimento());
-        acolhidoEntity.setEscolaridade(acolhidoDTO.getEscolaridade());
-        acolhidoEntity.setEscola(acolhidoDTO.getEscola());
-        acolhidoEntity.setTelEscola(acolhidoDTO.getTelEscola());
-        acolhidoEntity.setCadastroInstituicao(acolhidoDTO.isCadastroInstituicao());
-        acolhidoEntity.setInstituicao(acolhidoDTO.getInstituicao());
-        acolhidoEntity.setEncaminhadoPara(acolhidoDTO.getEncaminhadoPara());
-        acolhidoEntity.setQuemIndicouApajac(acolhidoDTO.getQuemIndicouApajac());
-        acolhidoEntity.setInformacoesFornecidasPor(acolhidoDTO.getInformacoesFornecidasPor());
-        acolhidoEntity.setEndereco(getEndereco(acolhidoDTO.getEndereco()));
-        acolhidoEntity.setObservacoes(acolhidoDTO.getObservacoes());
+        assistidoEntity.setNome(assistidoDTO.getNome());
+        assistidoEntity.setDataNascimento(assistidoDTO.getDataNascimento());
+        assistidoEntity.setEscolaridade(assistidoDTO.getEscolaridade());
+        assistidoEntity.setEscola(assistidoDTO.getEscola());
+        assistidoEntity.setTelEscola(assistidoDTO.getTelEscola());
+        assistidoEntity.setCadastroInstituicao(assistidoDTO.isCadastroInstituicao());
+        assistidoEntity.setInstituicao(assistidoDTO.getInstituicao());
+        assistidoEntity.setEncaminhadoPara(assistidoDTO.getEncaminhadoPara());
+        assistidoEntity.setQuemIndicouApajac(assistidoDTO.getQuemIndicouApajac());
+        assistidoEntity.setInformacoesFornecidasPor(assistidoDTO.getInformacoesFornecidasPor());
+        assistidoEntity.setEndereco(getEndereco(assistidoDTO.getEndereco()));
+        assistidoEntity.setObservacoes(assistidoDTO.getObservacoes());
+        assistidoEntity.setIdResponsavelPeloCadastro(assistidoDTO.getIdResponsavelPeloCadastro());
+        assistidoEntity.setCadastradoEm(assistidoDTO.getCadastradoEm());
 
-        return acolhidoRepository.save(acolhidoEntity);
+        auditar(assistidoEntity.toString(),
+                assistidoDTO.getIdResponsavelPeloCadastro(),
+                AuditoriaEnum.CREATED.getValues());
+
+        return assistidoRepository.save(assistidoEntity);
+
     }
-    private void createFamiliares(List<FamiliarDTO> familiares, AcolhidoEntity acolhido) {
+
+
+    private void createFamiliares(List<FamiliarDTO> familiares, AssistidoEntity assistido) {
         for (FamiliarDTO familiarDTO : familiares) {
             FamiliarEntity familiarEntity = new FamiliarEntity();
             familiarEntity.setNome(familiarDTO.getNome());
@@ -91,10 +103,14 @@ public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoS
             familiarEntity.setSalario(familiarDTO.getSalario());
             familiarEntity.setVinculoEmpregaticio(familiarDTO.getVinculoEmpregaticio());
             familiarEntity.setTipoParentesco(TipoParentesco.valueOf(familiarDTO.getTipoParentesco()));
-            familiarEntity.setAcolhido(acolhido);
+            familiarEntity.setAssistido(assistido);
             FamiliarEntity familiar = familiarRepository.save(familiarEntity);
             persistirContatos(familiarDTO, familiar);
         }
+
+        auditar(familiares.toString(),
+                assistido.getIdResponsavelPeloCadastro(),
+                AuditoriaEnum.CREATED.getValues());
     }
 
     private void persistirContatos(FamiliarDTO familiarDTO, FamiliarEntity familiar) {
@@ -113,7 +129,7 @@ public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoS
         contatoRepository.saveAll(contatoEntities);
     }
 
-    private void createComposicaoFamiliar(List<ComposicaoFamiliarDTO> composicaoFamiliarDTOS, AcolhidoEntity acolhido) {
+    private void createComposicaoFamiliar(List<ComposicaoFamiliarDTO> composicaoFamiliarDTOS, AssistidoEntity assistido) {
         List<ComposicaoFamiliarEntity> composicaoFamiliar = new ArrayList<>();
         for (ComposicaoFamiliarDTO composicaoFamiliarDTO : composicaoFamiliarDTOS) {
             ComposicaoFamiliarEntity composicaoFamiliarEntity = new ComposicaoFamiliarEntity();
@@ -121,29 +137,45 @@ public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoS
             composicaoFamiliarEntity.setAnoNascimento(composicaoFamiliarDTO.getAnoNascimento());
             composicaoFamiliarEntity.setParentesco(composicaoFamiliarDTO.getParentesco());
             composicaoFamiliarEntity.setOcupacao(composicaoFamiliarDTO.getOcupacao());
-            composicaoFamiliarEntity.setAcolhido(acolhido);
+            composicaoFamiliarEntity.setAssistido(assistido);
             composicaoFamiliarEntity.setObservacoes(composicaoFamiliarDTO.getObservacoes());
             composicaoFamiliar.add(composicaoFamiliarEntity);
         }
+
+        auditar(composicaoFamiliar.toString(),
+                assistido.getIdResponsavelPeloCadastro(),
+                AuditoriaEnum.CREATED.getValues());
+
         composicaoFamiliarRepository.saveAll(composicaoFamiliar);
     }
 
-    private void cadastrarResponsavel(ResponsavelDTO responsavelDTO, AcolhidoEntity acolhido) {
-        ResponsavelEntity entity = acolhido.getResponsavel();
+    private void cadastrarResponsavel(ResponsavelDTO responsavelDTO, AssistidoEntity assistido) {
+        ResponsavelEntity entity = assistido.getResponsavel();
         if (isNull(entity)){
             ResponsavelEntity responsavelEntity = new ResponsavelEntity();
             responsavelEntity.setNome(responsavelDTO.getNome());
             responsavelEntity.setTipoParentesco(TipoParentesco.valueOf(responsavelDTO.getTipoParentesco()));
-            responsavelEntity.setAcolhido(acolhido);
+            responsavelEntity.setAssistido(assistido);
             ResponsavelEntity responsavel = responsavelRepository.save(responsavelEntity);
             persistirContatos(responsavelDTO, responsavel);
+
+            auditar(responsavelEntity.toString(),
+                    assistido.getIdResponsavelPeloCadastro(),
+                    AuditoriaEnum.CREATED.getValues());
+
         } else {
             entity.setNome(responsavelDTO.getNome());
             entity.setTipoParentesco(TipoParentesco.valueOf(responsavelDTO.getTipoParentesco()));
-            entity.setAcolhido(acolhido);
+            entity.setAssistido(assistido);
             ResponsavelEntity responsavel = responsavelRepository.save(entity);
             persistirContatos(responsavelDTO, responsavel);
+
+            auditar(entity.toString(),
+                    assistido.getIdResponsavelPeloCadastro(),
+                    AuditoriaEnum.UPDATED.getValues());
+
         }
+
     }
 
     private void persistirContatos(ResponsavelDTO responsavelDTO, ResponsavelEntity responsavel) {
@@ -162,31 +194,37 @@ public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoS
         contatoRepository.saveAll(contatoEntities);
     }
 
-    private AcolhidoEntity updateAcolhido(AcolhidoDTO acolhidoDTO) {
-        Optional<AcolhidoEntity> optionalAcolhido = acolhidoRepository.findById(acolhidoDTO.getId());
-        if (optionalAcolhido.isEmpty()){
-            throw new NotFoundException("Acolhido não encontrado.");
+    private AssistidoEntity updateAssistido(AssistidoDTO assistidoDTO) {
+        Optional<AssistidoEntity> optionalAssistido = assistidoRepository.findById(assistidoDTO.getId());
+        if (optionalAssistido.isEmpty()){
+            throw new NotFoundException("Assistido não encontrado.");
         }
-        AcolhidoEntity entity = optionalAcolhido.get();
-        entity.setId(acolhidoDTO.getId());
-        entity.setNome(acolhidoDTO.getNome());
-        entity.setDataNascimento(acolhidoDTO.getDataNascimento());
-        entity.setEscolaridade(acolhidoDTO.getEscolaridade());
-        entity.setEscola(acolhidoDTO.getEscola());
-        entity.setTelEscola(acolhidoDTO.getTelEscola());
-        entity.setCadastroInstituicao(acolhidoDTO.isCadastroInstituicao());
-        entity.setInstituicao(acolhidoDTO.getInstituicao());
-        entity.setEncaminhadoPara(acolhidoDTO.getEncaminhadoPara());
-        entity.setQuemIndicouApajac(acolhidoDTO.getQuemIndicouApajac());
-        entity.setInformacoesFornecidasPor(acolhidoDTO.getInformacoesFornecidasPor());
-        entity.setEndereco(getEndereco(acolhidoDTO.getEndereco()));
-        entity.setObservacoes(acolhidoDTO.getObservacoes());
+        AssistidoEntity entity = optionalAssistido.get();
+        entity.setId(assistidoDTO.getId());
+        entity.setNome(assistidoDTO.getNome());
+        entity.setDataNascimento(assistidoDTO.getDataNascimento());
+        entity.setEscolaridade(assistidoDTO.getEscolaridade());
+        entity.setEscola(assistidoDTO.getEscola());
+        entity.setTelEscola(assistidoDTO.getTelEscola());
+        entity.setCadastroInstituicao(assistidoDTO.isCadastroInstituicao());
+        entity.setInstituicao(assistidoDTO.getInstituicao());
+        entity.setEncaminhadoPara(assistidoDTO.getEncaminhadoPara());
+        entity.setQuemIndicouApajac(assistidoDTO.getQuemIndicouApajac());
+        entity.setInformacoesFornecidasPor(assistidoDTO.getInformacoesFornecidasPor());
+        entity.setEndereco(getEndereco(assistidoDTO.getEndereco()));
+        entity.setObservacoes(assistidoDTO.getObservacoes());
+        entity.setIdResponsavelPeloCadastro(assistidoDTO.getIdResponsavelPeloCadastro());
+        entity.setCadastradoEm(assistidoDTO.getCadastradoEm());
 
-        return acolhidoRepository.save(entity);
+        auditar(entity.toString(),
+                assistidoDTO.getIdResponsavelPeloCadastro(),
+                AuditoriaEnum.UPDATED.getValues());
+
+        return assistidoRepository.save(entity);
     }
 
-    private void updateFamiliares(List<FamiliarDTO> familiarDTOS, AcolhidoEntity acolhido) {
-        List<FamiliarEntity> familiarEntities = familiarRepository.findByAcolhido(acolhido);
+    private void updateFamiliares(List<FamiliarDTO> familiarDTOS, AssistidoEntity assistido) {
+        List<FamiliarEntity> familiarEntities = familiarRepository.findByAssistido(assistido);
         if(!isNull(familiarEntities)){
             familiarRepository.deleteAll(familiarEntities);
         }
@@ -198,14 +236,18 @@ public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoS
             familiarEntity.setSalario(familiarDTO.getSalario());
             familiarEntity.setVinculoEmpregaticio(familiarDTO.getVinculoEmpregaticio());
             familiarEntity.setTipoParentesco(TipoParentesco.valueOf(familiarDTO.getTipoParentesco()));
-            familiarEntity.setAcolhido(acolhido);
+            familiarEntity.setAssistido(assistido);
             FamiliarEntity familiar = familiarRepository.save(familiarEntity);
             persistirContatos(familiarDTO, familiar);
         }
+
+        auditar(familiarDTOS.toString(),
+                assistido.getIdResponsavelPeloCadastro(),
+                AuditoriaEnum.UPDATED.getValues());
     }
 
-    private void updateComposicaoFamiliar(List<ComposicaoFamiliarDTO> composicaoFamiliarDTOS, AcolhidoEntity acolhido) {
-        List<ComposicaoFamiliarEntity> composicaoFamiliarEntities = composicaoFamiliarRepository.findByAcolhido(acolhido);
+    private void updateComposicaoFamiliar(List<ComposicaoFamiliarDTO> composicaoFamiliarDTOS, AssistidoEntity assistido) {
+        List<ComposicaoFamiliarEntity> composicaoFamiliarEntities = composicaoFamiliarRepository.findByAssistido(assistido);
         if(!isNull(composicaoFamiliarEntities)){
             composicaoFamiliarRepository.deleteAll(composicaoFamiliarEntities);
         }
@@ -217,9 +259,14 @@ public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoS
             composicaoFamiliarEntity.setParentesco(composicaoFamiliarDTO.getParentesco());
             composicaoFamiliarEntity.setOcupacao(composicaoFamiliarDTO.getOcupacao());
             composicaoFamiliarEntity.setObservacoes(composicaoFamiliarDTO.getObservacoes());
-            composicaoFamiliarEntity.setAcolhido(acolhido);
+            composicaoFamiliarEntity.setAssistido(assistido);
             composicaoFamiliarRepository.save(composicaoFamiliarEntity);
         }
+
+        auditar(composicaoFamiliarDTOS.toString(),
+                assistido.getIdResponsavelPeloCadastro(),
+                AuditoriaEnum.UPDATED.getValues());
+
     }
 
     private Endereco getEndereco(EnderecoDTO enderecoDTO) {
@@ -232,5 +279,12 @@ public class PersistirPersistirAcolhidoServiceImpl implements PersistirAcolhidoS
         endereco.setUF(enderecoDTO.getUF());
         endereco.setComplemento(enderecoDTO.getComplemento());
         return endereco;
+    }
+    private void auditar(String body, Long idResponsavel, String tipo) {
+        auditoria.inserirDadosDeAuditoria(
+                idResponsavel,
+                tipo,
+                PersistirAssistidoService.class.getSimpleName(),
+                body);
     }
 }

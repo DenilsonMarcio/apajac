@@ -2,7 +2,7 @@ package com.apajac.acolhimento.domain.dtos;
 
 import lombok.*;
 
-import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -10,7 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 public class UsuarioLogadoDTO {
+    private Long id;
     private String nome;
     private String login;
-    private List<String> roles;
+    private Set<String> roles;
 }

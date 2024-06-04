@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/usuario")
 public class AtualizarStatusUsuarioController {
     private final AtualizarStatusUsuarioService atualizarStatusUsuarioService;
-    @PutMapping("/{id}/status_acolhido/{status}")
-    public ResponseEntity<String> updateStatusUsuario(@PathVariable("id") Long id, @PathVariable("status") Boolean status) {
-        atualizarStatusUsuarioService.updateStatusUsuario(id, status);
+    @PutMapping("/{id}/status/{id_responsavel}")
+    public ResponseEntity<String> updateStatusUsuario(@PathVariable("id") Long id, @PathVariable("id_responsavel") Long id_responsavel) {
+        atualizarStatusUsuarioService.updateStatusUsuario(id, id_responsavel);
         return new ResponseEntity<>("Status alterado com sucesso!", HttpStatus.NO_CONTENT);
     }
 }

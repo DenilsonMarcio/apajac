@@ -35,6 +35,6 @@ public class FamiliarEntity {
     private TipoParentesco tipoParentesco;
 
     @ManyToOne
-    @JoinColumn(name = "acolhido_id")
-    private AcolhidoEntity acolhido;
+    @JoinColumn(name = "assistido_id")
+    private AssistidoEntity assistido;
 }
