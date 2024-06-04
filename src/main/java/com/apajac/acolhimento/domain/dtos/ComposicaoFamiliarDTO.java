@@ -12,4 +12,5 @@ public class ComposicaoFamiliarDTO {
     private Integer anoNascimento;
     private String parentesco;
     private String ocupacao;
+    private String observacoes;
 }
