@@ -4,6 +4,7 @@ import com.apajac.acolhimento.domain.dtos.UsuarioDTO;
 import com.apajac.acolhimento.domain.entities.UsuarioEntity;
 import com.apajac.acolhimento.domain.enums.AuditoriaEnum;
 import com.apajac.acolhimento.exceptions.BusinessException;
+import com.apajac.acolhimento.exceptions.BusinessExceptionMessage;
 import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.UsuarioRepository;
 import com.apajac.acolhimento.services.interfaces.AuditoriaService;
@@ -121,10 +122,17 @@ public class UsuarioServiceImpl implements UsuarioService {
         return repository.findAllByNomeContainingIgnoreCase(nome, pageable);
     }
 
+//    private void validaUsuarioRoot(UsuarioEntity usuarioEntity) {
+//        boolean root = usuarioEntity.getRoles().contains("root");
+//        if (root){
+//            throw new BusinessException("Usuário ROOT não pode ser removido/alterado.");
+//        }
+//    }
     private void validaUsuarioRoot(UsuarioEntity usuarioEntity) {
         boolean root = usuarioEntity.getRoles().contains("root");
-        if (root){
-            throw new BusinessException("Usuário ROOT não pode ser removido/alterado.");
+        if (root) {
+            BusinessExceptionMessage message = new BusinessExceptionMessage("Usuário ROOT não pode ser removido/alterado.");
+            throw new BusinessException(message);
         }
     }
 

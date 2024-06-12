@@ -11,7 +11,7 @@
     <groupId>com.apajac</groupId>
     <artifactId>acolhimento</artifactId>
     <version>1.0.0</version>
-<!--    <packaging>jar</packaging>-->
+    <!--    <packaging>jar</packaging>-->
     <name>acolhimento</name>
     <description>Projeto Integrador - APAJAC Jacareí</description>
     <properties>

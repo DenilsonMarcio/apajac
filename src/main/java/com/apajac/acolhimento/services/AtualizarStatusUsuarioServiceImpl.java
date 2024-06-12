@@ -3,6 +3,7 @@ package com.apajac.acolhimento.services;
 import com.apajac.acolhimento.domain.entities.UsuarioEntity;
 import com.apajac.acolhimento.domain.enums.AuditoriaEnum;
 import com.apajac.acolhimento.exceptions.BusinessException;
+import com.apajac.acolhimento.exceptions.BusinessExceptionMessage;
 import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.UsuarioRepository;
 import com.apajac.acolhimento.services.interfaces.AtualizarStatusAssistidoService;
@@ -46,12 +47,21 @@ public class AtualizarStatusUsuarioServiceImpl implements AtualizarStatusUsuario
         }
     }
 
+//    private void validaUsuarioRoot(UsuarioEntity usuarioEntity) {
+//        boolean root = usuarioEntity.getRoles().contains("root");
+//        if (root){
+//            throw new BusinessException("Usuário ROOT não pode ser desativado.");
+//        }
+//    }
+
     private void validaUsuarioRoot(UsuarioEntity usuarioEntity) {
         boolean root = usuarioEntity.getRoles().contains("root");
-        if (root){
-            throw new BusinessException("Usuário ROOT não pode ser desativado.");
+        if (root) {
+            BusinessExceptionMessage message = new BusinessExceptionMessage("Usuário ROOT não pode ser desativado.");
+            throw new BusinessException(message);
         }
     }
+
 
     private void auditar(String body, Long idResponsavel) {
         auditoria.inserirDadosDeAuditoria(
