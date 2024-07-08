@@ -27,9 +27,7 @@ public class DoadorEntity {
     private TipoDoador tipoDoador;
     private String comoConheceu;
 
-
     private Long idResponsavelPeloCadastro;
-    private LocalDate cadastradoEm;
 
 
 }

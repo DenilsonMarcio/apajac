@@ -20,17 +20,13 @@ public class DoadorDTO {
     private String nome;
     private String documento;
     private BigDecimal valor;
-
     @Enumerated(EnumType.STRING)
     @JsonProperty("tipo_doador")
     private TipoDoador tipoDoador;
 
     @JsonProperty("como_conheceu")
     private String comoConheceu;
-
     private Long idResponsavelPeloCadastro;
-    private LocalDate cadastradoEm;
-
 
 }
 

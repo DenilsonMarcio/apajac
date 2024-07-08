@@ -18,7 +18,7 @@ public class  CadastrarDoadorController {
     private final PersistirDoadorService doadorService;
 
     @PostMapping
-    public ResponseEntity<String> cadastrarDoador(@RequestBody DoadorDTO doadorDTO) {
+    public ResponseEntity<String> createDoador(@RequestBody DoadorDTO doadorDTO) {
 
         doadorService.persistirDoador(doadorDTO);
         if (Objects.isNull(doadorDTO.getId())) {

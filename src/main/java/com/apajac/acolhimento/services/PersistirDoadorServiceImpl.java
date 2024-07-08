@@ -41,15 +41,15 @@ public class PersistirDoadorServiceImpl implements PersistirDoadorService {
     private DoadorEntity inserirDoador(DoadorDTO doadorDTO) {
         if (isNull(doadorDTO.getId())){
             validador(doadorDTO);
-            return cadastrarDoador(doadorDTO);
+            return createDoador(doadorDTO);
         }
         validador(doadorDTO);
-        return atualizarDoador(doadorDTO);
+        return updateDoador(doadorDTO);
 
     }
 
     //metodo para cadastrar o doador
-    private DoadorEntity cadastrarDoador(DoadorDTO doadorDTO) {
+    private DoadorEntity createDoador(DoadorDTO doadorDTO) {
         DoadorEntity doadorEntity = new DoadorEntity();
         mapearDtoparaEntidade(doadorEntity, doadorDTO);
         auditar(doadorEntity.toString(), doadorDTO.getIdResponsavelPeloCadastro(), AuditoriaEnum.CREATED.getValues());
@@ -59,7 +59,7 @@ public class PersistirDoadorServiceImpl implements PersistirDoadorService {
     }
 
     // se o doador ja existe, ele atualiza apenas
-    private DoadorEntity atualizarDoador(DoadorDTO doadorDTO) {
+    private DoadorEntity updateDoador(DoadorDTO doadorDTO) {
         Optional<DoadorEntity> optionalDoador = doadorRepository.findById(doadorDTO.getId());
         if (optionalDoador.isEmpty()) {
             throw new NotFoundException("Doador não encontrado.");
@@ -88,12 +88,6 @@ public class PersistirDoadorServiceImpl implements PersistirDoadorService {
         doadorEntity.setTipoDoador(doadorDTO.getTipoDoador());
         doadorEntity.setComoConheceu(doadorDTO.getComoConheceu());
         doadorEntity.setIdResponsavelPeloCadastro(doadorDTO.getIdResponsavelPeloCadastro());
-        if (!isNull(doadorDTO.getCadastradoEm())){
-            doadorEntity.setCadastradoEm(doadorDTO.getCadastradoEm());
-        }
-        else{
-            doadorEntity.setCadastradoEm(LocalDate.now());
-        }
         return doadorEntity;
     }
 
