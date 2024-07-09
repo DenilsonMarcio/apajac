@@ -30,22 +30,21 @@ public class PersistirDoadorServiceImpl implements PersistirDoadorService {
 
     @Override
     public void persistirDoador(DoadorDTO doadorDTO) {
-        try {
-            DoadorEntity doadorEntity = inserirDoador(doadorDTO);
-        } catch (Exception e) {
-            throw new BusinessException(format("Não foi possivel cadastrar doador. %s", e.getMessage()));
+        if(isNull(doadorDTO.getId())){
+            try {
+                DoadorEntity doadorEntity = inserirDoador(doadorDTO);
+            } catch (Exception e) {
+                throw new BusinessException(format("Não foi possivel cadastrar doador. %s", e.getMessage()));
+            }
+        } else {
+            throw new BusinessException("Não foi possível cadastrar doador.");
         }
     }
 
-    // metodo para insetir o dto que chega, seja criando um novo ou atualizando um existente
+    // metodo para insetir o dto que chega, seja criando um novo doador
     private DoadorEntity inserirDoador(DoadorDTO doadorDTO) {
-        if (isNull(doadorDTO.getId())){
-            validador(doadorDTO);
-            return createDoador(doadorDTO);
-        }
         validador(doadorDTO);
-        return updateDoador(doadorDTO);
-
+        return createDoador(doadorDTO);
     }
 
     //metodo para cadastrar o doador
@@ -58,20 +57,7 @@ public class PersistirDoadorServiceImpl implements PersistirDoadorService {
 
     }
 
-    // se o doador ja existe, ele atualiza apenas
-    private DoadorEntity updateDoador(DoadorDTO doadorDTO) {
-        Optional<DoadorEntity> optionalDoador = doadorRepository.findById(doadorDTO.getId());
-        if (optionalDoador.isEmpty()) {
-            throw new NotFoundException("Doador não encontrado.");
-        }
-        DoadorEntity doadorEntity = optionalDoador.get();
-        mapearDtoparaEntidade(doadorEntity, doadorDTO);
-
-        auditar(doadorEntity.toString(), doadorDTO.getIdResponsavelPeloCadastro(), AuditoriaEnum.UPDATED.getValues());
-        return doadorRepository.save(doadorEntity);
-    }
-
-    // metodo que verifica o usuario que esta cadastrando / atualizando o doador
+    // metodo que verifica o usuario que esta cadastrando
     private void auditar(String body, Long idResponsavel, String tipo) {
         auditoria.inserirDadosDeAuditoria(
                 idResponsavel,
