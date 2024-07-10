@@ -33,25 +33,15 @@ public class PersistirDoadorServiceImpl implements PersistirDoadorService {
     @Override
     public void persistirDoador(DoadorDTO doadorDTO) {
         try{
-            DoadorEntity doadorEntity = createDoador(doadorDTO);
+            DoadorEntity doadorEntity = new DoadorEntity();
+            mapearDtoparaEntidade(doadorEntity, doadorDTO);
+            doadorRepository.save(doadorEntity);
+            auditar(doadorEntity.toString(), doadorDTO.getIdResponsavelPeloCadastro(), AuditoriaEnum.CREATED.getValues());
         } catch (Exception e) {
             throw new BusinessException(format("Não foi possivel cadastrar doador. %s", e.getMessage()));
         }
     }
 
-    //metodo para cadastrar o doador
-    private DoadorEntity createDoador(DoadorDTO doadorDTO) {
-        if(isNull(doadorDTO.getId())) {
-            DoadorEntity doadorEntity = new DoadorEntity();
-            mapearDtoparaEntidade(doadorEntity, doadorDTO);
-            auditar(doadorEntity.toString(), doadorDTO.getIdResponsavelPeloCadastro(), AuditoriaEnum.CREATED.getValues());
-
-            return doadorRepository.save(doadorEntity);
-        }
-        else{
-            throw new BusinessException("O ID não deve ser fornecido para um novo cadastro.");
-        }
-    }
 
     // metodo que verifica o usuario que esta cadastrando
     private void auditar(String body, Long idResponsavel, String tipo) {

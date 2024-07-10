@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "doador")
+@Table(name = "doador_leandro")
 public class DoadorEntity {
 
     @Id
@@ -24,6 +24,7 @@ public class DoadorEntity {
     private String documento;
     private BigDecimal valor;
 
+    @Enumerated(EnumType.STRING)
     private TipoDoador tipoDoador;
     private String comoConheceu;
 
