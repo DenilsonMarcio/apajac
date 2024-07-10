@@ -20,7 +20,7 @@ public class AtualizarDoadorController {
         try
         {
             DoadorService.updateDoador(doadorDTO);
-            return new ResponseEntity<>("{\n    \"message\": \"Doador alterado com sucesso!\"\n}", HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.OK).body("Doador alterado com sucesso!");
         } catch(HttpClientErrorException e)
         {
             throw new HttpClientErrorException(e.getStatusCode(), "Não foi possível alterar doador.");
