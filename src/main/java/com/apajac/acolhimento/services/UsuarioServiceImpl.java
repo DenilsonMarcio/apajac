@@ -124,7 +124,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private void validaUsuarioRoot(UsuarioEntity usuarioEntity) {
         boolean root = usuarioEntity.getRoles().contains("root");
         if (root){
-            throw new BusinessException("Usuário ROOT não pode ser removido ou alterado.");
+            throw new BusinessException("Usuário ROOT não pode ser removido/alterado.");
         }
     }
 
