@@ -19,8 +19,8 @@ public class AtualizarDoadorController {
     public ResponseEntity<String> updateStatusDoador(@RequestBody DoadorDTO doadorDTO) {
         try
         {
-            DoadorService.persistirDoador(doadorDTO);
-            return new ResponseEntity<>("{\n    \"message\": \"Doador alterado com sucesso!\"\n}", HttpStatus.OK);
+            DoadorService.updateDoador(doadorDTO);
+            return ResponseEntity.status(HttpStatus.OK).body("Doador alterado com sucesso!");
         } catch(HttpClientErrorException e)
         {
             throw new HttpClientErrorException(e.getStatusCode(), "Não foi possível alterar doador.");

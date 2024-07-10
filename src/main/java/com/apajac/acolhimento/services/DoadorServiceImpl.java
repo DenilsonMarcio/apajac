@@ -2,7 +2,6 @@ package com.apajac.acolhimento.services;
 
 import com.apajac.acolhimento.domain.dtos.DoadorDTO;
 import com.apajac.acolhimento.domain.entities.DoadorEntity;
-import com.apajac.acolhimento.exceptions.BusinessException;
 import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.DoadorRepository;
 import com.apajac.acolhimento.services.interfaces.DoadorService;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import static java.util.Objects.isNull;
 
 @Service
 @RequiredArgsConstructor
@@ -23,23 +21,8 @@ public class DoadorServiceImpl implements DoadorService
 
     private final DoadorRepository doadorRepository;
 
-    @Override
-    public void persistirDoador(DoadorDTO doadorDTO) {
-        try {
-            DoadorEntity doador = inserirDoador(doadorDTO);
-        } catch (Exception ex) {
-            throw new BusinessException(ex.getMessage());
-        }
-    }
-
-    private DoadorEntity inserirDoador(DoadorDTO doadorDTO) {
-        if (isNull(doadorDTO.getId())){
-            return createDoador(doadorDTO);
-        }
-        return updateDoador(doadorDTO);
-    }
-
-    private DoadorEntity createDoador(DoadorDTO doadorDTO)
+@Override
+    public void createDoador(DoadorDTO doadorDTO)
     {
         DoadorEntity doadorEntity = new DoadorEntity();
         doadorEntity.setNome(doadorDTO.getNome());
@@ -47,10 +30,11 @@ public class DoadorServiceImpl implements DoadorService
         doadorEntity.setValor(doadorDTO.getValor());
         doadorEntity.setTipo_doador(doadorDTO.getTipo_doador());
         doadorEntity.setComo_conheceu(doadorDTO.getComo_conheceu());
-        return doadorRepository.save(doadorEntity);
+        doadorRepository.save(doadorEntity);
     }
 
-    private DoadorEntity updateDoador(DoadorDTO doadorDTO)
+    @Override
+    public void updateDoador(DoadorDTO doadorDTO)
     {
         Optional<DoadorEntity> optionalDoador = doadorRepository.findById(doadorDTO.getId());
         if (optionalDoador.isEmpty())
@@ -64,19 +48,9 @@ public class DoadorServiceImpl implements DoadorService
         entity.setValor(doadorDTO.getValor());
         entity.setTipo_doador(doadorDTO.getTipo_doador());
         entity.setComo_conheceu(doadorDTO.getComo_conheceu());
-        return doadorRepository.save(entity);
+        doadorRepository.save(entity);
     }
 
-    @Override
-    public void removerDoador(Long id)
-    {
-        Optional<DoadorEntity> doador = doadorRepository.findById(id);
-        if (doador.isEmpty())
-        {
-            throw new NotFoundException("Doador não encontrado.");
-        }
-        doadorRepository.delete(doador.get());
-    }
     @Override
     public Page<DoadorEntity> listarDoadores(Pageable pageable)
     {
@@ -91,5 +65,15 @@ public class DoadorServiceImpl implements DoadorService
             throw new NotFoundException("Doador não encontrado.");
         }
         return doadorOpt.get();
+    }
+    @Override
+    public void removerDoador(Long id)
+    {
+        Optional<DoadorEntity> doador = doadorRepository.findById(id);
+        if (doador.isEmpty())
+        {
+            throw new NotFoundException("Doador não encontrado.");
+        }
+        doadorRepository.delete(doador.get());
     }
 }

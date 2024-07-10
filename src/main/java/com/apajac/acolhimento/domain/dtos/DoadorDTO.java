@@ -1,5 +1,6 @@
 package com.apajac.acolhimento.domain.dtos;
 
+import com.apajac.acolhimento.domain.enums.TipoDoador;
 import lombok.*;
 
 @AllArgsConstructor
@@ -13,6 +14,6 @@ public class DoadorDTO
     private String nome;
     private String documento;
     private Float valor;
-    private String tipo_doador;
+    private TipoDoador tipo_doador;
     private String como_conheceu;
 }

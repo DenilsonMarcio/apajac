@@ -20,8 +20,8 @@ public class CadastrarDoadorController
     public ResponseEntity<String> createDoador(@RequestBody DoadorDTO doadorDTO) {
         try
         {
-            doadorService.persistirDoador(doadorDTO);
-            return new ResponseEntity<>("{\n    \"message\": \"Doador cadastrado com sucesso!\"\n}", HttpStatus.CREATED);
+            doadorService.createDoador(doadorDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Doador cadastrado com sucesso.");
         } catch(HttpClientErrorException e)
         {
             throw new HttpClientErrorException(e.getStatusCode(),"Não foi possível cadastrar doador.");

@@ -6,7 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface DoadorService {
-    void persistirDoador(DoadorDTO doadorDTO);
+    void createDoador(DoadorDTO doadorDTO);
+    void updateDoador(DoadorDTO doadorDTO);
     Page<DoadorEntity> listarDoadores(Pageable pageable);
     DoadorEntity buscarDoadorPorId(Long id);
     void removerDoador(Long id);
