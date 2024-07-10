@@ -21,7 +21,7 @@ public class CadastrarDoadorController
         try
         {
             doadorService.createDoador(doadorDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body("{\n    \"message\": \"Doador cadastrado com sucesso.\"\n}");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Doador cadastrado com sucesso.");
         } catch(HttpClientErrorException e)
         {
             throw new HttpClientErrorException(e.getStatusCode(),"Não foi possível cadastrar doador.");
