@@ -18,8 +18,6 @@ public class DoadorServiceImpl implements DoadorService
 
     private final DoadorRepository doadorRepository;
 
-
-
     @Override
     public void removerDoador(Long id)
     {
@@ -29,15 +27,5 @@ public class DoadorServiceImpl implements DoadorService
             throw new NotFoundException("Doador não encontrado.");
         }
         doadorRepository.delete(doador.get());
-    }
-    @Override
-    public DoadorEntity buscarDoadorPorId(Long id)
-    {
-        Optional<DoadorEntity> doadorOpt = doadorRepository.findById(id);
-        if (doadorOpt.isEmpty())
-        {
-            throw new NotFoundException("Doador não encontrado.");
-        }
-        return doadorOpt.get();
     }
 }

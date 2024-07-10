@@ -1,5 +1,6 @@
 package com.apajac.acolhimento.domain.entities;
 
+import com.apajac.acolhimento.domain.enums.TipoDoador;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "doador")
+@Table(name = "doador_jonathan")
 public class DoadorEntity {
 
     @Id
@@ -19,6 +20,6 @@ public class DoadorEntity {
     private String nome;
     private String documento;
     private Float valor;
-    private String tipo_doador;
+    private TipoDoador tipo_doador;
     private String como_conheceu;
 }
