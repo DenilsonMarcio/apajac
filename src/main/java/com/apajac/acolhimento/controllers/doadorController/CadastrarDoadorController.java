@@ -21,10 +21,7 @@ public class  CadastrarDoadorController {
     public ResponseEntity<String> createDoador(@RequestBody DoadorDTO doadorDTO) {
 
         doadorService.persistirDoador(doadorDTO);
-        if (Objects.isNull(doadorDTO.getId())) {
-            return ResponseEntity.ok("Doador cadastrado com sucesso.");
-        }
-        return ResponseEntity.ok("Doador atualizado com sucesso.");
+        return ResponseEntity.ok("Doador cadastrado com sucesso.");
 
     }
 
