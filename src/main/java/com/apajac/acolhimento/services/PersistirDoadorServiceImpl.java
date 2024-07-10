@@ -24,7 +24,6 @@ import static java.util.Objects.isNull;
 @Service
 @RequiredArgsConstructor
 @Transactional
-@Validated
 public class PersistirDoadorServiceImpl implements PersistirDoadorService {
 
     private final DoadorRepository doadorRepository;

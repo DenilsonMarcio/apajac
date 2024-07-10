@@ -19,19 +19,11 @@ import java.time.LocalDate;
 public class DoadorDTO {
 
     private Long id;
-    @NotNull(message = "Nome não pode ser nulo")
-    @NotBlank(message = "Nome não pode ser nulo ou vazio")
     private String nome;
-    @NotNull(message = "Documento não pode ser nulo")
-    @NotBlank(message = "Documento não pode ser nulo ou vazio")
     private String documento;
-    @NotNull(message = "Valor não pode ser nulo")
-    @NotBlank(message = "Valor não pode ser nulo ou vazio")
     private BigDecimal valor;
     @Enumerated(EnumType.STRING)
     @JsonProperty("tipo_doador")
-    @NotNull(message = "Tipo de Doador não pode ser nulo")
-    @NotBlank(message = "Tipo de Doador não pode ser nulo ou vazio")
     private TipoDoador tipoDoador;
 
     @JsonProperty("como_conheceu")
