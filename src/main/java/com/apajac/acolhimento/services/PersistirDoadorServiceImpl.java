@@ -8,9 +8,11 @@ import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.DoadorRepository;
 import com.apajac.acolhimento.services.interfaces.AuditoriaService;
 import com.apajac.acolhimento.services.interfaces.PersistirDoadorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -22,6 +24,7 @@ import static java.util.Objects.isNull;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Validated
 public class PersistirDoadorServiceImpl implements PersistirDoadorService {
 
     private final DoadorRepository doadorRepository;
@@ -30,31 +33,25 @@ public class PersistirDoadorServiceImpl implements PersistirDoadorService {
 
     @Override
     public void persistirDoador(DoadorDTO doadorDTO) {
-        if(isNull(doadorDTO.getId())){
-            try {
-                DoadorEntity doadorEntity = inserirDoador(doadorDTO);
-            } catch (Exception e) {
-                throw new BusinessException(format("Não foi possivel cadastrar doador. %s", e.getMessage()));
-            }
-        } else {
-            throw new BusinessException("Não foi possível cadastrar doador.");
+        try{
+            DoadorEntity doadorEntity = createDoador(doadorDTO);
+        } catch (Exception e) {
+            throw new BusinessException(format("Não foi possivel cadastrar doador. %s", e.getMessage()));
         }
-    }
-
-    // metodo para insetir o dto que chega, seja criando um novo doador
-    private DoadorEntity inserirDoador(DoadorDTO doadorDTO) {
-        validador(doadorDTO);
-        return createDoador(doadorDTO);
     }
 
     //metodo para cadastrar o doador
     private DoadorEntity createDoador(DoadorDTO doadorDTO) {
-        DoadorEntity doadorEntity = new DoadorEntity();
-        mapearDtoparaEntidade(doadorEntity, doadorDTO);
-        auditar(doadorEntity.toString(), doadorDTO.getIdResponsavelPeloCadastro(), AuditoriaEnum.CREATED.getValues());
+        if(isNull(doadorDTO.getId())) {
+            DoadorEntity doadorEntity = new DoadorEntity();
+            mapearDtoparaEntidade(doadorEntity, doadorDTO);
+            auditar(doadorEntity.toString(), doadorDTO.getIdResponsavelPeloCadastro(), AuditoriaEnum.CREATED.getValues());
 
-        return doadorRepository.save(doadorEntity);
-
+            return doadorRepository.save(doadorEntity);
+        }
+        else{
+            throw new BusinessException("O ID não deve ser fornecido para um novo cadastro.");
+        }
     }
 
     // metodo que verifica o usuario que esta cadastrando
@@ -77,20 +74,5 @@ public class PersistirDoadorServiceImpl implements PersistirDoadorService {
         return doadorEntity;
     }
 
-    // valida se os campos são null ou vazios
-    private void validador(DoadorDTO doadorDTO){
-        if(doadorDTO.getNome() == null || doadorDTO.getNome().isEmpty()){
-            throw new BusinessException("O nome não pode ser nulo");
-        }
-        if(doadorDTO.getDocumento() == null || doadorDTO.getDocumento().isEmpty()){
-            throw new BusinessException("O documento não pode ser nulo");
-        }
-        if(doadorDTO.getValor() == null){
-            throw new BusinessException("O valor não pode ser nulo");
-        }
-        if(doadorDTO.getTipoDoador() == null){
-            throw new BusinessException("O tipo de doador não pode ser nulo");
-        }
-    }
 }
 
