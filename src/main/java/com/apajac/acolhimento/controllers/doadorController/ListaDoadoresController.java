@@ -18,14 +18,14 @@ import org.springframework.web.client.HttpClientErrorException;
 @RestController
 @CrossOrigin("*")
 @RequiredArgsConstructor
-@RequestMapping("/consultar_doadores")
+@RequestMapping("/doador")
 public class ListaDoadoresController {
 
     private final ConsultarDoadorService consultarDoadorService;
     private final DoadorMapper doadorMapper;
 
 
-    @GetMapping("/lista_doadores")
+    @GetMapping("/listar")
     public ResponseEntity<Page<DoadorDTO>> listarDoadoresPage(Pageable pageable) {
         try {
             Page<DoadorEntity> doadorEntities = consultarDoadorService.listarDoadoresPage(pageable);
