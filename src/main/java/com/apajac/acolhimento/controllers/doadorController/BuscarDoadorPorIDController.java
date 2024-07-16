@@ -13,13 +13,13 @@ import org.springframework.web.client.HttpClientErrorException;
 @RestController
 @CrossOrigin("*")
 @RequiredArgsConstructor
-@RequestMapping("/consultar_doadores")
+@RequestMapping("/doador")
 public class BuscarDoadorPorIDController {
 
     private final ConsultarDoadorService consultarDoadorService;
     private final DoadorMapper doadorMapper;
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<DoadorDTO> buscarDoadorPorId(@PathVariable Long id) {
         try {
             DoadorEntity doadorEntity = consultarDoadorService.buscarDoadorPorId(id);
