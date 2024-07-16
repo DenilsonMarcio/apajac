@@ -20,6 +20,8 @@ public class DoadorEntity {
     private String nome;
     private String documento;
     private Float valor;
+
+    @Enumerated(EnumType.STRING)
     private TipoDoador tipo_doador;
     private String como_conheceu;
 }
