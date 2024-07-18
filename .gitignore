@@ -22,6 +22,9 @@ application.properties
 *.iml
 *.ipr
 
+# Ignore application properties file
+application.properties
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

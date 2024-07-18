@@ -9,6 +9,7 @@ import java.util.List;
 
 
 public interface ConsultarDoadorService {
+    DoadorEntity buscarDoadorPorId(Long id);
 
     Page<DoadorEntity> listarDoadoresPage(Pageable pageable);
 

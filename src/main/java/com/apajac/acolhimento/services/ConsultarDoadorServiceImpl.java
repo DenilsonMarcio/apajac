@@ -2,6 +2,7 @@ package com.apajac.acolhimento.services;
 
 import com.apajac.acolhimento.domain.dtos.DoadorDTO;
 import com.apajac.acolhimento.domain.entities.DoadorEntity;
+import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.DoadorRepository;
 import com.apajac.acolhimento.services.interfaces.ConsultarDoadorService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,12 @@ public class ConsultarDoadorServiceImpl implements ConsultarDoadorService {
     @Override
     public Page<DoadorEntity> listarDoadoresPage(Pageable pageable) {
         return doadorRepository.findAll(pageable);
+    }
+
+    @Override
+    public DoadorEntity buscarDoadorPorId(Long id) {
+        return doadorRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Doador não encontrado."));
     }
 
 }
