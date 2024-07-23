@@ -2,10 +2,9 @@ package com.apajac.acolhimento.services;
 
 import com.apajac.acolhimento.domain.dtos.DoadorDTO;
 import com.apajac.acolhimento.domain.entities.DoadorEntity;
-import com.apajac.acolhimento.exceptions.BusinessException;
 import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.DoadorRepository;
-import com.apajac.acolhimento.services.interfaces.PersistirDoadorService;
+import com.apajac.acolhimento.services.interfaces.EditarDoadorService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class PersistirDoadorServiceImpl implements PersistirDoadorService {
+public class EditarDoadorServiceImpl implements EditarDoadorService {
 
     private final DoadorRepository doadorRepository;
 
-    public void EditarDoador(DoadorDTO doadorDTO){
+    public void editarDoador(DoadorDTO doadorDTO){
         Optional<DoadorEntity> doadorEntityOptional = doadorRepository.findById(doadorDTO.getId());
 
         if (doadorEntityOptional.isPresent()) {

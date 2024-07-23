@@ -4,7 +4,7 @@ import com.apajac.acolhimento.domain.dtos.DoadorDTO;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
-public interface PersistirDoadorService {
+public interface EditarDoadorService {
 
-    void EditarDoador(DoadorDTO doadorDTO);
+    void editarDoador(DoadorDTO doadorDTO);
 }
