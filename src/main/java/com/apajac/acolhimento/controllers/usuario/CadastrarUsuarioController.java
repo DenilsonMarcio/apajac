@@ -28,7 +28,7 @@ public class CadastrarUsuarioController {
             usuarioService.cadastrar(usuarioDTO);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (BusinessException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            throw new BusinessException(e.getMessage());
         } catch (HttpClientErrorException e) {
             throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
         }

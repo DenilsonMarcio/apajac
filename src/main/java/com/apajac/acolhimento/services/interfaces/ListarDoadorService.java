@@ -1,14 +1,9 @@
 package com.apajac.acolhimento.services.interfaces;
 
-import com.apajac.acolhimento.domain.dtos.DoadorDTO;
 import com.apajac.acolhimento.domain.entities.DoadorEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface DoadorService {
-    void createDoador(DoadorDTO doadorDTO);
-    void updateDoador(DoadorDTO doadorDTO);
+public interface ListarDoadorService {
     Page<DoadorEntity> listarDoadores(Pageable pageable);
-    DoadorEntity buscarDoadorPorId(Long id);
-    void removerDoador(Long id);
 }

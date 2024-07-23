@@ -1,0 +1,30 @@
+package com.apajac.acolhimento.services;
+
+import com.apajac.acolhimento.domain.entities.DoadorEntity;
+import com.apajac.acolhimento.exceptions.NotFoundException;
+import com.apajac.acolhimento.repositories.DoadorRepository;
+import com.apajac.acolhimento.services.interfaces.BuscaDoadorService;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class BuscaDoadorServiceImpl implements BuscaDoadorService
+{
+
+    private final DoadorRepository doadorRepository;
+
+    @Override
+    public DoadorEntity buscarDoadorPorId(Long id)
+    {
+        Optional<DoadorEntity> doadorOpt = doadorRepository.findById(id);
+        if (doadorOpt.isEmpty())
+        {
+            throw new NotFoundException("Doador não encontrado.");
+        }
+        return doadorOpt.get();
+    }
+}
