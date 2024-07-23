@@ -1,6 +1,6 @@
 package com.apajac.acolhimento.services.interfaces;
 
-public interface DoadorService {
+public interface RemoverDoadorService {
 
     void remover(Long id);
 }
