@@ -4,6 +4,6 @@ import com.apajac.acolhimento.domain.entities.DoadorEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface DoadorService {
+public interface ListarDoadorService {
     Page<DoadorEntity> listarDoadores(Pageable pageable);
 }
