@@ -20,15 +20,14 @@ public class AtualizarDoadorServiceImpl implements AtualizarDoadorService
     private final DoadorRepository doadorRepository;
 
     @Override
-    public void updateDoador(DoadorDTO doadorDTO)
+    public void updateDoador(Long ID, DoadorDTO doadorDTO)
     {
-        Optional<DoadorEntity> optionalDoador = doadorRepository.findById(doadorDTO.getId());
+        Optional<DoadorEntity> optionalDoador = doadorRepository.findById(ID);
         if (optionalDoador.isEmpty())
         {
             throw new NotFoundException("Não foi possível alterar o Doador.");
         }
         DoadorEntity entity = optionalDoador.get();
-        entity.setId(doadorDTO.getId());
         entity.setNome(doadorDTO.getNome());
         entity.setDocumento(doadorDTO.getDocumento());
         entity.setValor(doadorDTO.getValor());
