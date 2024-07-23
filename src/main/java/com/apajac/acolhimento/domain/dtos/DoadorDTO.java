@@ -10,7 +10,6 @@ import lombok.*;
 @Setter
 public class DoadorDTO
 {
-    private Long id;
     private String nome;
     private String documento;
     private Float valor;

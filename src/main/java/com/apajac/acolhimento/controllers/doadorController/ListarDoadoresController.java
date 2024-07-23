@@ -1,8 +1,6 @@
 package com.apajac.acolhimento.controllers.doadorController;
 
-import com.apajac.acolhimento.domain.dtos.DoadorDTO;
 import com.apajac.acolhimento.domain.entities.DoadorEntity;
-import com.apajac.acolhimento.mappers.DoadorMapper;
 import com.apajac.acolhimento.services.interfaces.ListarDoadorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,15 +23,12 @@ public class ListarDoadoresController {
 
     private final ListarDoadorService doadoresService;
 
-    private final DoadorMapper doadoresMapper;
-
     @GetMapping
-    ResponseEntity<List<DoadorDTO>> listarDoadores(Pageable pageable){
+    ResponseEntity<List<DoadorEntity>> listarDoadores(Pageable pageable){
         try
         {
             Page<DoadorEntity> entities = doadoresService.listarDoadores(pageable);
-            List<DoadorDTO> doadoresDTO = doadoresMapper.convertEntitiesToDtos(entities.getContent());
-            return ResponseEntity.status(HttpStatus.OK).body(doadoresDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(entities.getContent());
         } catch (HttpClientErrorException e)
         {
             throw new HttpClientErrorException(e.getStatusCode(), "Não foi possível listar doadores.");
