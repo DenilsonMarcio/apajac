@@ -25,9 +25,8 @@ public class BuscarDoadorPorIDController {
             DoadorEntity doadorEntity = consultarDoadorService.buscarDoadorPorId(id);
             DoadorDTO doadorDTO = doadorMapper.mapEntityToDTO(doadorEntity);
             return ResponseEntity.status(HttpStatus.OK).body(doadorDTO);
-        } catch (HttpClientErrorException e)
-        {
-            throw new HttpClientErrorException(e.getStatusCode(), String.format("Não foi possível buscar doador com o id {%s}.",id.toString()));
+        } catch (HttpClientErrorException e) {
+            throw new HttpClientErrorException(e.getStatusCode(), String.format("Não foi possível buscar doador com o id {%s}.", id.toString()));
         }
     }
 }

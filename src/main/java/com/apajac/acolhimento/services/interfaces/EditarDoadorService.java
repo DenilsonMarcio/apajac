@@ -6,5 +6,5 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public interface EditarDoadorService {
 
-    void editarDoador(DoadorDTO doadorDTO);
+    void editarDoador(Long id, DoadorDTO doadorDTO);
 }

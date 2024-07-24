@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/doador")
-public class  CadastrarDoadorController {
-
+public class CadastrarDoadorController {
 
     private final PersistirDoadorService doadorService;
 

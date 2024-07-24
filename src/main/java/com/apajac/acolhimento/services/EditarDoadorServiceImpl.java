@@ -18,8 +18,8 @@ public class EditarDoadorServiceImpl implements EditarDoadorService {
 
     private final DoadorRepository doadorRepository;
 
-    public void editarDoador(DoadorDTO doadorDTO){
-        Optional<DoadorEntity> doadorEntityOptional = doadorRepository.findById(doadorDTO.getId());
+    public void editarDoador(Long id, DoadorDTO doadorDTO){
+        Optional<DoadorEntity> doadorEntityOptional = doadorRepository.findById(id);
 
         if (doadorEntityOptional.isPresent()) {
             DoadorEntity doadorEntity = doadorEntityOptional.get();
@@ -32,7 +32,7 @@ public class EditarDoadorServiceImpl implements EditarDoadorService {
 
             doadorRepository.save(doadorEntity);
         } else {
-            throw new NotFoundException("Não foi possivel alterar doador.");
+            throw new NotFoundException("Doador não encontrado.");
         }
 
     }

@@ -17,12 +17,12 @@ public class EditarDoadorController {
     private final EditarDoadorService doadorService;
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> atualizarDoador(@RequestBody DoadorDTO doadorDTO) {
+    public ResponseEntity<String> atualizarDoador(@PathVariable("id") Long id, @RequestBody DoadorDTO doadorDTO) {
 
         try {
-            doadorService.editarDoador(doadorDTO);
+            doadorService.editarDoador(id, doadorDTO);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("Doador Alterado com sucesso.");
-        } catch(HttpClientErrorException e){
+        } catch (HttpClientErrorException e) {
             throw new HttpClientErrorException(e.getStatusCode(), "Não foi possível alterar doador.");
         }
 

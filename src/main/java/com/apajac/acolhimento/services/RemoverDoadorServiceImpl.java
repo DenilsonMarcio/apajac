@@ -18,11 +18,11 @@ public class RemoverDoadorServiceImpl implements RemoverDoadorService {
 
     @Override
     public void remover(Long id) {
-        Optional<DoadorEntity> doadorEntity = doadorRepository.findById(id);
-        if (doadorEntity.isEmpty())
+        Optional<DoadorEntity> optionalDoador = doadorRepository.findById(id);
+        if (optionalDoador.isEmpty())
         {
             throw new NotFoundException("Doador não encontrado.");
         }
-        doadorRepository.delete(doadorEntity.get());
+        doadorRepository.delete(optionalDoador.get());
     }
 }

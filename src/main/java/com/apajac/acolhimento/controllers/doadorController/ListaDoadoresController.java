@@ -31,8 +31,7 @@ public class ListaDoadoresController {
             Page<DoadorEntity> doadorEntities = consultarDoadorService.listarDoadoresPage(pageable);
             Page<DoadorDTO> doadorDTOS = doadorEntities.map(doadorMapper::mapEntityToDTO);
             return ResponseEntity.status(HttpStatus.OK).body(doadorDTOS);
-        }catch (HttpClientErrorException e)
-        {
+        } catch (HttpClientErrorException e) {
             throw new HttpClientErrorException(e.getStatusCode(), "Não foi possivel listar doadores.");
         }
     }

@@ -1,6 +1,5 @@
 package com.apajac.acolhimento.services;
 
-import com.apajac.acolhimento.domain.dtos.DoadorDTO;
 import com.apajac.acolhimento.domain.entities.DoadorEntity;
 import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.DoadorRepository;
@@ -9,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service

@@ -16,11 +16,11 @@ public class RemoverDoadorController {
     private final RemoverDoadorService removerDoadorService;
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> removerDoador(@PathVariable Long id) {
+    public ResponseEntity<String> removerDoador(@PathVariable("id") Long id) {
         try
         {
             removerDoadorService.remover(id);
-            return ResponseEntity.status(HttpStatus.GONE).body("Doador removido com sucesso.");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Doador removido com sucesso.");
         } catch (HttpClientErrorException e)
         {
             return ResponseEntity.status(e.getStatusCode()).body(String.format("Não foi possível remover doador com o id {%s}.",id));
