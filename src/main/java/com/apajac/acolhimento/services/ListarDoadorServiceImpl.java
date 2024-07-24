@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ListarDoadorServiceImpl implements ListarDoadorService
-{
+public class ListarDoadorServiceImpl implements ListarDoadorService {
 
     private final DoadorRepository doadorRepository;
 
     @Override
-    public Page<DoadorEntity> listarDoadores(Pageable pageable)
-    {
+    public Page<DoadorEntity> listarDoadores(Pageable pageable) {
         return doadorRepository.findAll(pageable);
     }
 }

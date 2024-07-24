@@ -12,17 +12,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class BuscaDoadorServiceImpl implements BuscaDoadorService
-{
+public class BuscaDoadorServiceImpl implements BuscaDoadorService {
 
     private final DoadorRepository doadorRepository;
 
     @Override
-    public DoadorEntity buscarDoadorPorId(Long id)
-    {
+    public DoadorEntity buscarDoadorPorId(Long id) {
         Optional<DoadorEntity> doadorOpt = doadorRepository.findById(id);
-        if (doadorOpt.isEmpty())
-        {
+        if (doadorOpt.isEmpty()) {
             throw new NotFoundException("Doador não encontrado.");
         }
         return doadorOpt.get();

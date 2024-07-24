@@ -21,15 +21,13 @@ public class BuscarDoadorPorIDController {
     private final DoadorMapper doadorMapper;
 
     @GetMapping("/{id}")
-    ResponseEntity<DoadorDTO> buscarDoador(@PathVariable Long id){
-            try
-            {
-                DoadorEntity doador = buscaDoadorService.buscarDoadorPorId(id);
-                DoadorDTO doadorDTO = doadorMapper.convertEntityToDto(doador);
-                return ResponseEntity.status(HttpStatus.OK).body(doadorDTO);
-            } catch (HttpClientErrorException e)
-            {
-                throw new HttpClientErrorException(e.getStatusCode(), String.format("Não foi possível buscar doador com o id {%s}.",id.toString()));
-            }
+    ResponseEntity<DoadorDTO> buscarDoador(@PathVariable Long id) {
+        try {
+            DoadorEntity doador = buscaDoadorService.buscarDoadorPorId(id);
+            DoadorDTO doadorDTO = doadorMapper.convertEntityToDto(doador);
+            return ResponseEntity.status(HttpStatus.OK).body(doadorDTO);
+        } catch (HttpClientErrorException e) {
+            throw new HttpClientErrorException(e.getStatusCode(), String.format("Não foi possível buscar doador com o id {%s}.", id.toString()));
+        }
     }
 }

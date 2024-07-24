@@ -24,13 +24,11 @@ public class ListarDoadoresController {
     private final ListarDoadorService doadoresService;
 
     @GetMapping
-    ResponseEntity<List<DoadorEntity>> listarDoadores(Pageable pageable){
-        try
-        {
+    ResponseEntity<List<DoadorEntity>> listarDoadores(Pageable pageable) {
+        try {
             Page<DoadorEntity> entities = doadoresService.listarDoadores(pageable);
             return ResponseEntity.status(HttpStatus.OK).body(entities.getContent());
-        } catch (HttpClientErrorException e)
-        {
+        } catch (HttpClientErrorException e) {
             throw new HttpClientErrorException(e.getStatusCode(), "Não foi possível listar doadores.");
         }
     }

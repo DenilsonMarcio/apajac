@@ -12,19 +12,16 @@ import org.springframework.web.client.HttpClientErrorException;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/doador")
-public class CadastrarDoadorController
-{
+public class CadastrarDoadorController {
     private final CriarDoadorService criarDoadorService;
 
     @PostMapping
     public ResponseEntity<String> createDoador(@RequestBody DoadorDTO doadorDTO) {
-        try
-        {
+        try {
             criarDoadorService.createDoador(doadorDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body("Doador cadastrado com sucesso.");
-        } catch(HttpClientErrorException e)
-        {
-            throw new HttpClientErrorException(e.getStatusCode(),"Não foi possível cadastrar doador.");
+        } catch (HttpClientErrorException e) {
+            throw new HttpClientErrorException(e.getStatusCode(), "Não foi possível cadastrar doador.");
         }
     }
 }

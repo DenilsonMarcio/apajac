@@ -11,14 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class CriarDoadorServiceImpl implements CriarDoadorService
-{
+public class CriarDoadorServiceImpl implements CriarDoadorService {
 
     private final DoadorRepository doadorRepository;
 
-@Override
-    public void createDoador(DoadorDTO doadorDTO)
-    {
+    @Override
+    public void createDoador(DoadorDTO doadorDTO) {
         DoadorEntity doadorEntity = new DoadorEntity();
         doadorEntity.setNome(doadorDTO.getNome());
         doadorEntity.setDocumento(doadorDTO.getDocumento());

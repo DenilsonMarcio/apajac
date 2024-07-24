@@ -8,13 +8,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class DoadorMapper
-{
+public class DoadorMapper {
 
     private final ModelMapper mapper;
 
-    public DoadorDTO convertEntityToDto(DoadorEntity Doador)
-    {
+    public DoadorDTO convertEntityToDto(DoadorEntity Doador) {
         return mapper.map(Doador, DoadorDTO.class);
     }
 }

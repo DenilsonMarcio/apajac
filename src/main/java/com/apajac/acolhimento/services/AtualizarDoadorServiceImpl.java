@@ -14,18 +14,15 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class AtualizarDoadorServiceImpl implements AtualizarDoadorService
-{
+public class AtualizarDoadorServiceImpl implements AtualizarDoadorService {
 
     private final DoadorRepository doadorRepository;
 
     @Override
-    public void updateDoador(Long ID, DoadorDTO doadorDTO)
-    {
-        Optional<DoadorEntity> optionalDoador = doadorRepository.findById(ID);
-        if (optionalDoador.isEmpty())
-        {
-            throw new NotFoundException("Não foi possível alterar o Doador.");
+    public void updateDoador(Long id, DoadorDTO doadorDTO) {
+        Optional<DoadorEntity> optionalDoador = doadorRepository.findById(id);
+        if (optionalDoador.isEmpty()) {
+            throw new NotFoundException("Doador não encontrado.");
         }
         DoadorEntity entity = optionalDoador.get();
         entity.setNome(doadorDTO.getNome());

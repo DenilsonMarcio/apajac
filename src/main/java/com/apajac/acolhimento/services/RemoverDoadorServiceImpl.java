@@ -13,17 +13,14 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class RemoverDoadorServiceImpl implements RemoverDoadorService
-{
+public class RemoverDoadorServiceImpl implements RemoverDoadorService {
 
     private final DoadorRepository doadorRepository;
 
     @Override
-    public void removerDoador(Long id)
-    {
+    public void removerDoador(Long id) {
         Optional<DoadorEntity> doador = doadorRepository.findById(id);
-        if (doador.isEmpty())
-        {
+        if (doador.isEmpty()) {
             throw new NotFoundException("Doador não encontrado.");
         }
         doadorRepository.delete(doador.get());
