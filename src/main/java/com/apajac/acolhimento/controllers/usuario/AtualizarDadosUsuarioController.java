@@ -19,5 +19,4 @@ public class AtualizarDadosUsuarioController {
         atualizarDadosUsuarioService.updateDadosUsuario(id, usuarioDTO);
         return new ResponseEntity<>("Status alterado com sucesso!", HttpStatus.NO_CONTENT);
     }
-
 }

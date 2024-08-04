@@ -20,7 +20,7 @@ public class BuscarAssistidoPorIdController {
 
     private final AssistidoMapper assistidoMapper;
     @GetMapping("/por_id/{id}")
-    ResponseEntity<AssistidoDTO> buscarAssistido(@PathVariable("id") Long id){
+    public ResponseEntity<AssistidoDTO> buscarAssistido(@PathVariable("id") Long id){
         try {
             AssistidoEntity assistido = assistidoService.buscarAssistidoPorId(id);
 
