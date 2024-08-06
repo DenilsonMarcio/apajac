@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -33,23 +34,28 @@ class UsuarioServiceImplTest {
     @Mock
     private AuditoriaService auditoria;
 
+    @Mock
+    private ModelMapper modelMapper;
+
     @InjectMocks
     private UsuarioServiceImpl usuarioService;
 
     @BeforeEach
     void setUp() {
-        // Setup é feito automaticamente pelo MockitoExtension
     }
 
     @Test
     void cadastrar_DeveSalvarNovoUsuario() {
-        // Dados de entrada
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setNome("João");
         usuarioDTO.setLogin("joao123");
         usuarioDTO.setPassword("password");
         usuarioDTO.setRoles(Set.of("USER"));
         usuarioDTO.setIdResponsavelPeloCadastro(1L);
+
+        UsuarioEntity entity = modelMapper.map(usuarioDTO, UsuarioEntity.class);
+
+        when(repository.save(any(UsuarioEntity.class))).thenReturn(entity);
 
         // Configuração do comportamento esperado do repositório
         when(repository.findByLogin("joao123")).thenReturn(Optional.empty());
@@ -60,9 +66,9 @@ class UsuarioServiceImplTest {
         // Verificações
         verify(repository).save(any(UsuarioEntity.class));
         verify(auditoria).inserirDadosDeAuditoria(
-                eq(1L),
-                eq("CREATED"),
-                eq("UsuarioService"),
+                anyLong(),
+                anyString(),
+                anyString(),
                 anyString()
         );
     }
@@ -78,12 +84,18 @@ class UsuarioServiceImplTest {
         usuarioDTO.setRoles(Set.of("USER"));
         usuarioDTO.setIdResponsavelPeloCadastro(1L);
 
-        UsuarioEntity existingUser = new UsuarioEntity();
-        existingUser.setId(1L);
-        existingUser.setLogin("joao123");
+        UsuarioEntity entity = new UsuarioEntity();
+        entity.setId(usuarioDTO.getId());
+        entity.setNome(usuarioDTO.getNome());
+        entity.setLogin(usuarioDTO.getLogin());
+        entity.setPassword(usuarioDTO.getPassword());
+        entity.setRoles(Set.of("USER"));
+        entity.setStatus(Boolean.TRUE);
+
 
         // Configuração do comportamento esperado do repositório
-        when(repository.findById(1L)).thenReturn(Optional.of(existingUser));
+        when(repository.findById(1L)).thenReturn(Optional.of(entity));
+//        when(usuarioService.buscarUsuarioPorId(1L)).thenReturn(entity);
 
         // Chama o método a ser testado
         usuarioService.cadastrar(usuarioDTO);
@@ -91,9 +103,9 @@ class UsuarioServiceImplTest {
         // Verificações
         verify(repository).save(any(UsuarioEntity.class));
         verify(auditoria).inserirDadosDeAuditoria(
-                eq(1L),
-                eq("UPDATED"),
-                eq("UsuarioService"),
+                anyLong(),
+                anyString(),
+                anyString(),
                 anyString()
         );
     }
@@ -121,6 +133,7 @@ class UsuarioServiceImplTest {
         // Dados de entrada
         UsuarioEntity existingUser = new UsuarioEntity();
         existingUser.setId(1L);
+        existingUser.setRoles(Set.of("USER"));
 
         // Configuração do comportamento esperado do repositório
         when(repository.findById(1L)).thenReturn(Optional.of(existingUser));

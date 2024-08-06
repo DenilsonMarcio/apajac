@@ -86,7 +86,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     public void validDTO(UsuarioDTO usuario) {
         if (isNull(usuario)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("O DTO do usuário não pode ser nulo.");
         }
     }
 
