@@ -57,7 +57,7 @@ public class AtualizarStatusUsuarioServiceImpl implements AtualizarStatusUsuario
         auditoria.inserirDadosDeAuditoria(
                 idResponsavel,
                 AuditoriaEnum.UPDATED.getValues(),
-                AtualizarStatusAssistidoService.class.getSimpleName(),
+                AtualizarStatusUsuarioService.class.getSimpleName(),
                 body);
     }
 

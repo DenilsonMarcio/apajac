@@ -25,7 +25,7 @@ public class ListaAssistidosPorNomeController {
 
     private final AssistidoMapper assistidoMapper;
     @GetMapping("/{nome}")
-    ResponseEntity<ListaAssistidoDTO> buscarAssistidosPorNome(@PathVariable("nome") String nome, Pageable pageable){
+    public ResponseEntity<ListaAssistidoDTO> buscarAssistidosPorNome(@PathVariable("nome") String nome, Pageable pageable){
         try {
             ListaAssistidoDTO assistidoResponse = new ListaAssistidoDTO();
             Page<AssistidoEntity> assistidos = assistidoService.buscarAssistidosPorNome(nome, pageable);

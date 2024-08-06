@@ -25,7 +25,7 @@ public class BuscaUsuariosPorNomeController {
 
     private final UsuarioMapper usuarioMapper;
     @GetMapping("/{nome}")
-    ResponseEntity<ListaUsuarioDTO> buscarUsuariosPorNome(@PathVariable("nome") String nome, Pageable pageable){
+    public ResponseEntity<ListaUsuarioDTO> buscarUsuariosPorNome(@PathVariable("nome") String nome, Pageable pageable){
         try {
             ListaUsuarioDTO usuarioResponse = new ListaUsuarioDTO();
             Page<UsuarioEntity> entities = usuarioService.buscarUsuariosPorNome(nome, pageable);

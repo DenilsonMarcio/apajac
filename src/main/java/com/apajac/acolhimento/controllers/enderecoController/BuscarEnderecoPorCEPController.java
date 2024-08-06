@@ -18,7 +18,7 @@ public class BuscarEnderecoPorCEPController {
 
     private final EnderecoIntegration integration;
     @GetMapping("/{cep}")
-    ResponseEntity<EnderecoDTO> buscarEndereco(@PathVariable("cep") String cep){
+    public ResponseEntity<EnderecoDTO> buscarEndereco(@PathVariable("cep") String cep){
         try {
             EnderecoDTO enderecoDTO = integration.enderecoPorCep(cep);
             return ResponseEntity.status(HttpStatus.OK).body(enderecoDTO);
@@ -28,7 +28,7 @@ public class BuscarEnderecoPorCEPController {
     }
 
     @GetMapping("/{uf}/{cidade}/{logradouro}")
-    ResponseEntity<List<EnderecoDTO>> buscarEnderecoPorUfCidadeELogradouro(
+    public ResponseEntity<List<EnderecoDTO>> buscarEnderecoPorUfCidadeELogradouro(
             @PathVariable("uf") String uf,
             @PathVariable("cidade") String cidade,
             @PathVariable("logradouro") String logradouro

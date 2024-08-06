@@ -28,7 +28,7 @@ public class ListarAssistidosController {
 
     private final AssistidoMapper assistidoMapper;
     @GetMapping
-    ResponseEntity<ListaAssistidoDTO> listarAssistidos(Pageable pageable){
+    public ResponseEntity<ListaAssistidoDTO> listarAssistidos(Pageable pageable){
         try {
             ListaAssistidoDTO assistidoResponse = new ListaAssistidoDTO();
             Page<AssistidoEntity> entities = assistidoService.listarAssistidos(pageable);

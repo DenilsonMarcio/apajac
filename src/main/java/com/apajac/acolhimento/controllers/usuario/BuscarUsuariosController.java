@@ -27,7 +27,7 @@ public class BuscarUsuariosController {
     private final UsuarioService usuarioService;
     private final UsuarioMapper usuarioMapper;
     @GetMapping
-    ResponseEntity<ListaUsuarioDTO> listarUsuarios(Pageable pageable){
+    public ResponseEntity<ListaUsuarioDTO> listarUsuarios(Pageable pageable){
         try {
             ListaUsuarioDTO usuarioResponse = new ListaUsuarioDTO();
             Page<UsuarioEntity> entities = usuarioService.listarUsuarios(pageable);

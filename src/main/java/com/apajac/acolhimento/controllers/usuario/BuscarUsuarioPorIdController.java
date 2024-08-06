@@ -19,7 +19,7 @@ public class BuscarUsuarioPorIdController {
     private final UsuarioService usuarioService;
     private final UsuarioMapper usuarioMapper;
     @GetMapping("/por_id/{id}")
-    ResponseEntity<UsuarioSemSenhaDTO> buscarUsuario(@PathVariable("id") Long id){
+    public ResponseEntity<UsuarioSemSenhaDTO> buscarUsuario(@PathVariable("id") Long id){
         try {
             UsuarioEntity usuario = usuarioService.buscarUsuarioPorId(id);
 

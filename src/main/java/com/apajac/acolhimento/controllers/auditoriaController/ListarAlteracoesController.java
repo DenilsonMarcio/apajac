@@ -22,7 +22,7 @@ public class ListarAlteracoesController {
     private final AuditoriaService auditoriaService;
 
     @GetMapping
-    ResponseEntity<Page<AuditoriaEntity>> listarHistoricoDeAlteracoes(Pageable pageable){
+    public ResponseEntity<Page<AuditoriaEntity>> listarHistoricoDeAlteracoes(Pageable pageable){
         try {
             Page<AuditoriaEntity> entities = auditoriaService.listarHistoricoDeAlteracoes(pageable);
             return ResponseEntity.status(HttpStatus.OK).body(entities);
