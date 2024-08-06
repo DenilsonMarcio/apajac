@@ -84,7 +84,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
-    private void validDTO(UsuarioDTO usuario) {
+    public void validDTO(UsuarioDTO usuario) {
         if (isNull(usuario)) {
             throw new IllegalArgumentException();
         }
