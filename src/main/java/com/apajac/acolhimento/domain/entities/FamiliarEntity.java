@@ -20,16 +20,16 @@ public class FamiliarEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String nome;
+    private String nome= "Nada Informado";
 
     @OneToMany(mappedBy = "familiar", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<ContatoEntity> contatos;
 
-    private String ocupacao;
-    private String localTrabalho;
-    private BigDecimal salario;
-    private String vinculoEmpregaticio;
+    private String ocupacao= "Nada Informado";
+    private String localTrabalho= "Nada Informado";
+    private BigDecimal salario = new BigDecimal(0);
+    private String vinculoEmpregaticio = "Nada Informado";
 
     @Enumerated(EnumType.STRING)
     private TipoParentesco tipoParentesco;
