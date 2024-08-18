@@ -1,7 +1,6 @@
 package com.apajac.acolhimento.domain.dtos;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @AllArgsConstructor

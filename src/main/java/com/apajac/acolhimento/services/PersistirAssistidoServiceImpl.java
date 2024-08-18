@@ -12,7 +12,6 @@ import com.apajac.acolhimento.services.interfaces.PersistirAssistidoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +76,7 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
         assistidoEntity.setEscola(assistidoDTO.getEscola());
         assistidoEntity.setTelEscola(assistidoDTO.getTelEscola());
         assistidoEntity.setCadastroInstituicao(assistidoDTO.isCadastroInstituicao());
-        if(assistidoEntity.isCadastroInstituicao() == true) {
+        if(assistidoEntity.isCadastroInstituicao()) {
             if(assistidoDTO.getInstituicao() == null || assistidoDTO.getInstituicao().isEmpty()){
                 throw new BusinessException("O campo 'instituicao' em Assistido, é obrigatorio");
             }
@@ -141,10 +140,6 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
         auditar(familiares.toString(),
                 assistido.getIdResponsavelPeloCadastro(),
                 AuditoriaEnum.CREATED.getValues());
-    }
-
-    private void validateAndPersist() {
-
     }
 
     private void persistirContatos(FamiliarDTO familiarDTO, FamiliarEntity familiar) {
@@ -244,7 +239,7 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
         entity.setEscola(assistidoDTO.getEscola());
         entity.setTelEscola(assistidoDTO.getTelEscola());
         entity.setCadastroInstituicao(assistidoDTO.isCadastroInstituicao());
-        if(entity.isCadastroInstituicao() == true) {
+        if(entity.isCadastroInstituicao()) {
             if(assistidoDTO.getInstituicao() == null || assistidoDTO.getInstituicao().isEmpty()){
                 throw new BusinessException("O campo 'instituicao' em Assistido, é obrigatorio");
             }

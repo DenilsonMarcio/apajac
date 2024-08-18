@@ -22,6 +22,7 @@ public class EnderecoIntegration {
     private static final String UF = "SP";
 
     private final RestTemplate restTemplate;
+
     public EnderecoDTO enderecoPorCep(String cep){
         return getEnderecoDTOPorCep(cep);
     }

@@ -5,6 +5,7 @@ import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.exceptions.PermissionException;
 import com.apajac.acolhimento.exceptions.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -77,6 +78,13 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         Map<String, String> body = new HashMap<>();
         body.put(MESSAGE, ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(value = {BadRequestException.class})
+    public ResponseEntity<Object> tratarBadRequestException(final BadRequestException ex) {
+        Map<String, String> body = new HashMap<>();
+        body.put(MESSAGE, ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
