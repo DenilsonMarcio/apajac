@@ -82,8 +82,7 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
             }
         }
         assistidoEntity.setInstituicao(assistidoDTO.getInstituicao());
-        if (assistidoDTO.getEncaminhadoPara()!=null)
-        {assistidoEntity.setEncaminhadoPara(assistidoDTO.getEncaminhadoPara());}
+        assistidoEntity.setEncaminhadoPara(assistidoDTO.getEncaminhadoPara());
         assistidoEntity.setQuemIndicouApajac(assistidoDTO.getQuemIndicouApajac());
         assistidoEntity.setInformacoesFornecidasPor(assistidoDTO.getInformacoesFornecidasPor());
         assistidoEntity.setEndereco(getEndereco(assistidoDTO.getEndereco()));
@@ -127,26 +126,11 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
             }
 
             FamiliarEntity familiarEntity = new FamiliarEntity();
-            if (familiarDTO.getTipoParentesco().equals("PAI")){
-                if (familiarDTO.getNome()!=null){
-                    familiarEntity.setNome(familiarDTO.getNome());}
-                if (familiarDTO.getOcupacao()!=null){
-                    familiarEntity.setOcupacao(familiarDTO.getOcupacao());}
-                if (familiarDTO.getLocalTrabalho()!=null){
-                    familiarEntity.setLocalTrabalho(familiarDTO.getLocalTrabalho());}
-                if (familiarDTO.getSalario()!=null){
-                    familiarEntity.setSalario(familiarDTO.getSalario());}
-                if (familiarDTO.getVinculoEmpregaticio()!=null){
-                    familiarEntity.setVinculoEmpregaticio(familiarDTO.getVinculoEmpregaticio());}
-            }
-            else{
-                familiarEntity.setNome(familiarDTO.getNome());
-                familiarEntity.setOcupacao(familiarDTO.getOcupacao());
-                familiarEntity.setLocalTrabalho(familiarDTO.getLocalTrabalho());
-                familiarEntity.setSalario(familiarDTO.getSalario());
-                if (familiarDTO.getVinculoEmpregaticio()!=null && familiarDTO.getTipoParentesco().equals("MAE")){
-                    familiarEntity.setVinculoEmpregaticio(familiarDTO.getVinculoEmpregaticio());}
-            }
+            familiarEntity.setNome(familiarDTO.getNome());
+            familiarEntity.setOcupacao(familiarDTO.getOcupacao());
+            familiarEntity.setLocalTrabalho(familiarDTO.getLocalTrabalho());
+            familiarEntity.setSalario(familiarDTO.getSalario());
+            familiarEntity.setVinculoEmpregaticio(familiarDTO.getVinculoEmpregaticio());
             familiarEntity.setTipoParentesco(TipoParentesco.valueOf(familiarDTO.getTipoParentesco()));
             familiarEntity.setAssistido(assistido);
             FamiliarEntity familiar = familiarRepository.save(familiarEntity);
@@ -307,26 +291,11 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
             }
 
             FamiliarEntity familiarEntity = new FamiliarEntity();
-            if (familiarDTO.getTipoParentesco().equals("PAI")){
-                if (familiarDTO.getNome()!=null){
-                    familiarEntity.setNome(familiarDTO.getNome());}
-                if (familiarDTO.getOcupacao()!=null){
-                    familiarEntity.setOcupacao(familiarDTO.getOcupacao());}
-                if (familiarDTO.getLocalTrabalho()!=null){
-                    familiarEntity.setLocalTrabalho(familiarDTO.getLocalTrabalho());}
-                if (familiarDTO.getSalario()!=null){
-                    familiarEntity.setSalario(familiarDTO.getSalario());}
-                if (familiarDTO.getVinculoEmpregaticio()!=null){
-                    familiarEntity.setVinculoEmpregaticio(familiarDTO.getVinculoEmpregaticio());}
-            }
-            else{
-                familiarEntity.setNome(familiarDTO.getNome());
-                familiarEntity.setOcupacao(familiarDTO.getOcupacao());
-                familiarEntity.setLocalTrabalho(familiarDTO.getLocalTrabalho());
-                familiarEntity.setSalario(familiarDTO.getSalario());
-                if (familiarDTO.getVinculoEmpregaticio()!=null && familiarDTO.getTipoParentesco().equals("MAE")){
-                    familiarEntity.setVinculoEmpregaticio(familiarDTO.getVinculoEmpregaticio());}
-            }
+            familiarEntity.setNome(familiarDTO.getNome());
+            familiarEntity.setOcupacao(familiarDTO.getOcupacao());
+            familiarEntity.setLocalTrabalho(familiarDTO.getLocalTrabalho());
+            familiarEntity.setSalario(familiarDTO.getSalario());
+            familiarEntity.setVinculoEmpregaticio(familiarDTO.getVinculoEmpregaticio());
             familiarEntity.setTipoParentesco(TipoParentesco.valueOf(familiarDTO.getTipoParentesco()));
             familiarEntity.setAssistido(assistido);
             FamiliarEntity familiar = familiarRepository.save(familiarEntity);

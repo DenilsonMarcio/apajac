@@ -26,7 +26,7 @@ public class AssistidoEntity {
     private String telEscola;
     private boolean cadastroInstituicao;
     private String instituicao;
-    private String encaminhadoPara = "Nada Informado";
+    private String encaminhadoPara;
     private String quemIndicouApajac;
     private String informacoesFornecidasPor;
 
