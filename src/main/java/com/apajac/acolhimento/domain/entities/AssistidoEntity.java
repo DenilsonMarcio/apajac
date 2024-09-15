@@ -52,4 +52,9 @@ public class AssistidoEntity {
     @OneToOne(mappedBy = "assistido", cascade = CascadeType.ALL)
     @ToString.Exclude
     private ResponsavelEntity responsavel;
+
+    @OneToMany(mappedBy = "assistido", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<CarsEntity> cars;
+
 }
