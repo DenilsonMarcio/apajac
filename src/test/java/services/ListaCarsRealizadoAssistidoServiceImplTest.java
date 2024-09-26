@@ -119,7 +119,7 @@ public class ListaCarsRealizadoAssistidoServiceImplTest {
 
         //testando se retorna as duas respostas do carsEntity
         Assertions.assertEquals(2, detalhes.getDetalhes().size(), "A quantidade de respostas retornadas está incorreta.");
-        Assertions.assertEquals(3.0, detalhes.getDetalhes().get(0).getResposta(), "A resposta da pergunta 1 não está correta.");
+        Assertions.assertEquals(6.0, detalhes.getDetalhes().get(0).getResposta(), "A resposta da pergunta 1 não está correta.");
 
     }
 

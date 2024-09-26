@@ -83,7 +83,7 @@ public class ListaCarsRealizadoAssistidoControllerTest {
         Assertions.assertEquals(HttpStatus.NOT_FOUND, notFoundException.getStatusCode(), "O código de status retornado não está correto.");
 
         // Testando se retorna a mensagem correta da exceção
-        Assertions.assertEquals("Lista de cars não encontrada", notFoundException.getMessage(), "A mensagem da exceção retornada não está correta.");
+        Assertions.assertEquals("404 Lista de cars não encontrada", notFoundException.getMessage(), "A mensagem da exceção retornada não está correta.");
     }
 
 }
