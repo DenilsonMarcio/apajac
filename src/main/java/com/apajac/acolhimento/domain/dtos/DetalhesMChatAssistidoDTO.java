@@ -10,9 +10,9 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-public class DetalhesCarsAssistidoDTO {
+public class DetalhesMChatAssistidoDTO {
     private String nomeAssistido;
     private LocalDate data;
-    private Double pontuacao;
-    private List<RespostaCarsDTO> detalhes;
+    private Boolean pea;
+    private List<RespostaMChatDTO> detalhes;
 }
