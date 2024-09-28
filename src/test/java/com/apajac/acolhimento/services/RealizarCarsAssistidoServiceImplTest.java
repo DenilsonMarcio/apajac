@@ -16,7 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.TestPropertySource;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -87,7 +86,7 @@ class RealizarCarsAssistidoServiceImplTest {
     //Gerador dinâmico de DTO do CARS
     private CarsDTO createCarsDTO() {
         CarsDTO carsDTO = new CarsDTO();
-        List<RespostaCarsDTO> respostaCarsDTOS = new ArrayList<RespostaCarsDTO>();
+        List<RespostaCarsDTO> respostaCarsDTOS = new ArrayList<>();
         carsDTO.setId(1L);
         carsDTO.setPontuacao(0D);
         for (int i = 1; i <= 15; i++) {
