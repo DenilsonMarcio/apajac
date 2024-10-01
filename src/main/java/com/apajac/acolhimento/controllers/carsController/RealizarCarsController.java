@@ -19,7 +19,7 @@ public class RealizarCarsController {
     private final RealizarCarsAssistidoService realizarCarsAssistidoService;
 
     @PostMapping
-    private ResponseEntity<String> realizarCarsAssistido(@Valid @RequestBody CarsDTO carsDTO) {
+    public ResponseEntity<String> realizarCarsAssistido(@Valid @RequestBody CarsDTO carsDTO) {
         try {
             realizarCarsAssistidoService.realizarCarsAssistido(carsDTO);
             return new ResponseEntity<>("Cars realizado com sucesso.",HttpStatus.CREATED);

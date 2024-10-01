@@ -18,7 +18,7 @@ public class RealizarMChatController {
     private final RealizarMChatAssistidoService realizarMChatAssistidoService;
 
     @PostMapping
-    private ResponseEntity<String> realizarMChatAssistido(@Valid @RequestBody MChatDTO mChatDTO) {
+    public ResponseEntity<String> realizarMChatAssistido(@Valid @RequestBody MChatDTO mChatDTO) {
         try {
             realizarMChatAssistidoService.realizarMChatAssistido(mChatDTO);
             return new ResponseEntity<>("M-Chat realizado com sucesso.", HttpStatus.CREATED);
