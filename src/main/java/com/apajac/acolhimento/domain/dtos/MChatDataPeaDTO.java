@@ -3,16 +3,14 @@ package com.apajac.acolhimento.domain.dtos;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
-public class DetalhesCarsAssistidoDTO {
-    private String nomeAssistido;
+public class MChatDataPeaDTO {
+    private Long id;
     private LocalDate data;
-    private Double pontuacao;
-    private List<RespostaCarsDTO> detalhes;
+    private Boolean pea;
 }

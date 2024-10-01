@@ -8,9 +8,9 @@ import com.apajac.acolhimento.domain.entities.AssistidoEntity;
 import com.apajac.acolhimento.domain.entities.CarsEntity;
 import com.apajac.acolhimento.domain.entities.RespostaCarsEntity;
 import com.apajac.acolhimento.exceptions.NotFoundException;
-import com.apajac.acolhimento.repositories.AssistidoRepository;
 import com.apajac.acolhimento.repositories.CarsRepository;
 import com.apajac.acolhimento.services.interfaces.ListarCarsService;
+import com.apajac.acolhimento.utils.AssistidoUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +22,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ListaCarsRealizadoAssistidoServiceImpl implements ListarCarsService {
 
-    private final AssistidoRepository assistidoRepository;
     private final CarsRepository carsRepository;
+    private final AssistidoUtils assistidoUtils;
 
     @Override
     public NomeAssistidoCarsDTO listarCarsPorAssistido(Long id) {
@@ -31,7 +31,7 @@ public class ListaCarsRealizadoAssistidoServiceImpl implements ListarCarsService
         NomeAssistidoCarsDTO response = new NomeAssistidoCarsDTO();
         List<CarsDataPontuacaoDTO> datasCars = new ArrayList<>();
 
-        AssistidoEntity assistido = verificaAssistido(id);
+        AssistidoEntity assistido = assistidoUtils.verificaAssistido(id);
 
         List<CarsEntity> listCars = carsRepository.findByAssistidoId(assistido.getId());
 
@@ -56,6 +56,7 @@ public class ListaCarsRealizadoAssistidoServiceImpl implements ListarCarsService
         List<RespostaCarsDTO> detalhesCars = new ArrayList<>();
 
         CarsEntity cars = verificaCars(id);
+        AssistidoEntity assistido = assistidoUtils.verificaAssistido(cars.getAssistido().getId());
 
         List<RespostaCarsEntity> respostas = cars.getRespostas();
         for (RespostaCarsEntity resp : respostas){
@@ -66,6 +67,7 @@ public class ListaCarsRealizadoAssistidoServiceImpl implements ListarCarsService
             detalhesCars.add(dto);
         }
 
+        response.setNomeAssistido(assistido.getNome());
         response.setData(cars.getRealizadoEm());
         response.setPontuacao(cars.getPontuacao());
         response.setDetalhes(detalhesCars);
@@ -79,13 +81,5 @@ public class ListaCarsRealizadoAssistidoServiceImpl implements ListarCarsService
             throw new NotFoundException("Cars não encontrado!");
         }
         return optionalCars.get();
-    }
-
-    private AssistidoEntity verificaAssistido(Long id) {
-        Optional<AssistidoEntity> optionalAssistido = assistidoRepository.findById(id);
-        if (optionalAssistido.isEmpty()){
-            throw new NotFoundException("Assistido não encontrado!");
-        }
-        return optionalAssistido.get();
     }
 }
