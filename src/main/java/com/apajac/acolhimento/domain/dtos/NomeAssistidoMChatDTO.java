@@ -2,7 +2,6 @@ package com.apajac.acolhimento.domain.dtos;
 
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -10,9 +9,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-public class DetalhesCarsAssistidoDTO {
+public class NomeAssistidoMChatDTO {
     private String nomeAssistido;
-    private LocalDate data;
-    private Double pontuacao;
-    private List<RespostaCarsDTO> detalhes;
+    private List<MChatDataPeaDTO> mchat;
 }
