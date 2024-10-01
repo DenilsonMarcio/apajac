@@ -6,10 +6,10 @@ import com.apajac.acolhimento.domain.entities.AssistidoEntity;
 import com.apajac.acolhimento.domain.entities.CarsEntity;
 import com.apajac.acolhimento.domain.entities.RespostaCarsEntity;
 import com.apajac.acolhimento.exceptions.NotFoundException;
-import com.apajac.acolhimento.repositories.AssistidoRepository;
 import com.apajac.acolhimento.repositories.CarsRepository;
 import com.apajac.acolhimento.services.ListaCarsRealizadoAssistidoServiceImpl;
 
+import com.apajac.acolhimento.utils.AssistidoUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,12 +17,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,7 +34,7 @@ public class ListaCarsRealizadoAssistidoServiceImplTest {
     private CarsRepository carsRepository;
 
     @Mock
-    private AssistidoRepository assistidoRepository;
+    private AssistidoUtils assistidoUtils;
 
     @Test
     void listarCarsPorAssistido_DeveRetornarCarsQuandoExistir() {
@@ -58,7 +56,7 @@ public class ListaCarsRealizadoAssistidoServiceImplTest {
         carsEntity2.setAssistido(assistidoEntity);
 
         // mocando as funcoes
-        when(assistidoRepository.findById(assistidoEntity.getId())).thenReturn(Optional.of(assistidoEntity));
+        when(assistidoUtils.verificaAssistido(assistidoEntity.getId())).thenReturn(assistidoEntity);
         when(carsRepository.findByAssistidoId(assistidoEntity.getId())).thenReturn(Arrays.asList(carsEntity, carsEntity2));
 
         //chamando a funcao
@@ -72,10 +70,10 @@ public class ListaCarsRealizadoAssistidoServiceImplTest {
     }
 
     @Test
-    void llistarCarsPorAssistido_DeveLancarNotFoundExceptionQuandoAssistidoNaoEncontrado() {
+    void listarCarsPorAssistido_DeveLancarNotFoundExceptionQuandoAssistidoNaoEncontrado() {
 
         // mocando a funcão
-        when(assistidoRepository.findById(1L)).thenReturn(Optional.empty());
+        when(assistidoUtils.verificaAssistido(1L)).thenThrow(new NotFoundException("Assistido não encontrado!"));
 
         //chamando a funcao
         NotFoundException exception = assertThrows(NotFoundException.class, () -> {
@@ -113,6 +111,7 @@ public class ListaCarsRealizadoAssistidoServiceImplTest {
 
         // mocando as funcoes
         when(carsRepository.findById(1L)).thenReturn(Optional.of(carsEntity));
+        when(assistidoUtils.verificaAssistido(assistidoEntity.getId())).thenReturn(assistidoEntity);
 
         //chamando a funcao
         DetalhesCarsAssistidoDTO detalhes = listaCarsRealizadoAssistidoServiceImpl.detalhesCarsPorAssistidoEData(carsEntity.getId());

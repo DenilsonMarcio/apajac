@@ -3,9 +3,9 @@ package com.apajac.acolhimento.services;
 import com.apajac.acolhimento.domain.dtos.*;
 import com.apajac.acolhimento.domain.entities.*;
 import com.apajac.acolhimento.exceptions.NotFoundException;
-import com.apajac.acolhimento.repositories.AssistidoRepository;
 import com.apajac.acolhimento.repositories.MChatRepository;
 import com.apajac.acolhimento.services.interfaces.ListarMChatService;
+import com.apajac.acolhimento.utils.AssistidoUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +17,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ListarMChatRealizadoAssistidoServiceImpl implements ListarMChatService {
 
-    private final AssistidoRepository assistidoRepository;
     private final MChatRepository mChatRepository;
+    private final AssistidoUtils assistidoUtils;
 
     @Override
     public NomeAssistidoMChatDTO listarMChatPorAssistido(Long id) {
         NomeAssistidoMChatDTO response = new NomeAssistidoMChatDTO();
         List<MChatDataPeaDTO> datasMChat = new ArrayList<>();
 
-        AssistidoEntity assistido = verificaAssistido(id);
+        AssistidoEntity assistido = assistidoUtils.verificaAssistido(id);
 
         List<MChatEntity> listMChat = mChatRepository.findByAssistidoId(assistido.getId());
 
@@ -49,8 +49,7 @@ public class ListarMChatRealizadoAssistidoServiceImpl implements ListarMChatServ
         List<RespostaMChatDTO> detalhesMChat = new ArrayList<>();
 
         MChatEntity mchat = verificaMChat(id);
-
-        AssistidoEntity assistido = verificaAssistido(mchat.getAssistido().getId());
+        AssistidoEntity assistido = assistidoUtils.verificaAssistido(mchat.getAssistido().getId());
 
         List<RespostaMChatEntity> respostas = mchat.getRespostas();
         for (RespostaMChatEntity resp : respostas){
@@ -74,13 +73,5 @@ public class ListarMChatRealizadoAssistidoServiceImpl implements ListarMChatServ
             throw new NotFoundException("M-Chat não encontrado!");
         }
         return optionalMChat.get();
-    }
-
-    private AssistidoEntity verificaAssistido(Long id) {
-        Optional<AssistidoEntity> optionalAssistido = assistidoRepository.findById(id);
-        if (optionalAssistido.isEmpty()){
-            throw new NotFoundException("Assistido não encontrado!");
-        }
-        return optionalAssistido.get();
     }
 }
