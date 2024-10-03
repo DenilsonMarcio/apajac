@@ -7,7 +7,6 @@ import com.apajac.acolhimento.exceptions.NotFoundException;
 import com.apajac.acolhimento.repositories.UsuarioRepository;
 import com.apajac.acolhimento.services.UsuarioServiceImpl;
 import com.apajac.acolhimento.services.interfaces.AuditoriaService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -39,10 +38,6 @@ class UsuarioServiceImplTest {
 
     @InjectMocks
     private UsuarioServiceImpl usuarioService;
-
-    @BeforeEach
-    void setUp() {
-    }
 
     @Test
     void cadastrar_DeveSalvarNovoUsuario() {
@@ -114,8 +109,11 @@ class UsuarioServiceImplTest {
     void cadastrar_DeveLancarBusinessExceptionQuandoLoginJaExiste() {
         // Dados de entrada
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(null);
+        usuarioDTO.setNome("João");
         usuarioDTO.setLogin("joao123");
+        usuarioDTO.setPassword("password");
+        usuarioDTO.setRoles(Set.of("USER"));
+        usuarioDTO.setIdResponsavelPeloCadastro(1L);
 
         // Configuração do comportamento esperado do repositório
         when(repository.findByLogin("joao123")).thenReturn(Optional.of(new UsuarioEntity()));
@@ -162,10 +160,184 @@ class UsuarioServiceImplTest {
     void validDTO_DeveLancarIllegalArgumentExceptionQuandoDTOForNulo() {
         // Verifica se o método lança a exceção esperada
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                usuarioService.validDTO(null));
+                usuarioService.cadastrar(null));
 
         // Verifica se a exceção contém a mensagem correta
         assertEquals("O DTO do usuário não pode ser nulo.", exception.getMessage());
+    }
+    @Test
+    void validDTO_DeveLancarIllegalArgumentExceptionQuandoNomeForNulo() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(1L);
+        usuarioDTO.setLogin("joao123");
+        usuarioDTO.setPassword("newpassword");
+        usuarioDTO.setRoles(Set.of("USER"));
+        usuarioDTO.setIdResponsavelPeloCadastro(1L);
+
+        // Verifica se o método lança a exceção esperada
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.cadastrar(usuarioDTO));
+
+        // Verifica se a exceção contém a mensagem correta
+        assertEquals("O Nome do usuário não pode ser nulo/vazio.", exception.getMessage());
+    }
+
+    @Test
+    void validDTO_DeveLancarIllegalArgumentExceptionQuandoNomeForVazio() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(1L);
+        usuarioDTO.setNome(" ");
+        usuarioDTO.setLogin("joao123");
+        usuarioDTO.setPassword("newpassword");
+        usuarioDTO.setRoles(Set.of("USER"));
+        usuarioDTO.setIdResponsavelPeloCadastro(1L);
+
+        // Verifica se o método lança a exceção esperada
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.cadastrar(usuarioDTO));
+
+        // Verifica se a exceção contém a mensagem correta
+        assertEquals("O Nome do usuário não pode ser nulo/vazio.", exception.getMessage());
+    }
+
+    @Test
+    void validDTO_DeveLancarIllegalArgumentExceptionQuandoLoginForNulo() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(1L);
+        usuarioDTO.setNome("João");
+        usuarioDTO.setPassword("newpassword");
+        usuarioDTO.setRoles(Set.of("USER"));
+        usuarioDTO.setIdResponsavelPeloCadastro(1L);
+
+        // Verifica se o método lança a exceção esperada
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.cadastrar(usuarioDTO));
+
+        // Verifica se a exceção contém a mensagem correta
+        assertEquals("O Login do usuário não pode ser nulo/vazio.", exception.getMessage());
+    }
+
+    @Test
+    void validDTO_DeveLancarIllegalArgumentExceptionQuandoLoginForVazio() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(1L);
+        usuarioDTO.setNome("João");
+        usuarioDTO.setLogin(" ");
+        usuarioDTO.setPassword("newpassword");
+        usuarioDTO.setRoles(Set.of("USER"));
+        usuarioDTO.setIdResponsavelPeloCadastro(1L);
+
+        // Verifica se o método lança a exceção esperada
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.cadastrar(usuarioDTO));
+
+        // Verifica se a exceção contém a mensagem correta
+        assertEquals("O Login do usuário não pode ser nulo/vazio.", exception.getMessage());
+    }
+
+    @Test
+    void validDTO_DeveLancarIllegalArgumentExceptionQuandoSenhaForNula() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(1L);
+        usuarioDTO.setNome("João");
+        usuarioDTO.setLogin("joao123");
+        usuarioDTO.setRoles(Set.of("USER"));
+        usuarioDTO.setIdResponsavelPeloCadastro(1L);
+
+        // Verifica se o método lança a exceção esperada
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.cadastrar(usuarioDTO));
+
+        // Verifica se a exceção contém a mensagem correta
+        assertEquals("A Senha do usuário não pode ser nula/vazia.", exception.getMessage());
+    }
+
+    @Test
+    void validDTO_DeveLancarIllegalArgumentExceptionQuandoSenhaForVazia() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(1L);
+        usuarioDTO.setNome("João");
+        usuarioDTO.setLogin("joao123");
+        usuarioDTO.setPassword(" ");
+        usuarioDTO.setRoles(Set.of("USER"));
+        usuarioDTO.setIdResponsavelPeloCadastro(1L);
+
+        // Verifica se o método lança a exceção esperada
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.cadastrar(usuarioDTO));
+
+        // Verifica se a exceção contém a mensagem correta
+        assertEquals("A Senha do usuário não pode ser nula/vazia.", exception.getMessage());
+    }
+
+    @Test
+    void validDTO_DeveLancarIllegalArgumentExceptionQuandoSenhaForCurta() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(1L);
+        usuarioDTO.setNome("João");
+        usuarioDTO.setLogin("joao123");
+        usuarioDTO.setPassword("12345");
+        usuarioDTO.setRoles(Set.of("USER"));
+        usuarioDTO.setIdResponsavelPeloCadastro(1L);
+
+        // Verifica se o método lança a exceção esperada
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.cadastrar(usuarioDTO));
+
+        // Verifica se a exceção contém a mensagem correta
+        assertEquals("A Senha do usuário não pode ser menor que 6 dígitos.", exception.getMessage());
+    }
+
+    @Test
+    void validDTO_DeveLancarIllegalArgumentExceptionQuandoPapeisForemNulos() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(1L);
+        usuarioDTO.setNome("João");
+        usuarioDTO.setLogin("joao123");
+        usuarioDTO.setPassword("newpassword");
+        usuarioDTO.setIdResponsavelPeloCadastro(1L);
+
+        // Verifica se o método lança a exceção esperada
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.cadastrar(usuarioDTO));
+
+        // Verifica se a exceção contém a mensagem correta
+        assertEquals("Os Papéis do usuário não podem ser nulos/vazios.", exception.getMessage());
+    }
+
+    @Test
+    void validDTO_DeveLancarIllegalArgumentExceptionQuandoPapeisForemVazios() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(1L);
+        usuarioDTO.setNome("João");
+        usuarioDTO.setLogin("joao123");
+        usuarioDTO.setPassword("newpassword");
+        usuarioDTO.setRoles(Set.of());
+        usuarioDTO.setIdResponsavelPeloCadastro(1L);
+
+        // Verifica se o método lança a exceção esperada
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.cadastrar(usuarioDTO));
+
+        // Verifica se a exceção contém a mensagem correta
+        assertEquals("Os Papéis do usuário não podem ser nulos/vazios.", exception.getMessage());
+    }
+
+    @Test
+    void validDTO_DeveLancarIllegalArgumentExceptionQuandoResponsavelForNulo() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(1L);
+        usuarioDTO.setNome("João");
+        usuarioDTO.setLogin("joao123");
+        usuarioDTO.setPassword("newpassword");
+        usuarioDTO.setRoles(Set.of("USER"));
+
+        // Verifica se o método lança a exceção esperada
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.cadastrar(usuarioDTO));
+
+        // Verifica se a exceção contém a mensagem correta
+        assertEquals("O ID de Responsável não pode ser nulo.", exception.getMessage());
     }
 
     @Test

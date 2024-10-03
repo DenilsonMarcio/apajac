@@ -84,12 +84,24 @@ public class UsuarioServiceImpl implements UsuarioService {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
-    public void validDTO(UsuarioDTO usuario) {
+    private void validDTO(UsuarioDTO usuario) {
         if (isNull(usuario)) {
             throw new IllegalArgumentException("O DTO do usuário não pode ser nulo.");
+        } else if (isNull(usuario.getNome())||usuario.getNome().isBlank()) {
+            throw new IllegalArgumentException("O Nome do usuário não pode ser nulo/vazio.");
+        } else if (isNull(usuario.getRoles())||usuario.getRoles().isEmpty()) {
+            throw new IllegalArgumentException("Os Papéis do usuário não podem ser nulos/vazios.");
+        } else if (isNull(usuario.getLogin())||usuario.getLogin().isBlank()) {
+            throw new IllegalArgumentException("O Login do usuário não pode ser nulo/vazio.");
+        } else if (isNull(usuario.getPassword())||usuario.getPassword().isBlank()) {
+            throw new IllegalArgumentException("A Senha do usuário não pode ser nula/vazia.");
+        }else if (usuario.getPassword().length() < 6) {
+            throw new IllegalArgumentException("A Senha do usuário não pode ser menor que 6 dígitos.");
+        }else if (isNull(usuario.getIdResponsavelPeloCadastro())) {
+            throw new IllegalArgumentException("O ID de Responsável não pode ser nulo.");
         }
-    }
 
+    }
     @Override
     public Page<UsuarioEntity> listarUsuarios(Pageable pageable) {
         return repository.findAll(pageable);
