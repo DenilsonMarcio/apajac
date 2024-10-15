@@ -69,43 +69,6 @@ class UsuarioServiceImplTest {
     }
 
     @Test
-    void cadastrar_DeveAtualizarUsuarioExistente() {
-        // Dados de entrada
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(1L);
-        usuarioDTO.setNome("João Atualizado");
-        usuarioDTO.setLogin("joao123");
-        usuarioDTO.setPassword("newpassword");
-        usuarioDTO.setRoles(Set.of("USER"));
-        usuarioDTO.setIdResponsavelPeloCadastro(1L);
-
-        UsuarioEntity entity = new UsuarioEntity();
-        entity.setId(usuarioDTO.getId());
-        entity.setNome(usuarioDTO.getNome());
-        entity.setLogin(usuarioDTO.getLogin());
-        entity.setPassword(usuarioDTO.getPassword());
-        entity.setRoles(Set.of("USER"));
-        entity.setStatus(Boolean.TRUE);
-
-
-        // Configuração do comportamento esperado do repositório
-        when(repository.findById(1L)).thenReturn(Optional.of(entity));
-//        when(usuarioService.buscarUsuarioPorId(1L)).thenReturn(entity);
-
-        // Chama o método a ser testado
-        usuarioService.cadastrar(usuarioDTO);
-
-        // Verificações
-        verify(repository).save(any(UsuarioEntity.class));
-        verify(auditoria).inserirDadosDeAuditoria(
-                anyLong(),
-                anyString(),
-                anyString(),
-                anyString()
-        );
-    }
-
-    @Test
     void cadastrar_DeveLancarBusinessExceptionQuandoLoginJaExiste() {
         // Dados de entrada
         UsuarioDTO usuarioDTO = new UsuarioDTO();
@@ -168,7 +131,6 @@ class UsuarioServiceImplTest {
     @Test
     void validDTO_DeveLancarIllegalArgumentExceptionQuandoNomeForNulo() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(1L);
         usuarioDTO.setLogin("joao123");
         usuarioDTO.setPassword("newpassword");
         usuarioDTO.setRoles(Set.of("USER"));
@@ -185,7 +147,6 @@ class UsuarioServiceImplTest {
     @Test
     void validDTO_DeveLancarIllegalArgumentExceptionQuandoNomeForVazio() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(1L);
         usuarioDTO.setNome(" ");
         usuarioDTO.setLogin("joao123");
         usuarioDTO.setPassword("newpassword");
@@ -203,7 +164,6 @@ class UsuarioServiceImplTest {
     @Test
     void validDTO_DeveLancarIllegalArgumentExceptionQuandoLoginForNulo() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(1L);
         usuarioDTO.setNome("João");
         usuarioDTO.setPassword("newpassword");
         usuarioDTO.setRoles(Set.of("USER"));
@@ -220,7 +180,6 @@ class UsuarioServiceImplTest {
     @Test
     void validDTO_DeveLancarIllegalArgumentExceptionQuandoLoginForVazio() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(1L);
         usuarioDTO.setNome("João");
         usuarioDTO.setLogin(" ");
         usuarioDTO.setPassword("newpassword");
@@ -238,7 +197,6 @@ class UsuarioServiceImplTest {
     @Test
     void validDTO_DeveLancarIllegalArgumentExceptionQuandoSenhaForNula() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(1L);
         usuarioDTO.setNome("João");
         usuarioDTO.setLogin("joao123");
         usuarioDTO.setRoles(Set.of("USER"));
@@ -255,7 +213,6 @@ class UsuarioServiceImplTest {
     @Test
     void validDTO_DeveLancarIllegalArgumentExceptionQuandoSenhaForVazia() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(1L);
         usuarioDTO.setNome("João");
         usuarioDTO.setLogin("joao123");
         usuarioDTO.setPassword(" ");
@@ -273,7 +230,6 @@ class UsuarioServiceImplTest {
     @Test
     void validDTO_DeveLancarIllegalArgumentExceptionQuandoSenhaForCurta() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(1L);
         usuarioDTO.setNome("João");
         usuarioDTO.setLogin("joao123");
         usuarioDTO.setPassword("12345");
@@ -291,7 +247,6 @@ class UsuarioServiceImplTest {
     @Test
     void validDTO_DeveLancarIllegalArgumentExceptionQuandoPapeisForemNulos() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(1L);
         usuarioDTO.setNome("João");
         usuarioDTO.setLogin("joao123");
         usuarioDTO.setPassword("newpassword");
@@ -308,7 +263,6 @@ class UsuarioServiceImplTest {
     @Test
     void validDTO_DeveLancarIllegalArgumentExceptionQuandoPapeisForemVazios() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(1L);
         usuarioDTO.setNome("João");
         usuarioDTO.setLogin("joao123");
         usuarioDTO.setPassword("newpassword");
@@ -326,7 +280,6 @@ class UsuarioServiceImplTest {
     @Test
     void validDTO_DeveLancarIllegalArgumentExceptionQuandoResponsavelForNulo() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(1L);
         usuarioDTO.setNome("João");
         usuarioDTO.setLogin("joao123");
         usuarioDTO.setPassword("newpassword");
