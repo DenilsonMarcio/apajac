@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -29,6 +28,7 @@ public class AssistidoMapper {
                     .statusAssistido(entity.isStatusAssistido())
                     .responsavel(entity.getResponsavel().getNome())
                     .idade(getIdade(entity.getDataNascimento()))
+                    .genero(entity.getGenero())
                     .build());
         }
 
@@ -44,19 +44,9 @@ public class AssistidoMapper {
 
         if (param.equals("responsavel")) {
             if (sort.equals("DESC")) {
-                Collections.sort(simplificadoDTOS, new Comparator<AssistidoSimplificadoDTO>() {
-                    @Override
-                    public int compare(AssistidoSimplificadoDTO assistido1, AssistidoSimplificadoDTO assistido2) {
-                        return assistido2.getResponsavel().compareTo(assistido1.getResponsavel());
-                    }
-                });
+                simplificadoDTOS.sort((assistido1, assistido2) -> assistido2.getResponsavel().compareTo(assistido1.getResponsavel()));
             } else if (sort.equals("ASC")) {
-                Collections.sort(simplificadoDTOS, new Comparator<AssistidoSimplificadoDTO>() {
-                    @Override
-                    public int compare(AssistidoSimplificadoDTO assistido1, AssistidoSimplificadoDTO assistido2) {
-                        return assistido1.getResponsavel().compareTo(assistido2.getResponsavel());
-                    }
-                });
+                simplificadoDTOS.sort(Comparator.comparing(AssistidoSimplificadoDTO::getResponsavel));
             }
         }
     }

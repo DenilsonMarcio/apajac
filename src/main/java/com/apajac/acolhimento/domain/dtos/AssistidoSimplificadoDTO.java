@@ -11,6 +11,7 @@ public class AssistidoSimplificadoDTO {
     private Long id;
     private String nome;
     private Integer idade;
+    private Character genero;
     private String responsavel;
     private boolean statusAssistido;
 }
