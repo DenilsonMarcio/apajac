@@ -21,6 +21,7 @@ public class AssistidoEntity {
 
     private String nome;
     private LocalDate dataNascimento;
+    private Character genero;
     private String escolaridade;
     private String escola;
     private String telEscola;
