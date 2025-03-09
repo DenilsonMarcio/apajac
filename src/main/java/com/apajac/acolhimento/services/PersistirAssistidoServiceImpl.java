@@ -72,7 +72,7 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
 
         assistidoEntity.setNome(assistidoDTO.getNome());
         assistidoEntity.setDataNascimento(assistidoDTO.getDataNascimento());
-        assistidoEntity.setGenero(assistidoDTO.getGenero());
+        assistidoEntity.setSexo(assistidoDTO.getGenero());
         assistidoEntity.setEscolaridade(assistidoDTO.getEscolaridade());
         assistidoEntity.setEscola(assistidoDTO.getEscola());
         assistidoEntity.setTelEscola(assistidoDTO.getTelEscola());
@@ -236,7 +236,7 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
         entity.setId(assistidoDTO.getId());
         entity.setNome(assistidoDTO.getNome());
         entity.setDataNascimento(assistidoDTO.getDataNascimento());
-        entity.setGenero(assistidoDTO.getGenero());
+        entity.setSexo(assistidoDTO.getGenero());
         entity.setEscolaridade(assistidoDTO.getEscolaridade());
         entity.setEscola(assistidoDTO.getEscola());
         entity.setTelEscola(assistidoDTO.getTelEscola());
