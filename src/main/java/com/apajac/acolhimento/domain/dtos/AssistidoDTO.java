@@ -25,7 +25,7 @@ public class AssistidoDTO {
     @Past(message = "O campo 'data de nascimento' em Assistido, deve ser no passado")
     private LocalDate dataNascimento;
     @NotNull(message = "O campo 'genero' em Assistido, é obrigatorio")
-    private Character genero;
+    private Character sexo;
     @NotBlank(message = "O campo 'escolaridade' em Assistido, é obrigatorio")
     private String escolaridade;
     private String escola;

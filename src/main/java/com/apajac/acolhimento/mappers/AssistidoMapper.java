@@ -28,7 +28,7 @@ public class AssistidoMapper {
                     .statusAssistido(entity.isStatusAssistido())
                     .responsavel(entity.getResponsavel().getNome())
                     .idade(getIdade(entity.getDataNascimento()))
-                    .genero(entity.getSexo())
+                    .sexo(entity.getSexo())
                     .build());
         }
 
