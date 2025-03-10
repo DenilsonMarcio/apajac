@@ -1,5 +1,6 @@
 package com.apajac.acolhimento.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/health")
+@Tag(name = "Info", description = "Endpoint para gerenciamento da saúde da aplicação")
 public class HealthController {
 
     @GetMapping
@@ -27,7 +29,7 @@ public class HealthController {
 
             String message = "Aplicação Apajac rodando em "+zoneId+
                             "\n Data da solicitação " +now.format(formatter)+
-                            "\n Respondendo com sucesso!!!]";
+                            "\n Respondendo com sucesso!!!";
 
             return ResponseEntity.ok(message);
         } catch (Exception exception){

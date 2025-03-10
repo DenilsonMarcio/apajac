@@ -2,6 +2,7 @@ package com.apajac.acolhimento.controllers.usuario;
 
 import com.apajac.acolhimento.domain.dtos.UsuarioDTO;
 import com.apajac.acolhimento.services.interfaces.AtualizarDadosUsuarioService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/usuario")
+@Tag(name = "Usuários", description = "Endpoints para gerenciamento de usuários")
 public class AtualizarDadosUsuarioController {
 
     private final AtualizarDadosUsuarioService atualizarDadosUsuarioService;

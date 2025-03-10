@@ -2,6 +2,7 @@ package com.apajac.acolhimento.controllers.assistidoController;
 
 import com.apajac.acolhimento.domain.dtos.AssistidoDTO;
 import com.apajac.acolhimento.services.interfaces.PersistirAssistidoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import java.util.Objects;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/assistido")
+@Tag(name = "Assistidos", description = "Endpoints para gerenciamento de assistidos")
 public class CadastrarAssistidoController {
 
     private final PersistirAssistidoService assistidoService;

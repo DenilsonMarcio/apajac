@@ -2,6 +2,7 @@ package com.apajac.acolhimento.controllers.carsController;
 
 import com.apajac.acolhimento.domain.dtos.NomeAssistidoCarsDTO;
 import com.apajac.acolhimento.services.interfaces.ListarCarsService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,8 @@ import org.springframework.web.client.HttpClientErrorException;
 @RestController
 @CrossOrigin("*")
 @RequiredArgsConstructor
-@RequestMapping("/cars")
+@RequestMapping("/cars")@Tag(name = "Avaliações", description = "Endpoints para gerenciamento das avaliações")
+
 public class ListaCarsRealizadoAssistidoController {
 
     private final ListarCarsService listarCarsService;

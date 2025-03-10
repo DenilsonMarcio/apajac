@@ -1,6 +1,7 @@
 package com.apajac.acolhimento.controllers.assistidoController;
 
 import com.apajac.acolhimento.services.interfaces.AtualizarStatusAssistidoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/assistido")
+@Tag(name = "Assistidos", description = "Endpoints para gerenciamento de assistidos")
 public class AtualizarStatusAssistidoController {
 
     private final AtualizarStatusAssistidoService statusAssistidoService;

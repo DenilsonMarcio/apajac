@@ -2,6 +2,7 @@ package com.apajac.acolhimento.controllers.auditoriaController;
 
 import com.apajac.acolhimento.domain.entities.AuditoriaEntity;
 import com.apajac.acolhimento.services.interfaces.AuditoriaService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import org.springframework.web.client.HttpClientErrorException;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/lista_auditoria")
+@Tag(name = "Auditória", description = "Endpoints de auditória")
 public class ListarAlteracoesController {
 
     private final AuditoriaService auditoriaService;

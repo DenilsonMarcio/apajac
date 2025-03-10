@@ -5,6 +5,7 @@ import com.apajac.acolhimento.domain.dtos.UsuarioSemSenhaDTO;
 import com.apajac.acolhimento.domain.entities.UsuarioEntity;
 import com.apajac.acolhimento.mappers.UsuarioMapper;
 import com.apajac.acolhimento.services.interfaces.UsuarioService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/lista_usuarios_por_nome")
+@Tag(name = "Usuários", description = "Endpoints para gerenciamento de usuários")
 public class BuscaUsuariosPorNomeController {
 
     private final UsuarioService usuarioService;

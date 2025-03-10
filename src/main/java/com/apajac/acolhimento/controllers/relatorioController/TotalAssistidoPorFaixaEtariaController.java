@@ -2,6 +2,7 @@ package com.apajac.acolhimento.controllers.relatorioController;
 
 import com.apajac.acolhimento.domain.dtos.relatorio.FaixaEtariaDTO;
 import com.apajac.acolhimento.services.interfaces.AssistidoPorFaixaEtariaService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +15,7 @@ import org.springframework.web.client.HttpClientErrorException;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/relatorio")
+@Tag(name = "Relatórios", description = "Endpoints para geração de relatórios")
 public class TotalAssistidoPorFaixaEtariaController {
 
     private final AssistidoPorFaixaEtariaService assistidoPorFaixaEtariaService;
