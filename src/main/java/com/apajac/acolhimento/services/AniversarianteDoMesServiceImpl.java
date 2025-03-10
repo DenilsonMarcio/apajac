@@ -18,12 +18,12 @@ public class AniversarianteDoMesServiceImpl implements AniversarianteDoMesServic
     private final AssistidoRepository assistidoRepository;
 
     @Override
-    public List<AniversarianteDoMesDTO> aniversariantesDoMes() {
+    public List<AniversarianteDoMesDTO> aniversariantesDoMes(Integer mes) {
 
         List<AniversarianteDoMesDTO> aniversariantes = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        List<Tuple> tuples = assistidoRepository.getAniversariantesDoMes();
+        List<Tuple> tuples = assistidoRepository.getAniversariantesDoMes(mes);
 
         for (Tuple tuple : tuples) {
             AniversarianteDoMesDTO dto = new AniversarianteDoMesDTO();

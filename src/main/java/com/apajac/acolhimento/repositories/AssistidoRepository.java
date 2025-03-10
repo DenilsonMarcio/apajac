@@ -30,10 +30,10 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
                 a.data_nascimento,
                 EXTRACT(YEAR FROM AGE(a.data_nascimento)) AS idade
             FROM assistido a
-            WHERE EXTRACT(MONTH FROM a.data_nascimento) = EXTRACT(MONTH FROM CURRENT_DATE)
-            ORDER by a.data_nascimento
+            WHERE EXTRACT(MONTH FROM a.data_nascimento) = :mes
+            ORDER BY EXTRACT(DAY FROM a.data_nascimento);
             """)
-    List<Tuple> getAniversariantesDoMes();
+    List<Tuple> getAniversariantesDoMes(Integer mes);
 
     @Query(nativeQuery = true, value = """
             SELECT
@@ -54,4 +54,36 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
             ORDER BY idade ASC
             """)
     List<Tuple> totalAssistidosPorIdade();
+
+    @Query(nativeQuery = true, value = """
+            SELECT
+                EXTRACT(MONTH FROM a.cadastrado_em) AS mes,
+            	EXTRACT(YEAR FROM a.cadastrado_em) AS ano,
+                COUNT(*) AS quantidade_cadastrados
+            FROM assistido a
+            GROUP BY ano, mes
+            ORDER BY ano, mes;
+            """)
+    List<Tuple> getCadastradosMensal();
+
+    @Query(nativeQuery = true, value = """
+             SELECT
+                CASE
+                    WHEN EXTRACT(YEAR FROM AGE(CURRENT_DATE, a.data_nascimento)) BETWEEN 0 AND 4 THEN '0-4 anos'
+                    WHEN EXTRACT(YEAR FROM AGE(CURRENT_DATE, a.data_nascimento)) BETWEEN 5 AND 9 THEN '5-9 anos'
+                    WHEN EXTRACT(YEAR FROM AGE(CURRENT_DATE, a.data_nascimento)) BETWEEN 10 AND 14 THEN '10-14 anos'
+                    WHEN EXTRACT(YEAR FROM AGE(CURRENT_DATE, a.data_nascimento)) BETWEEN 15 AND 19 THEN '15-19 anos'
+                    WHEN EXTRACT(YEAR FROM AGE(CURRENT_DATE, a.data_nascimento)) BETWEEN 20 AND 24 THEN '20-24 anos'
+                    WHEN EXTRACT(YEAR FROM AGE(CURRENT_DATE, a.data_nascimento)) BETWEEN 25 AND 29 THEN '25-29 anos'
+                    WHEN EXTRACT(YEAR FROM AGE(CURRENT_DATE, a.data_nascimento)) BETWEEN 30 AND 34 THEN '30-34 anos'
+                    WHEN EXTRACT(YEAR FROM AGE(CURRENT_DATE, a.data_nascimento)) BETWEEN 35 AND 39 THEN '35-39 anos'
+                    ELSE '40+'
+                END AS faixa_etaria,
+                COUNT(*) AS quantidade
+            FROM assistido a
+            WHERE a.data_nascimento IS NOT NULL
+            GROUP BY faixa_etaria
+            ORDER BY faixa_etaria ASC;
+             """)
+    List<Tuple> totalAssistidoPorFaixaEtaria();
 }
