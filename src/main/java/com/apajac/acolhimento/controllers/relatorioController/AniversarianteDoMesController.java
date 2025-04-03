@@ -19,10 +19,10 @@ public class AniversarianteDoMesController {
 
     private final AniversarianteDoMesServiceImpl aniversarianteDoMesService;
 
-    @GetMapping("/aniversariantes/{mes}")
-    public ResponseEntity<List<AniversarianteDoMesDTO>> aniversariantesDoMes(@RequestParam Integer mes){
+    @GetMapping("/aniversariantes/{codMes}")
+    public ResponseEntity<List<AniversarianteDoMesDTO>> aniversariantesDoMes(@PathVariable("codMes") Integer codMes){
         try {
-            List<AniversarianteDoMesDTO> aniversariantes = aniversarianteDoMesService.aniversariantesDoMes(mes);
+            List<AniversarianteDoMesDTO> aniversariantes = aniversarianteDoMesService.aniversariantesDoMes(codMes);
             return ResponseEntity.ok().body(aniversariantes);
         } catch (HttpClientErrorException e) {
             throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());

@@ -7,6 +7,7 @@ import jakarta.persistence.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,19 +19,19 @@ public class AniversarianteDoMesServiceImpl implements AniversarianteDoMesServic
     private final AssistidoRepository assistidoRepository;
 
     @Override
-    public List<AniversarianteDoMesDTO> aniversariantesDoMes(Integer mes) {
+    public List<AniversarianteDoMesDTO> aniversariantesDoMes(Integer codMes) {
 
         List<AniversarianteDoMesDTO> aniversariantes = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        List<Tuple> tuples = assistidoRepository.getAniversariantesDoMes(mes);
+        List<Tuple> tuples = assistidoRepository.getAniversariantesDoMes(codMes);
 
         for (Tuple tuple : tuples) {
             AniversarianteDoMesDTO dto = new AniversarianteDoMesDTO();
 
             dto.setNome(tuple.get("nome").toString());
 
-            java.sql.Date sqlDate = (java.sql.Date) tuple.get("data_nascimento");
+            Date sqlDate = (Date) tuple.get("data_nascimento");
             dto.setData_nascimento(sqlDate.toLocalDate().format(formatter));
 
             Number idade = (Number) tuple.get("idade");

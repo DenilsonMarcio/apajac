@@ -58,13 +58,18 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
     @Query(nativeQuery = true, value = """
             SELECT
                 EXTRACT(MONTH FROM a.cadastrado_em) AS mes,
-            	EXTRACT(YEAR FROM a.cadastrado_em) AS ano,
+                EXTRACT(YEAR FROM a.cadastrado_em) AS ano,
                 COUNT(*) AS quantidade_cadastrados
-            FROM assistido a
-            GROUP BY ano, mes
-            ORDER BY ano, mes;
+            FROM
+                assistido a
+            WHERE
+                EXTRACT(YEAR FROM a.cadastrado_em) = :codAno
+            GROUP BY
+                ano, mes
+            ORDER BY
+                ano, mes;
             """)
-    List<Tuple> getCadastradosMensal();
+    List<Tuple> getCadastradosMensal(Integer codAno);
 
     @Query(nativeQuery = true, value = """
              SELECT
@@ -84,6 +89,6 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
             WHERE a.data_nascimento IS NOT NULL
             GROUP BY faixa_etaria
             ORDER BY faixa_etaria ASC;
-             """)
+            """)
     List<Tuple> totalAssistidoPorFaixaEtaria();
 }

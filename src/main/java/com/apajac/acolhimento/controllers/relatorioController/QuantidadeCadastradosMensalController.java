@@ -5,13 +5,8 @@ import com.apajac.acolhimento.services.QuantidadeCadastradosMensalServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -22,11 +17,11 @@ public class QuantidadeCadastradosMensalController {
 
     private final QuantidadeCadastradosMensalServiceImpl quantidadeCadastradosMensalService;
 
-    @GetMapping("/cadastro_mensal")
-    public ResponseEntity<List<CadastroMensalDTO>> quantidadeCadastradosMensal(){
+    @GetMapping("/cadastro_mensal/{codAno}")
+    public ResponseEntity<CadastroMensalDTO> quantidadeCadastradosMensal(@PathVariable("codAno") Integer codAno){
         try {
-            List<CadastroMensalDTO> cadastroMensalDTOS = quantidadeCadastradosMensalService.cadastradosMensal();
-            return ResponseEntity.ok().body(cadastroMensalDTOS);
+            CadastroMensalDTO dto = quantidadeCadastradosMensalService.cadastradosMensal(codAno);
+            return ResponseEntity.ok().body(dto);
         } catch (HttpClientErrorException e) {
             throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
         }

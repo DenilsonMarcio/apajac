@@ -19,25 +19,22 @@ public class QuantidadeCadastradosMensalServiceImpl implements QuantidadeCadastr
     private final AssistidoRepository assistidoRepository;
 
     @Override
-    public List<CadastroMensalDTO> cadastradosMensal() {
-        List<CadastroMensalDTO> cadastrosMensais = new ArrayList<>();
+    public CadastroMensalDTO cadastradosMensal(Integer codAno) {
 
-        List<Tuple> tuples = assistidoRepository.getCadastradosMensal();
+        List<Tuple> tuples = assistidoRepository.getCadastradosMensal(codAno);
+
+        List<String> labels = new ArrayList<>();
+        List<Long> values = new ArrayList<>();
 
         for (Tuple tuple : tuples) {
-            CadastroMensalDTO dto = new CadastroMensalDTO();
             BigDecimal mes = (BigDecimal) tuple.get("mes");
-            BigDecimal ano = (BigDecimal) tuple.get("ano");
-            Long quantidadeCadastrados = (Long) tuple.get("quantidade_cadastrados");
-
-            dto.setMes(retornaMesCorrespondenteEnum(mes));
-            dto.setAno(ano.longValue());
-            dto.setQuantidadeCadastrados(quantidadeCadastrados.longValue());
-
-            cadastrosMensais.add(dto);
+            labels.add(retornaMesCorrespondenteEnum(mes));
+            values.add((Long) tuple.get("quantidade_cadastrados"));
         }
-
-        return cadastrosMensais;
+        CadastroMensalDTO cadastroMensalDTO = new CadastroMensalDTO();
+        cadastroMensalDTO.setLabels(labels.toArray(new String[0]));
+        cadastroMensalDTO.setValues(values.toArray(new Long[0]));
+        return cadastroMensalDTO;
     }
 
     private String retornaMesCorrespondenteEnum(BigDecimal mes) {
