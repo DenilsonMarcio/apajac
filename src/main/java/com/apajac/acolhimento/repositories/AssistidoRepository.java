@@ -26,6 +26,7 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
 
     @Query(nativeQuery = true, value = """
             SELECT
+                a.id,
                 a.nome,
                 a.data_nascimento,
                 EXTRACT(YEAR FROM AGE(a.data_nascimento)) AS idade
@@ -91,4 +92,31 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
             ORDER BY faixa_etaria ASC;
             """)
     List<Tuple> totalAssistidoPorFaixaEtaria();
+
+    @Query(nativeQuery = true, value = """
+            SELECT DISTINCT
+                EXTRACT(YEAR FROM a.cadastrado_em) AS ano
+            FROM
+                assistido a
+            WHERE
+                a.cadastrado_em IS NOT NULL
+            ORDER BY
+                ano;
+            """)
+    List<Integer> getAnosCadastros();
+
+    @Query(nativeQuery = true, value = """
+            SELECT 
+                a.bairro, 
+                COUNT(*) AS total_assistidos
+            FROM 
+                assistido a
+            WHERE 
+                a.bairro ILIKE CONCAT('%', :bairro, '%')
+            GROUP BY 
+                a.bairro
+            ORDER BY 
+                total_assistidos DESC
+            """)
+    List<Tuple> totalAssistidosPorBairro(String bairro);
 }

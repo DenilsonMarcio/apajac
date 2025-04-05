@@ -8,6 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 public class AniversarianteDoMesDTO {
+    private Long id;
     private String nome;
     private Long idade;
     private String data_nascimento;

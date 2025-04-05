@@ -22,13 +22,13 @@ public class AniversarianteDoMesServiceImpl implements AniversarianteDoMesServic
     public List<AniversarianteDoMesDTO> aniversariantesDoMes(Integer codMes) {
 
         List<AniversarianteDoMesDTO> aniversariantes = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         List<Tuple> tuples = assistidoRepository.getAniversariantesDoMes(codMes);
 
         for (Tuple tuple : tuples) {
             AniversarianteDoMesDTO dto = new AniversarianteDoMesDTO();
-
+            dto.setId((Long) tuple.get("id"));
             dto.setNome(tuple.get("nome").toString());
 
             Date sqlDate = (Date) tuple.get("data_nascimento");
