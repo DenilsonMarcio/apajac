@@ -106,17 +106,19 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
     List<Integer> getAnosCadastros();
 
     @Query(nativeQuery = true, value = """
-            SELECT 
-                a.bairro, 
-                COUNT(*) AS total_assistidos
-            FROM 
+            SELECT
+                a.bairro,
+                COUNT(*) AS total_assistidos,
+                AVG(EXTRACT(YEAR FROM AGE(current_date, a.data_nascimento))) AS media_idade
+            FROM
                 assistido a
-            WHERE 
+            WHERE
                 a.bairro ILIKE CONCAT('%', :bairro, '%')
-            GROUP BY 
+              AND a.data_nascimento IS NOT NULL
+            GROUP BY
                 a.bairro
-            ORDER BY 
-                total_assistidos DESC
+            ORDER BY
+                total_assistidos DESC;
             """)
     List<Tuple> totalAssistidosPorBairro(String bairro);
 }

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,14 +48,19 @@ public class ConsultarAssistidoServiceImpl implements ConsultarAssistidoService 
     @Override
     public List<AssistidoPorBairroDTO> totalAssistidoPorBairro(String bairro) {
 
-        AssistidoPorBairroDTO dto = new AssistidoPorBairroDTO();
         List<AssistidoPorBairroDTO> assistidoPorBairro = new ArrayList<>();
 
         List<Tuple> tuples = assistidoRepository.totalAssistidosPorBairro(bairro);
 
         for (Tuple tuple : tuples) {
+            AssistidoPorBairroDTO dto = new AssistidoPorBairroDTO();
             dto.setBairro(tuple.get("bairro").toString());
             dto.setTotal_assistidos((Long) tuple.get("total_assistidos"));
+
+            BigDecimal mediaIdadeBD = (BigDecimal) tuple.get("media_idade");
+            int mediaIdade = Math.round(mediaIdadeBD.floatValue());
+            dto.setMedia_idade(BigDecimal.valueOf(mediaIdade));
+
             assistidoPorBairro.add(dto);
         }
         return assistidoPorBairro;
