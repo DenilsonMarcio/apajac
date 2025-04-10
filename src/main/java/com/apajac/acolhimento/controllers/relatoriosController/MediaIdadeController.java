@@ -11,7 +11,7 @@ import java.util.Map;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/relatorio")
-public class MediaidadeController {
+public class MediaIdadeController {
 
     private final RelatoriosService relatoriosService;
 
