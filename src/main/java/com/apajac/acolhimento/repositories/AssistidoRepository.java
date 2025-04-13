@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -121,4 +122,7 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
                 total_assistidos DESC;
             """)
     List<Tuple> totalAssistidosPorBairro(String bairro);
+
+    @Query("SELECT a.dataNascimento FROM AssistidoEntity a WHERE a.dataNascimento IS NOT NULL")
+    List<LocalDate> findAllBirthDates();
 }
