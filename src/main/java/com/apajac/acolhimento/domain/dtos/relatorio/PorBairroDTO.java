@@ -2,15 +2,13 @@ package com.apajac.acolhimento.domain.dtos.relatorio;
 
 import lombok.*;
 
-import java.math.BigDecimal;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
-public class AssistidoPorBairroDTO {
+public class PorBairroDTO {
+    Long id;
+    String nome;
     String bairro;
-    Long total_assistidos;
-    BigDecimal media_idade;
 }

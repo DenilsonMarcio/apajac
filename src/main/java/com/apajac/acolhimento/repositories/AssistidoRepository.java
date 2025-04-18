@@ -52,7 +52,7 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
             FROM assistido a
             WHERE a.status_assistido = TRUE
             GROUP BY idade
-            ORDER BY idade ASC
+            ORDER BY idade
             """)
     List<Tuple> totalAssistidosPorIdade();
 
@@ -68,7 +68,7 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
             GROUP BY
                 ano, mes
             ORDER BY
-                ano, mes;
+                ano, mes
             """)
     List<Tuple> getCadastradosMensal(Integer codAno);
 
@@ -89,7 +89,7 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
             FROM assistido a
             WHERE a.data_nascimento IS NOT NULL
             GROUP BY faixa_etaria
-            ORDER BY faixa_etaria ASC;
+            ORDER BY faixa_etaria;
             """)
     List<Tuple> totalAssistidoPorFaixaEtaria();
 
@@ -121,4 +121,75 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
                 total_assistidos DESC;
             """)
     List<Tuple> totalAssistidosPorBairro(String bairro);
+
+    @Query(nativeQuery = true, value = """
+            SELECT
+                a.id,
+                a.nome,
+                a.bairro,
+                a.cadastrado_em
+            FROM
+                assistido a
+            WHERE
+                a.bairro IS NOT NULL
+            ORDER BY
+                a.bairro, a.nome;
+            """)
+    Page<Tuple> ListaAssistidosPorBairro(Pageable pageable);
+
+    @Query(nativeQuery = true, value = """
+            SELECT
+                a.id,
+                a.nome,
+                CAST(AGE(a.cadastrado_em, a.data_nascimento) AS VARCHAR(2)) AS idade_ingresso
+            FROM
+                assistido a
+            WHERE
+                a.cadastrado_em IS NOT NULL
+            ORDER BY
+                idade_ingresso DESC;
+            """)
+    Page<Tuple>  ListaPorIdadeDeIngresso(Pageable pageable);
+
+    @Query(nativeQuery = true, value = """
+            SELECT
+                a.id,
+                a.nome,
+                a.instituicao
+            FROM
+                assistido a
+            WHERE
+                a.cadastro_instituicao IS TRUE
+            ORDER BY
+                a.nome DESC;
+            """)
+    Page<Tuple> ListaPorInstituiExt(Pageable pageable);
+
+    @Query(nativeQuery = true, value = """
+            SELECT
+                a.id,
+                a.nome
+            FROM
+                assistido a
+            ORDER BY
+                a.nome;
+            """)
+    Page<Tuple>  ListaPorPaiA(Pageable pageable);
+
+    @Query(nativeQuery = true, value = """
+            SELECT
+                a.id,
+                a.nome,
+                CASE
+                    WHEN a.status_assistido IS TRUE THEN CAST (AGE(current_date, a.cadastrado_em)AS VARCHAR(2))
+                    ELSE CAST (AGE (a.data_alteracao_status, a.cadastrado_em) AS VARCHAR(2))
+                END AS tempoP
+            FROM
+                assistido a
+            WHERE
+                a.cadastrado_em IS NOT NULL
+            ORDER BY
+                TempoP;
+            """)
+    Page<Tuple> ListaPorPermanencia(Pageable pageable);
 }
