@@ -18,7 +18,6 @@ public class AssistidoMediaIdadeServiceServiceImpl implements AssistidoMediaIdad
 
     private final AssistidoRepository assistidoRepository;
 
-
     @Override
     public Map<String, List<String>> calcularMediaGeralIdade() {
         List<LocalDate> datas = assistidoRepository.findAllBirthDates();

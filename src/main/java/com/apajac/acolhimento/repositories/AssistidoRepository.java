@@ -150,6 +150,4 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
     ORDER BY faixa_etaria;
 """)
     List<Tuple> mediaIdadePorFaixaEtaria();
-
-
 }
