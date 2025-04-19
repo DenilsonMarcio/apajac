@@ -5,11 +5,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Map;
-
-import static org.hibernate.query.sqm.tree.SqmNode.log;
 
 @RestController
 @CrossOrigin("*")
@@ -23,23 +22,18 @@ public class MediaIdadeController {
     @GetMapping("/mediaidade")
     public ResponseEntity<Map<String, List<String>>> getMediaIdade() {
         try {
-            Map<String, List<String>> resultado = assistidoMediaIdadeService.calcularMediaGeralIdade();
-            return ResponseEntity.ok(resultado);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.ok(assistidoMediaIdadeService.calcularMediaGeralIdade());
+        } catch (HttpClientErrorException e) {
+            throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
         }
     }
 
     @GetMapping("/mediaidade/faixaetaria")
     public ResponseEntity<Map<String, List<String>>> getMediaPorFaixaEtaria() {
         try {
-            Map<String, List<String>> resultado = assistidoMediaIdadeService.calcularMediaPorFaixaEtaria();
-
-            return ResponseEntity.ok(resultado);
-        } catch (Exception e) {
-            log.error("Erro ao calcular média por faixa etária", e);
-            return ResponseEntity.internalServerError()
-                    .body(Map.of("error", List.of("Ocorreu um erro ao processar a requisição")));
+            return ResponseEntity.ok(assistidoMediaIdadeService.calcularMediaPorFaixaEtaria());
+        } catch (HttpClientErrorException e) {
+            throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
         }
     }
 }
