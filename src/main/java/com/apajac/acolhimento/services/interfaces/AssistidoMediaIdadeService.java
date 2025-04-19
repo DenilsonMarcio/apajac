@@ -5,5 +5,5 @@ import java.util.Map;
 
 public interface AssistidoMediaIdadeService {
     Map<String, List<String>> calcularMediaGeralIdade();
-
+    Map<String, List<String>> calcularMediaPorFaixaEtaria();
 }

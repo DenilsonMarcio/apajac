@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long> {
@@ -125,4 +126,30 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
 
     @Query("SELECT a.dataNascimento FROM AssistidoEntity a WHERE a.dataNascimento IS NOT NULL")
     List<LocalDate> findAllBirthDates();
+
+    @Query(nativeQuery = true, value = """
+    SELECT
+        CASE
+            WHEN idade BETWEEN 0 AND 4 THEN '0-4 anos'
+            WHEN idade BETWEEN 5 AND 9 THEN '5-9 anos'
+            WHEN idade BETWEEN 10 AND 14 THEN '10-14 anos'
+            WHEN idade BETWEEN 15 AND 19 THEN '15-19 anos'
+            WHEN idade BETWEEN 20 AND 24 THEN '20-24 anos'
+            WHEN idade BETWEEN 25 AND 29 THEN '25-29 anos'
+            WHEN idade BETWEEN 30 AND 34 THEN '30-34 anos'
+            WHEN idade BETWEEN 35 AND 39 THEN '35-39 anos'
+            ELSE '40+'
+        END AS faixa_etaria,
+        AVG(idade) AS media_idade
+    FROM (
+        SELECT EXTRACT(YEAR FROM AGE(CURRENT_DATE, data_nascimento)) AS idade
+        FROM assistido
+        WHERE data_nascimento IS NOT NULL
+    ) AS idades
+    GROUP BY faixa_etaria
+    ORDER BY faixa_etaria;
+""")
+    List<Tuple> mediaIdadePorFaixaEtaria();
+
+
 }
