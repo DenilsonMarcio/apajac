@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -15,13 +16,19 @@ public class AssistidoMediaIdadeServiceServiceImpl implements AssistidoMediaIdad
 
     private final AssistidoRepository assistidoRepository;
 
+
     @Override
-    public int calcularMediaIdade() {
+    public Map<String, List<String>> calcularMediaGeralIdade() {
         List<LocalDate> datas = assistidoRepository.findAllBirthDates();
-        return (int) datas.stream()
+
+        int media = (int) datas.stream()
                 .mapToInt(data -> Period.between(data, LocalDate.now()).getYears())
                 .average()
                 .orElse(0);
-    }
 
+        return Map.of(
+                "Labels", List.of("Média Geral"),
+                "Values", List.of(String.valueOf(media))
+        );
+    }
 }

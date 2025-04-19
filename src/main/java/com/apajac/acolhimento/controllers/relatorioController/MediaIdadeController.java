@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,10 +19,10 @@ public class MediaIdadeController {
     private final AssistidoMediaIdadeService assistidoMediaIdadeService;
 
     @GetMapping("/mediaidade")
-    public ResponseEntity<Map<String, Integer>> getMediaIdade() {
+    public ResponseEntity<Map<String, List<String>>> getMediaIdade() {
         try {
-            int media = assistidoMediaIdadeService.calcularMediaIdade();
-            return ResponseEntity.ok(Map.of("MediaId", media));
+            Map<String, List<String>> resultado = assistidoMediaIdadeService.calcularMediaGeralIdade();
+            return ResponseEntity.ok(resultado);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
