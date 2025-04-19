@@ -28,8 +28,8 @@ public class AssistidoMediaIdadeServiceServiceImpl implements AssistidoMediaIdad
                 .orElse(0);
 
         return Map.of(
-                "Labels", List.of("Média Geral"),
-                "Values", List.of(String.valueOf(media))
+                "Values", List.of(String.valueOf(media)),
+                "Labels", List.of("Média Geral")
         );
     }
 
