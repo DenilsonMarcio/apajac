@@ -40,7 +40,7 @@ public class InstituExtController {
                 listaPorInstituiExtDTOS.add(PorInstituExtDTO.builder()
                         .id((Long) entity.get("id"))
                         .nome((String) entity.get("nome"))
-                        .instituext((String) entity.get("bairro"))
+                        .instituext((String) entity.get("instituicao"))
                         .build());
             }
 

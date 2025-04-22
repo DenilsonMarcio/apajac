@@ -40,7 +40,7 @@ public class PermanenciaController {
                 listaPorPermanenciaDTOS.add(PorPermanenciaDTO.builder()
                         .id((Long) entity.get("id"))
                         .nome((String) entity.get("nome"))
-                        .tempoP((String) entity.get("tempoP"))
+                        .tempoP(((String) entity.get("tempoP")))
                         .build());
             }
 

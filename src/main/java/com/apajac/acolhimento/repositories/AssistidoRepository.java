@@ -126,8 +126,7 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
             SELECT
                 a.id,
                 a.nome,
-                a.bairro,
-                a.cadastrado_em
+                a.bairro
             FROM
                 assistido a
             WHERE
@@ -161,7 +160,7 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
             WHERE
                 a.cadastro_instituicao IS TRUE
             ORDER BY
-                a.nome DESC;
+                a.instituicao, a.nome;
             """)
     Page<Tuple> ListaPorInstituiExt(Pageable pageable);
 
@@ -181,8 +180,8 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
                 a.id,
                 a.nome,
                 CASE
-                    WHEN a.status_assistido IS TRUE THEN CAST (AGE(current_date, a.cadastrado_em)AS VARCHAR(2))
-                    ELSE CAST (AGE (a.data_alteracao_status, a.cadastrado_em) AS VARCHAR(2))
+                    WHEN a.status_assistido IS TRUE THEN CAST (timestamp_cmp(current_date, a.cadastrado_em) AS VARCHAR(8))
+                    ELSE CAST (timestamp_cmp(a.data_alteracao_status, a.cadastrado_em) AS VARCHAR(8))
                 END AS tempoP
             FROM
                 assistido a

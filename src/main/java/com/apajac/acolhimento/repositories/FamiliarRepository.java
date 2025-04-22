@@ -17,7 +17,7 @@ public interface FamiliarRepository extends JpaRepository<FamiliarEntity, Long> 
             SELECT
                 true as tempai
             FROM Familiar f
-            where f.tipo_parentesco = 'PAI' and f.assistido_id = :AID
+            where f.tipo_parentesco = 'PAI' and f.assistido_id = :AID and f.nome is not null
             ORDER BY f.nome;
             """)
     List<Tuple> ListaPorPaiC(Long AID);

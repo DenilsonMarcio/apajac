@@ -41,7 +41,7 @@ public class PaiController {
 
             for (Tuple entity : entities) {
                 Boolean tempai = Boolean.FALSE;
-                if ((Boolean) paiService.ListaPorPaiC((Long) entity.get("id")).get(0).get("tempai")){
+                if (!(Boolean) paiService.ListaPorPaiC((Long) entity.get("id")).isEmpty()){
                     tempai = Boolean.TRUE;
                 }
                 listaPorPaiDTOS.add(PorPaiDTO.builder()
