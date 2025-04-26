@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/health")
-@Tag(name = "Info", description = "Endpoint para gerenciamento da saúde da aplicação")
+@Tag(name = "Info", description = "Endpoint para gerenciamento da aplicação")
 public class HealthController {
 
     @GetMapping
