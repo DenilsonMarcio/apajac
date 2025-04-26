@@ -47,14 +47,16 @@ public class ConsultarAssistidoServiceImpl implements ConsultarAssistidoService 
 
     @Override
     public List<AssistidoPorBairroDTO> totalAssistidoPorBairro(String bairro) {
-
-        List<AssistidoPorBairroDTO> assistidoPorBairro = new ArrayList<>();
+        if (bairro == null || bairro.trim().isEmpty()) {
+            bairro = null;
+        }
 
         List<Tuple> tuples = assistidoRepository.totalAssistidosPorBairro(bairro);
+        List<AssistidoPorBairroDTO> assistidoPorBairro = new ArrayList<>();
 
         for (Tuple tuple : tuples) {
             AssistidoPorBairroDTO dto = new AssistidoPorBairroDTO();
-            dto.setBairro(tuple.get("bairro").toString());
+            dto.setBairro((String) tuple.get("bairro"));
             dto.setTotal_assistidos((Long) tuple.get("total_assistidos"));
 
             BigDecimal mediaIdadeBD = (BigDecimal) tuple.get("media_idade");

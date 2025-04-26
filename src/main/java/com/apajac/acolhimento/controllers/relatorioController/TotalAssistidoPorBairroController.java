@@ -19,14 +19,11 @@ public class TotalAssistidoPorBairroController {
 
     private final ConsultarAssistidoService assistidoService;
 
-    @GetMapping("/total_assistidos_por_bairro/{bairro}")
-    public ResponseEntity<List<AssistidoPorBairroDTO>> totalAssistidoPorBairro(@PathVariable("bairro") String bairro){
-        try {
-            List<AssistidoPorBairroDTO> assistidoPorBairro = assistidoService.totalAssistidoPorBairro(bairro);
-            return ResponseEntity.ok().body(assistidoPorBairro);
-        } catch (HttpClientErrorException e) {
-            throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
-        }
-    }
+    @GetMapping("/total_assistidos_por_bairro")
+    public ResponseEntity<List<AssistidoPorBairroDTO>> totalAssistidoPorBairro(
+            @RequestParam(value = "bairro", required = false) String bairro) {
 
+        List<AssistidoPorBairroDTO> assistidoPorBairro = assistidoService.totalAssistidoPorBairro(bairro);
+        return ResponseEntity.ok(assistidoPorBairro);
+    }
 }

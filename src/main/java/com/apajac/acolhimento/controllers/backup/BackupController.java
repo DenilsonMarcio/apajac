@@ -1,25 +1,23 @@
 package com.apajac.acolhimento.controllers.backup;
 
 import com.apajac.acolhimento.services.BackupService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
 @RestController
+@CrossOrigin("*")
+@RequiredArgsConstructor
 @RequestMapping("/backup")
+@Tag(name = "Backup", description = "Endpoint responsavel por gerar uma planilha com dados da Base.")
 public class BackupController {
 
     private final BackupService backupService;
-
-    public BackupController(BackupService backupService) {
-        this.backupService = backupService;
-    }
 
     @GetMapping("/excel")
     public ResponseEntity<byte[]> gerarBackupExcel(@RequestParam(required = false, defaultValue = "1234") String senha) {

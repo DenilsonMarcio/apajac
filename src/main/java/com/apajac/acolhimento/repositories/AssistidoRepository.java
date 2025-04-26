@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -106,19 +107,19 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
     List<Integer> getAnosCadastros();
 
     @Query(nativeQuery = true, value = """
-            SELECT
-                a.bairro,
-                COUNT(*) AS total_assistidos,
-                AVG(EXTRACT(YEAR FROM AGE(current_date, a.data_nascimento))) AS media_idade
-            FROM
-                assistido a
-            WHERE
-                a.bairro ILIKE CONCAT('%', :bairro, '%')
-              AND a.data_nascimento IS NOT NULL
-            GROUP BY
-                a.bairro
-            ORDER BY
-                total_assistidos DESC;
-            """)
-    List<Tuple> totalAssistidosPorBairro(String bairro);
+        SELECT
+            a.bairro,
+            COUNT(*) AS total_assistidos,
+            AVG(EXTRACT(YEAR FROM AGE(current_date, a.data_nascimento))) AS media_idade
+        FROM
+            assistido a
+        WHERE
+            (:bairro IS NULL OR a.bairro ILIKE CONCAT('%', :bairro, '%'))
+          AND a.data_nascimento IS NOT NULL
+        GROUP BY
+            a.bairro
+        ORDER BY
+            total_assistidos DESC
+        """)
+    List<Tuple> totalAssistidosPorBairro(@Param("bairro") String bairro);
 }
