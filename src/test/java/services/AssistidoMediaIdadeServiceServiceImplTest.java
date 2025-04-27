@@ -39,13 +39,12 @@ public class AssistidoMediaIdadeServiceServiceImplTest {
         Map<String, List<String>> resultado = assistidoMediaIdadeService.calcularMediaGeralIdade();
 
         assertEquals(List.of("Média Geral"), resultado.get("Labels"));
-        assertEquals(List.of("30"), resultado.get("Values")); // Média de (20+30+40)/3 = 30
+        assertEquals(List.of("30"), resultado.get("Values"));
     }
 
     @Test
     void calcularMediaGeralIdade_QuandoNaoHouverDatas_DeveRetornarZero() {
 
-        // Simula banco vazio (sem registros de data de nascimento)
         when(assistidoRepository.findAllBirthDates()).thenReturn(List.of());
 
         Map<String, List<String>> resultado = assistidoMediaIdadeService.calcularMediaGeralIdade();
@@ -68,6 +67,6 @@ public class AssistidoMediaIdadeServiceServiceImplTest {
         Map<String, List<String>> resultado = assistidoMediaIdadeService.calcularMediaGeralIdade();
 
         assertEquals(List.of("Média Geral"), resultado.get("Labels"));
-        assertEquals(List.of("30"), resultado.get("Values")); // (25+30+35)/3 = 30
+        assertEquals(List.of("30"), resultado.get("Values"));
     }
 }
