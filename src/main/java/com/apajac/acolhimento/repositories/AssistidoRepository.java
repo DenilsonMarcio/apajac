@@ -150,4 +150,20 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
     ORDER BY faixa_etaria;
 """)
     List<Tuple> mediaIdadePorFaixaEtaria();
+
+    @Query(nativeQuery = true, value = """
+        SELECT 
+          CASE 
+            WHEN EXISTS (
+              SELECT 1 FROM familiar f 
+              WHERE f.assistido_id = a.id AND f.tipo_parentesco = 'PAI'
+            ) THEN 'Com Pai'
+            ELSE 'Sem Pai'
+          END AS label,
+          COUNT(*) AS value
+        FROM assistido a
+        GROUP BY label
+        """)
+    List<Object[]> getAlunosComSemPai();
+
 }
