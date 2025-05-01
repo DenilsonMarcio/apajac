@@ -166,4 +166,15 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
         """)
     List<Object[]> getAlunosComSemPai();
 
+    @Query(nativeQuery = true, value = """
+    SELECT 
+        instituicao AS label,
+        COUNT(*) AS value
+    FROM assistido
+    WHERE instituicao IS NOT NULL
+    GROUP BY instituicao
+""")
+    List<Object[]> getInstituicoes();
+
+
 }
