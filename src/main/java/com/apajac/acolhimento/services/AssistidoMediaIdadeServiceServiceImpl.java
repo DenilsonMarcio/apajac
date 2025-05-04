@@ -27,10 +27,11 @@ public class AssistidoMediaIdadeServiceServiceImpl implements AssistidoMediaIdad
                 .average()
                 .orElse(0);
 
-        return Map.of(
-                "Values", List.of(String.valueOf(media)),
-                "Labels", List.of("Média Geral")
-        );
+        Map<String, List<String>> resultado = new LinkedHashMap<>();
+        resultado.put("Labels", List.of("Média Geral"));
+        resultado.put("Values", List.of(String.valueOf(media)));
+
+        return resultado;
     }
 
     @Override

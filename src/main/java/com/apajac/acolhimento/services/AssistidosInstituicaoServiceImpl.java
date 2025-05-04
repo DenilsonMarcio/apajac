@@ -25,9 +25,11 @@ public class AssistidosInstituicaoServiceImpl implements AssistidosInstituicaoSe
             values.add(String.valueOf(row[1]));
         }
 
-        return Map.of(
-                "Labels", labels,
-                "Values", values
-        );
+        Map<String, List<String>> resposta = new LinkedHashMap<>();
+        resposta.put("Labels", labels);
+        resposta.put("Values", values);
+
+        return resposta;
     }
+
 }

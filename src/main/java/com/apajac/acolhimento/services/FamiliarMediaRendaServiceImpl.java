@@ -24,10 +24,9 @@ public class FamiliarMediaRendaServiceImpl implements FamiliarMediaRendaService 
                 .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .divide(new BigDecimal(rendas.size()), 2, RoundingMode.HALF_UP);
-
-        Map<String, List<String>> resposta = new HashMap<>();
-        resposta.put("Values", List.of(media.toString()));
+        Map<String, List<String>> resposta = new LinkedHashMap<>();
         resposta.put("Labels", List.of("Média Geral"));
+        resposta.put("Values", List.of(media.toString()));
         return resposta;
     }
 
@@ -35,7 +34,6 @@ public class FamiliarMediaRendaServiceImpl implements FamiliarMediaRendaService 
     public Map<String, List<String>> calcularMediaRendaPorAssistido() {
         List<Object[]> dados = familiarRepository.findAllAssistidoIdNomeAndRenda();
         Map<String, List<BigDecimal>> assistidoRendas = new HashMap<>();
-
         for (Object[] registro : dados) {
             String nome = (String) registro[1];
             BigDecimal renda = (BigDecimal) registro[2];
@@ -44,10 +42,8 @@ public class FamiliarMediaRendaServiceImpl implements FamiliarMediaRendaService 
                 assistidoRendas.computeIfAbsent(nome, k -> new ArrayList<>()).add(renda);
             }
         }
-
         List<String> labels = new ArrayList<>();
         List<String> values = new ArrayList<>();
-
         assistidoRendas.forEach((nome, listaRendas) -> {
             BigDecimal media = listaRendas.stream()
                     .reduce(BigDecimal.ZERO, BigDecimal::add)
@@ -55,22 +51,19 @@ public class FamiliarMediaRendaServiceImpl implements FamiliarMediaRendaService 
             labels.add(nome);
             values.add(media.toString());
         });
-
-        Map<String, List<String>> resposta = new HashMap<>();
-        resposta.put("Values", values);
+        Map<String, List<String>> resposta = new LinkedHashMap<>();
         resposta.put("Labels", labels);
+        resposta.put("Values", values);
         return resposta;
     }
 
     @Override
     public Map<String, List<String>> calcularFaixasDeRenda() {
         List<BigDecimal> rendas = familiarRepository.findAllRendas();
-
         int ate500 = 0;
         int de501a1000 = 0;
         int de1001a2000 = 0;
         int acima2000 = 0;
-
         for (BigDecimal renda : rendas) {
             if (renda == null) continue;
             if (renda.compareTo(BigDecimal.valueOf(500)) <= 0) {
@@ -83,8 +76,7 @@ public class FamiliarMediaRendaServiceImpl implements FamiliarMediaRendaService 
                 acima2000++;
             }
         }
-
-        Map<String, List<String>> resposta = new HashMap<>();
+        Map<String, List<String>> resposta = new LinkedHashMap<>();
         resposta.put("Labels", List.of("Até 500", "De 501 a 1000", "De 1001 a 2000", "Acima de 2000"));
         resposta.put("Values", List.of(
                 String.valueOf(ate500),
@@ -92,7 +84,6 @@ public class FamiliarMediaRendaServiceImpl implements FamiliarMediaRendaService 
                 String.valueOf(de1001a2000),
                 String.valueOf(acima2000)
         ));
-
         return resposta;
     }
 }

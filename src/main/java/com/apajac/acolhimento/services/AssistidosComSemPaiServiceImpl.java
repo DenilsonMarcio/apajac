@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -30,10 +27,11 @@ public class AssistidosComSemPaiServiceImpl implements AssistidosComSemPaiServic
             values.add(String.valueOf(row[1]));
         }
 
-        Map<String, List<String>> response = new HashMap<>();
+        Map<String, List<String>> response = new LinkedHashMap<>();
         response.put("Labels", labels);
         response.put("Values", values);
 
         return response;
     }
+
 }
