@@ -156,7 +156,9 @@ public interface AssistidoRepository extends JpaRepository<AssistidoEntity, Long
           CASE 
             WHEN EXISTS (
               SELECT 1 FROM familiar f 
-              WHERE f.assistido_id = a.id AND f.tipo_parentesco = 'PAI'
+              WHERE f.assistido_id = a.id 
+              AND f.tipo_parentesco = 'PAI'
+              AND f.nome IS NOT NULL 
             ) THEN 'Com Pai'
             ELSE 'Sem Pai'
           END AS label,
