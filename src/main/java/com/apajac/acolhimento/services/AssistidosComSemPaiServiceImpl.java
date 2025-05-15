@@ -28,8 +28,8 @@ public class AssistidosComSemPaiServiceImpl implements AssistidosComSemPaiServic
         }
 
         Map<String, List<String>> response = new LinkedHashMap<>();
-        response.put("Labels", labels);
-        response.put("Values", values);
+        response.put("labels", labels);
+        response.put("values", values);
 
         return response;
     }

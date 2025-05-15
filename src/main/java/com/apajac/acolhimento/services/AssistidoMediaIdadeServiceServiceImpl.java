@@ -28,8 +28,8 @@ public class AssistidoMediaIdadeServiceServiceImpl implements AssistidoMediaIdad
                 .orElse(0);
 
         Map<String, List<String>> resultado = new LinkedHashMap<>();
-        resultado.put("Labels", List.of("Média Geral"));
-        resultado.put("Values", List.of(String.valueOf(media)));
+        resultado.put("labels", List.of("Média Geral"));
+        resultado.put("values", List.of(String.valueOf(media)));
 
         return resultado;
     }
@@ -40,11 +40,11 @@ public class AssistidoMediaIdadeServiceServiceImpl implements AssistidoMediaIdad
 
         Map<String, List<String>> resultadoFinal = new LinkedHashMap<>();
 
-        resultadoFinal.put("Labels", resultados.stream()
+        resultadoFinal.put("labels", resultados.stream()
                 .map(t -> t.get("faixa_etaria", String.class))
                 .collect(Collectors.toList()));
 
-        resultadoFinal.put("Values", resultados.stream()
+        resultadoFinal.put("values", resultados.stream()
                 .map(t -> {
                     BigDecimal media = t.get("media_idade", BigDecimal.class);
                     return media != null ? String.format("%.2f", media.doubleValue()) : "0.00";

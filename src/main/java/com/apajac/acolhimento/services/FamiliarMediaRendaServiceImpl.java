@@ -25,8 +25,8 @@ public class FamiliarMediaRendaServiceImpl implements FamiliarMediaRendaService 
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .divide(new BigDecimal(rendas.size()), 2, RoundingMode.HALF_UP);
         Map<String, List<String>> resposta = new LinkedHashMap<>();
-        resposta.put("Labels", List.of("Média Geral"));
-        resposta.put("Values", List.of(media.toString()));
+        resposta.put("labels", List.of("Média Geral"));
+        resposta.put("values", List.of(media.toString()));
         return resposta;
     }
 
@@ -52,8 +52,8 @@ public class FamiliarMediaRendaServiceImpl implements FamiliarMediaRendaService 
             values.add(media.toString());
         });
         Map<String, List<String>> resposta = new LinkedHashMap<>();
-        resposta.put("Labels", labels);
-        resposta.put("Values", values);
+        resposta.put("labels", labels);
+        resposta.put("values", values);
         return resposta;
     }
 
@@ -77,8 +77,8 @@ public class FamiliarMediaRendaServiceImpl implements FamiliarMediaRendaService 
             }
         }
         Map<String, List<String>> resposta = new LinkedHashMap<>();
-        resposta.put("Labels", List.of("Até 500", "De 501 a 1000", "De 1001 a 2000", "Acima de 2000"));
-        resposta.put("Values", List.of(
+        resposta.put("labels", List.of("Até 500", "De 501 a 1000", "De 1001 a 2000", "Acima de 2000"));
+        resposta.put("values", List.of(
                 String.valueOf(ate500),
                 String.valueOf(de501a1000),
                 String.valueOf(de1001a2000),

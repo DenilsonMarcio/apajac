@@ -26,8 +26,8 @@ public class AssistidosInstituicaoServiceImpl implements AssistidosInstituicaoSe
         }
 
         Map<String, List<String>> resposta = new LinkedHashMap<>();
-        resposta.put("Labels", labels);
-        resposta.put("Values", values);
+        resposta.put("labels", labels);
+        resposta.put("values", values);
 
         return resposta;
     }
