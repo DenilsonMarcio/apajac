@@ -3,6 +3,7 @@ package com.apajac.acolhimento.gateway;
 import com.apajac.acolhimento.domain.dtos.EnderecoDTO;
 import com.apajac.acolhimento.exceptions.BusinessException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,20 +16,23 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class EnderecoIntegration {
 
-    private static final String PATH_VIA_CEP = "https://viacep.com.br/ws/";
     private static final String EXTENSION = "/json";
     private static final String SLASH = "/";
     private static final String CIDADE = "Jacareí";
     private static final String UF = "SP";
 
     private final RestTemplate restTemplate;
+
+    @Value("${viacep.api.url}")
+    private String pathViaCep;
+
     public EnderecoDTO enderecoPorCep(String cep){
         return getEnderecoDTOPorCep(cep);
     }
 
     private EnderecoDTO getEnderecoDTOPorCep(String cep) {
         try {
-            String url = PATH_VIA_CEP + cep + EXTENSION;
+            String url = pathViaCep + cep + EXTENSION;
             ResponseEntity<Map> entity = restTemplate.getForEntity(url, Map.class);
             Map body = entity.getBody();
 
@@ -59,7 +63,7 @@ public class EnderecoIntegration {
         try {
             List<Map> objects = new ArrayList<>();
             List<EnderecoDTO> enderecoDTOS = new ArrayList<>();
-            String url = PATH_VIA_CEP + uf + SLASH + cidade + SLASH +logradouro + EXTENSION;
+            String url = pathViaCep + uf + SLASH + cidade + SLASH +logradouro + EXTENSION;
             objects.addAll(restTemplate.getForEntity(url, List.class).getBody());
 
             for (Map endereco: objects){

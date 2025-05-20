@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -22,6 +23,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         servers = {
                 @Server(url = "http://localhost:80", description = "Servidor Local"),
                 @Server(url = "https://acolhimento-apajac-dev.squareweb.app/", description = "Servidor de Desenvolvimento")
+//                ,@Server(url = "https://associacao-apajac.squareweb.app//", description = "Servidor de Produção")
+        },
+        tags = {
+                @Tag(name = "Assistidos", description = "Endpoints para gerenciamento de assistidos"),
+                @Tag(name = "Usuários", description = "Endpoints para gerenciamento de usuários"),
+                @Tag(name = "Auditória", description = "Endpoints de auditória"),
+                @Tag(name = "Endereço", description = "Endpoints para busca de endereços"),
+                @Tag(name = "Avaliações", description = "Endpoints para gerenciamento das avaliações"),
+                @Tag(name = "Info", description = "Endpoint para gerenciamento da saúde da aplicação"),
+                @Tag(name = "Relatórios", description = "Endpoints para geração de relatórios")
         }
 )
 public class AcolhimentoApplication {

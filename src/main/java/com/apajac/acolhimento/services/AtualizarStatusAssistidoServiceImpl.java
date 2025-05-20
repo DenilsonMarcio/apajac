@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -44,8 +45,10 @@ public class AtualizarStatusAssistidoServiceImpl implements AtualizarStatusAssis
     private AssistidoEntity atualizaStatusAssistido(AssistidoEntity assistidoEntity) {
         if (assistidoEntity.isStatusAssistido()) {
             assistidoEntity.setStatusAssistido(Boolean.FALSE);
+            assistidoEntity.setDataAlteracaoStatus(LocalDate.now());
         } else {
             assistidoEntity.setStatusAssistido(Boolean.TRUE);
+            assistidoEntity.setDataAlteracaoStatus(LocalDate.now());
         }
         return assistidoEntity;
     }

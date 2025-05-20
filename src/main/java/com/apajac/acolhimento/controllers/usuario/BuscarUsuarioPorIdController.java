@@ -4,6 +4,7 @@ import com.apajac.acolhimento.domain.dtos.UsuarioSemSenhaDTO;
 import com.apajac.acolhimento.domain.entities.UsuarioEntity;
 import com.apajac.acolhimento.mappers.UsuarioMapper;
 import com.apajac.acolhimento.services.interfaces.UsuarioService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +15,13 @@ import org.springframework.web.client.HttpClientErrorException;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/usuario")
+@Tag(name = "Usuários", description = "Endpoints para gerenciamento de usuários")
 public class BuscarUsuarioPorIdController {
 
     private final UsuarioService usuarioService;
     private final UsuarioMapper usuarioMapper;
     @GetMapping("/por_id/{id}")
-    ResponseEntity<UsuarioSemSenhaDTO> buscarUsuario(@PathVariable("id") Long id){
+    public ResponseEntity<UsuarioSemSenhaDTO> buscarUsuario(@PathVariable("id") Long id){
         try {
             UsuarioEntity usuario = usuarioService.buscarUsuarioPorId(id);
 

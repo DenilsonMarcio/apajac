@@ -2,6 +2,7 @@ package com.apajac.acolhimento.controllers.enderecoController;
 
 import com.apajac.acolhimento.domain.dtos.EnderecoDTO;
 import com.apajac.acolhimento.gateway.EnderecoIntegration;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,12 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/endereco")
+@Tag(name = "Endereço", description = "Endpoints para busca de endereços")
 public class BuscarEnderecoPorCEPController {
 
     private final EnderecoIntegration integration;
     @GetMapping("/{cep}")
-    ResponseEntity<EnderecoDTO> buscarEndereco(@PathVariable("cep") String cep){
+    public ResponseEntity<EnderecoDTO> buscarEndereco(@PathVariable("cep") String cep){
         try {
             EnderecoDTO enderecoDTO = integration.enderecoPorCep(cep);
             return ResponseEntity.status(HttpStatus.OK).body(enderecoDTO);
@@ -28,7 +30,7 @@ public class BuscarEnderecoPorCEPController {
     }
 
     @GetMapping("/{uf}/{cidade}/{logradouro}")
-    ResponseEntity<List<EnderecoDTO>> buscarEnderecoPorUfCidadeELogradouro(
+    public ResponseEntity<List<EnderecoDTO>> buscarEnderecoPorUfCidadeELogradouro(
             @PathVariable("uf") String uf,
             @PathVariable("cidade") String cidade,
             @PathVariable("logradouro") String logradouro

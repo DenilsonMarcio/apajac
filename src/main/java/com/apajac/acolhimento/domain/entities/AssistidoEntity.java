@@ -21,6 +21,7 @@ public class AssistidoEntity {
 
     private String nome;
     private LocalDate dataNascimento;
+    private Character sexo;
     private String escolaridade;
     private String escola;
     private String telEscola;
@@ -32,7 +33,7 @@ public class AssistidoEntity {
 
     private Long idResponsavelPeloCadastro;
     private LocalDate cadastradoEm;
-
+    private LocalDate dataAlteracaoStatus;
     private boolean statusAssistido = Boolean.TRUE;
 
     @Embedded
@@ -52,4 +53,9 @@ public class AssistidoEntity {
     @OneToOne(mappedBy = "assistido", cascade = CascadeType.ALL)
     @ToString.Exclude
     private ResponsavelEntity responsavel;
+
+    @OneToMany(mappedBy = "assistido", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<CarsEntity> cars;
+
 }

@@ -3,6 +3,7 @@ package com.apajac.acolhimento.controllers.usuario;
 import com.apajac.acolhimento.domain.dtos.UsuarioDTO;
 import com.apajac.acolhimento.exceptions.BusinessException;
 import com.apajac.acolhimento.services.UsuarioServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.client.HttpClientErrorException;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/usuario")
+@Tag(name = "Usuários", description = "Endpoints para gerenciamento de usuários")
 public class CadastrarUsuarioController {
 
     private final UsuarioServiceImpl usuarioService;

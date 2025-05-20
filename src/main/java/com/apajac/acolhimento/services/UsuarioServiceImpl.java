@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 @Service
 @RequiredArgsConstructor
@@ -35,38 +34,21 @@ public class UsuarioServiceImpl implements UsuarioService {
         try {
             validDTO(usuarioDTO);
 
-            if (nonNull(usuarioDTO.getId())) {
-                UsuarioEntity usuarioEntity = buscarUsuarioPorId(usuarioDTO.getId());
-
-                validaUsuarioRoot(usuarioEntity);
-
-                usuarioEntity.setNome(usuarioDTO.getNome());
-                usuarioEntity.setRoles(usuarioDTO.getRoles());
-                usuarioEntity.setPassword(usuarioDTO.getPassword() != null
-                        ? encryptPasswordUser(usuarioDTO.getPassword())
-                        : usuarioEntity.getPassword());
-                usuarioEntity.setLogin(usuarioDTO.getLogin());
-
-                auditar(usuarioEntity.toString(), usuarioDTO.getIdResponsavelPeloCadastro(), AuditoriaEnum.UPDATED.getValues());
-
-                repository.save(usuarioEntity);
-
-            } else {
-                Optional<UsuarioEntity> existingUser = repository.findByLogin(usuarioDTO.getLogin());
-                if (existingUser.isPresent()) {
-                    throw new BusinessException("Login já existe.");
-                }
-
-                UsuarioEntity entity = new UsuarioEntity();
-                entity.setNome(usuarioDTO.getNome());
-                entity.setRoles(usuarioDTO.getRoles());
-                entity.setPassword(encryptPasswordUser(usuarioDTO.getPassword()));
-                entity.setLogin(usuarioDTO.getLogin());
-
-                repository.save(entity);
-
-                auditar(entity.toString(), usuarioDTO.getIdResponsavelPeloCadastro(), AuditoriaEnum.CREATED.getValues());
+            Optional<UsuarioEntity> existingUser = repository.findByLogin(usuarioDTO.getLogin());
+            if (existingUser.isPresent()) {
+                throw new BusinessException("Login já existe.");
             }
+
+            UsuarioEntity entity = new UsuarioEntity();
+            entity.setNome(usuarioDTO.getNome());
+            entity.setRoles(usuarioDTO.getRoles());
+            entity.setPassword(encryptPasswordUser(usuarioDTO.getPassword()));
+            entity.setLogin(usuarioDTO.getLogin());
+
+            repository.save(entity);
+
+            auditar(entity.toString(), usuarioDTO.getIdResponsavelPeloCadastro(), AuditoriaEnum.CREATED.getValues());
+
         } catch (DataIntegrityViolationException e) {
             throw new BusinessException(ExtrairMessageErroUsuario.extrairMensagemDeErro(e.getMessage()));
         }
@@ -86,10 +68,22 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private void validDTO(UsuarioDTO usuario) {
         if (isNull(usuario)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("O DTO do usuário não pode ser nulo.");
+        } else if (isNull(usuario.getNome())||usuario.getNome().isBlank()) {
+            throw new IllegalArgumentException("O Nome do usuário não pode ser nulo/vazio.");
+        } else if (isNull(usuario.getRoles())||usuario.getRoles().isEmpty()) {
+            throw new IllegalArgumentException("Os Papéis do usuário não podem ser nulos/vazios.");
+        } else if (isNull(usuario.getLogin())||usuario.getLogin().isBlank()) {
+            throw new IllegalArgumentException("O Login do usuário não pode ser nulo/vazio.");
+        } else if (isNull(usuario.getPassword())||usuario.getPassword().isBlank()) {
+            throw new IllegalArgumentException("A Senha do usuário não pode ser nula/vazia.");
+        }else if (usuario.getPassword().length() < 6) {
+            throw new IllegalArgumentException("A Senha do usuário não pode ser menor que 6 dígitos.");
+        }else if (isNull(usuario.getIdResponsavelPeloCadastro())) {
+            throw new IllegalArgumentException("O ID de Responsável não pode ser nulo.");
         }
-    }
 
+    }
     @Override
     public Page<UsuarioEntity> listarUsuarios(Pageable pageable) {
         return repository.findAll(pageable);

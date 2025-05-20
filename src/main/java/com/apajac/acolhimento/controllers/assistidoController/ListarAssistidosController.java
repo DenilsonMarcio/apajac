@@ -5,6 +5,7 @@ import com.apajac.acolhimento.domain.dtos.ListaAssistidoDTO;
 import com.apajac.acolhimento.domain.entities.AssistidoEntity;
 import com.apajac.acolhimento.mappers.AssistidoMapper;
 import com.apajac.acolhimento.services.interfaces.ConsultarAssistidoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,13 +23,14 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/lista_assistidos")
+@Tag(name = "Assistidos", description = "Endpoints para gerenciamento de assistidos")
 public class ListarAssistidosController {
 
     private final ConsultarAssistidoService assistidoService;
 
     private final AssistidoMapper assistidoMapper;
     @GetMapping
-    ResponseEntity<ListaAssistidoDTO> listarAssistidos(Pageable pageable){
+    public ResponseEntity<ListaAssistidoDTO> listarAssistidos(Pageable pageable){
         try {
             ListaAssistidoDTO assistidoResponse = new ListaAssistidoDTO();
             Page<AssistidoEntity> entities = assistidoService.listarAssistidos(pageable);

@@ -1,6 +1,7 @@
 package com.apajac.acolhimento.controllers.usuario;
 
 import com.apajac.acolhimento.services.interfaces.AtualizarStatusUsuarioService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/usuario")
+@Tag(name = "Usuários", description = "Endpoints para gerenciamento de usuários")
 public class AtualizarStatusUsuarioController {
     private final AtualizarStatusUsuarioService atualizarStatusUsuarioService;
     @PutMapping("/{id}/status/{id_responsavel}")

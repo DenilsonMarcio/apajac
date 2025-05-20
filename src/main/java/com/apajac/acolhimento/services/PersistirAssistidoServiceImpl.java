@@ -72,10 +72,16 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
 
         assistidoEntity.setNome(assistidoDTO.getNome());
         assistidoEntity.setDataNascimento(assistidoDTO.getDataNascimento());
+        assistidoEntity.setSexo(assistidoDTO.getSexo());
         assistidoEntity.setEscolaridade(assistidoDTO.getEscolaridade());
         assistidoEntity.setEscola(assistidoDTO.getEscola());
         assistidoEntity.setTelEscola(assistidoDTO.getTelEscola());
         assistidoEntity.setCadastroInstituicao(assistidoDTO.isCadastroInstituicao());
+        if(assistidoEntity.isCadastroInstituicao()) {
+            if(assistidoDTO.getInstituicao() == null || assistidoDTO.getInstituicao().isEmpty()){
+                throw new BusinessException("O campo 'instituicao' em Assistido, é obrigatorio");
+            }
+        }
         assistidoEntity.setInstituicao(assistidoDTO.getInstituicao());
         assistidoEntity.setEncaminhadoPara(assistidoDTO.getEncaminhadoPara());
         assistidoEntity.setQuemIndicouApajac(assistidoDTO.getQuemIndicouApajac());
@@ -95,7 +101,31 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
 
 
     private void createFamiliares(List<FamiliarDTO> familiares, AssistidoEntity assistido) {
+
         for (FamiliarDTO familiarDTO : familiares) {
+
+            // Verifica o tipo de parentesco
+            if (!"PAI".equals(familiarDTO.getTipoParentesco())) {
+                // Valida o nome
+                if (familiarDTO.getNome() == null || familiarDTO.getNome().isEmpty()) {
+                    throw new BusinessException(
+                            String.format("O campo 'nome' em Familiar (%s), é obrigatório.", familiarDTO.getTipoParentesco())
+                    );                }
+                // Valida a lista de contatos
+                if (familiarDTO.getContatos() == null || familiarDTO.getContatos().isEmpty()) {
+                    throw new BusinessException(
+                            String.format("A 'Lista de contatos' em Familiar (%s), é obrigatorio.", familiarDTO.getTipoParentesco())
+                    );                 }
+                // Valida os campos dentro de cada ContatoDTO
+                for (ContatoDTO contato : familiarDTO.getContatos()) {
+                    if (contato.getContato() == null || contato.getContato().isEmpty()) {
+                        throw new BusinessException(
+                                String.format("O campo 'contato' dentro da lista de contatos em Familiar (%s), é obrigatorio.", familiarDTO.getTipoParentesco())
+                        );
+                    }
+                }
+            }
+
             FamiliarEntity familiarEntity = new FamiliarEntity();
             familiarEntity.setNome(familiarDTO.getNome());
             familiarEntity.setOcupacao(familiarDTO.getOcupacao());
@@ -119,14 +149,17 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
             contatoRepository.deleteAll(contatosList);
         }
         List<ContatoDTO> contatos = familiarDTO.getContatos();
-        List<ContatoEntity> contatoEntities = new ArrayList<>();
-        for (ContatoDTO dto : contatos) {
-            ContatoEntity entity = new ContatoEntity();
-            entity.setContato(dto.getContato());
-            entity.setFamiliar(familiar);
-            contatoEntities.add(entity);
+        if (contatos != null) {
+            List<ContatoEntity> contatoEntities = new ArrayList<>();
+            for (ContatoDTO dto : contatos) {
+                ContatoEntity entity = new ContatoEntity();
+                entity.setContato(dto.getContato());
+                entity.setFamiliar(familiar);
+                contatoEntities.add(entity);
+            }
+            contatoRepository.saveAll(contatoEntities);
+
         }
-        contatoRepository.saveAll(contatoEntities);
     }
 
     private void createComposicaoFamiliar(List<ComposicaoFamiliarDTO> composicaoFamiliarDTOS, AssistidoEntity assistido) {
@@ -203,10 +236,16 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
         entity.setId(assistidoDTO.getId());
         entity.setNome(assistidoDTO.getNome());
         entity.setDataNascimento(assistidoDTO.getDataNascimento());
+        entity.setSexo(assistidoDTO.getSexo());
         entity.setEscolaridade(assistidoDTO.getEscolaridade());
         entity.setEscola(assistidoDTO.getEscola());
         entity.setTelEscola(assistidoDTO.getTelEscola());
         entity.setCadastroInstituicao(assistidoDTO.isCadastroInstituicao());
+        if(entity.isCadastroInstituicao()) {
+            if(assistidoDTO.getInstituicao() == null || assistidoDTO.getInstituicao().isEmpty()){
+                throw new BusinessException("O campo 'instituicao' em Assistido, é obrigatorio");
+            }
+        }
         entity.setInstituicao(assistidoDTO.getInstituicao());
         entity.setEncaminhadoPara(assistidoDTO.getEncaminhadoPara());
         entity.setQuemIndicouApajac(assistidoDTO.getQuemIndicouApajac());
@@ -228,7 +267,31 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
         if(!isNull(familiarEntities)){
             familiarRepository.deleteAll(familiarEntities);
         }
+
         for (FamiliarDTO familiarDTO : familiarDTOS) {
+
+            // Verifica o tipo de parentesco
+            if (!"PAI".equals(familiarDTO.getTipoParentesco())) {
+                // Valida o nome
+                if (familiarDTO.getNome() == null || familiarDTO.getNome().isEmpty()) {
+                    throw new BusinessException(
+                            String.format("O campo 'nome' em Familiar (%s), é obrigatório.", familiarDTO.getTipoParentesco())
+                    );                }
+                // Valida a lista de contatos
+                if (familiarDTO.getContatos() == null || familiarDTO.getContatos().isEmpty()) {
+                    throw new BusinessException(
+                            String.format("A 'Lista de contatos' em Familiar (%s), é obrigatorio.", familiarDTO.getTipoParentesco())
+                    );                 }
+                // Valida os campos dentro de cada ContatoDTO
+                for (ContatoDTO contato : familiarDTO.getContatos()) {
+                    if (contato.getContato() == null || contato.getContato().isEmpty()) {
+                        throw new BusinessException(
+                                String.format("O campo 'contato' dentro da lista de contatos em Familiar (%s), é obrigatorio.", familiarDTO.getTipoParentesco())
+                        );
+                    }
+                }
+            }
+
             FamiliarEntity familiarEntity = new FamiliarEntity();
             familiarEntity.setNome(familiarDTO.getNome());
             familiarEntity.setOcupacao(familiarDTO.getOcupacao());
@@ -287,4 +350,5 @@ public class PersistirAssistidoServiceImpl implements PersistirAssistidoService 
                 PersistirAssistidoService.class.getSimpleName(),
                 body);
     }
+
 }
