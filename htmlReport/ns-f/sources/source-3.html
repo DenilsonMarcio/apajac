@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AtualizarStatusUsuarioServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.apajac.acolhimento.services</a>
+</div>
+
+<h1>Coverage Summary for Class: AtualizarStatusUsuarioServiceImpl (com.apajac.acolhimento.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AtualizarStatusUsuarioServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.apajac.acolhimento.services;
+&nbsp;
+&nbsp;import com.apajac.acolhimento.domain.entities.UsuarioEntity;
+&nbsp;import com.apajac.acolhimento.domain.enums.AuditoriaEnum;
+&nbsp;import com.apajac.acolhimento.exceptions.BusinessException;
+&nbsp;import com.apajac.acolhimento.exceptions.NotFoundException;
+&nbsp;import com.apajac.acolhimento.repositories.UsuarioRepository;
+&nbsp;import com.apajac.acolhimento.services.interfaces.AtualizarStatusAssistidoService;
+&nbsp;import com.apajac.acolhimento.services.interfaces.AtualizarStatusUsuarioService;
+&nbsp;import com.apajac.acolhimento.services.interfaces.AuditoriaService;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.transaction.annotation.Transactional;
+&nbsp;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Service
+<b class="nc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;@Transactional
+&nbsp;public class AtualizarStatusUsuarioServiceImpl implements AtualizarStatusUsuarioService {
+&nbsp;    private final UsuarioRepository usuarioRepository;
+&nbsp;
+&nbsp;    private final AuditoriaService auditoria;
+&nbsp;    @Override
+&nbsp;    public void updateStatusUsuario(Long id, Long id_responsavel) {
+&nbsp;
+<b class="nc">&nbsp;        validarSeEhMesmoUsuario(id, id_responsavel);</b>
+&nbsp;
+<b class="nc">&nbsp;        Optional&lt;UsuarioEntity&gt; optionalUsuarioEntity = usuarioRepository.findById(id);</b>
+<b class="nc">&nbsp;        if (optionalUsuarioEntity.isEmpty()){</b>
+<b class="nc">&nbsp;            throw new NotFoundException(&quot;Usuário não encontrado.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        UsuarioEntity usuarioEntity = optionalUsuarioEntity.get();</b>
+&nbsp;
+<b class="nc">&nbsp;        validaUsuarioRoot(usuarioEntity);</b>
+&nbsp;
+<b class="nc">&nbsp;        auditar(id.toString(), id_responsavel);</b>
+&nbsp;
+<b class="nc">&nbsp;        usuarioRepository.save(atualizaStatusUsuario(usuarioEntity));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void validarSeEhMesmoUsuario(Long id, Long id_responsavel) {
+<b class="nc">&nbsp;        boolean equals = id.equals(id_responsavel);</b>
+<b class="nc">&nbsp;        if (equals){</b>
+<b class="nc">&nbsp;            throw new BusinessException(&quot;Não é possível desativar o seu próprio usuário.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void validaUsuarioRoot(UsuarioEntity usuarioEntity) {
+<b class="nc">&nbsp;        boolean root = usuarioEntity.getRoles().contains(&quot;root&quot;);</b>
+<b class="nc">&nbsp;        if (root){</b>
+<b class="nc">&nbsp;            throw new BusinessException(&quot;Usuário ROOT não pode ser desativado.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void auditar(String body, Long idResponsavel) {
+<b class="nc">&nbsp;        auditoria.inserirDadosDeAuditoria(</b>
+&nbsp;                idResponsavel,
+<b class="nc">&nbsp;                AuditoriaEnum.UPDATED.getValues(),</b>
+<b class="nc">&nbsp;                AtualizarStatusAssistidoService.class.getSimpleName(),</b>
+&nbsp;                body);
+&nbsp;    }
+&nbsp;
+&nbsp;    private UsuarioEntity atualizaStatusUsuario(UsuarioEntity usuarioEntity) {
+<b class="nc">&nbsp;        if (usuarioEntity.isStatus()) {</b>
+<b class="nc">&nbsp;            usuarioEntity.setStatus(Boolean.FALSE);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            usuarioEntity.setStatus(Boolean.TRUE);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return usuarioEntity;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-03 22:49</div>
+</div>
+</body>
+</html>

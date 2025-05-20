@@ -1,0 +1,181 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ExceptionAdvice</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.apajac.acolhimento.advice</a>
+</div>
+
+<h1>Coverage Summary for Class: ExceptionAdvice (com.apajac.acolhimento.advice)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ExceptionAdvice</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.apajac.acolhimento.advice;
+&nbsp;
+&nbsp;import com.apajac.acolhimento.exceptions.BusinessException;
+&nbsp;import com.apajac.acolhimento.exceptions.NotFoundException;
+&nbsp;import com.apajac.acolhimento.exceptions.PermissionException;
+&nbsp;import com.apajac.acolhimento.exceptions.UnauthorizedException;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.ControllerAdvice;
+&nbsp;import org.springframework.web.bind.annotation.ExceptionHandler;
+&nbsp;import org.springframework.web.client.HttpClientErrorException;
+&nbsp;import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;@ControllerAdvice
+<b class="nc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;public class ExceptionAdvice extends ResponseEntityExceptionHandler {
+&nbsp;    public static final String MESSAGE = &quot;message&quot;;
+&nbsp;
+&nbsp;    //Faz o tratamento das exceções do tipo &quot;Não encontrado&quot;.
+&nbsp;    @ExceptionHandler(value = {NotFoundException.class})
+&nbsp;    public ResponseEntity&lt;Object&gt; tratarExcecaoNotFoundException(final NotFoundException ex) {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; body = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        body.put(MESSAGE, ex.getMessage());</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(body, HttpStatus.NOT_FOUND);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Faz o tratamento das exceções do tipo &quot;Não autorizado&quot;.
+&nbsp;    @ExceptionHandler(value = {HttpClientErrorException.class})
+&nbsp;    public ResponseEntity&lt;Object&gt; tratarExcecaoHttpClientErrorException(final HttpClientErrorException ex) {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; body = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        body.put(MESSAGE, ex.getMessage());</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(body, HttpStatus.UNAUTHORIZED);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Faz o tratamento das exceções do tipo &quot;Má requisição&quot;.
+&nbsp;    @ExceptionHandler(value = {IllegalArgumentException.class})
+&nbsp;    public ResponseEntity&lt;Object&gt; tratarExcecaoIllegalArgumentException(final IllegalArgumentException ex) {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; body = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        body.put(MESSAGE, ex.getMessage());</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(body, HttpStatus.BAD_REQUEST);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Faz o tratamento das exceções do tipo &quot;Genericas&quot;.
+&nbsp;    @ExceptionHandler(value = {RuntimeException.class})
+&nbsp;    public ResponseEntity&lt;Object&gt; tratarExcecaoRuntimeException(final RuntimeException ex) {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; body = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        body.put(MESSAGE, ex.getMessage());</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(body, HttpStatus.BAD_GATEWAY);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Faz o tratamento das exceções do tipo &quot;Não Autenticado&quot;.
+&nbsp;    @ExceptionHandler(value = {UnauthorizedException.class})
+&nbsp;    public ResponseEntity&lt;Object&gt; tratarExcecaoUnauthorizedException(final UnauthorizedException ex) {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; body = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        body.put(MESSAGE, ex.getMessage());</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(body, HttpStatus.UNAUTHORIZED);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Faz o tratamento das exceções do tipo &quot;Não Permitido&quot;.
+&nbsp;    @ExceptionHandler(value = {PermissionException.class})
+&nbsp;    public ResponseEntity&lt;Object&gt; tratarPermissionException(final PermissionException ex) {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; body = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        body.put(MESSAGE, ex.getMessage());</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(body, HttpStatus.FORBIDDEN);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler(value = {BusinessException.class})
+&nbsp;    public ResponseEntity&lt;Object&gt; tratarBusinessException(final BusinessException ex) {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; body = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        body.put(MESSAGE, ex.getMessage());</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(body, HttpStatus.NOT_ACCEPTABLE);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-03 22:49</div>
+</div>
+</body>
+</html>

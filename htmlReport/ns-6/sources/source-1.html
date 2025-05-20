@@ -1,0 +1,138 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ListarAlteracoesController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.apajac.acolhimento.controllers.auditoriaController</a>
+</div>
+
+<h1>Coverage Summary for Class: ListarAlteracoesController (com.apajac.acolhimento.controllers.auditoriaController)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ListarAlteracoesController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.apajac.acolhimento.controllers.auditoriaController;
+&nbsp;
+&nbsp;import com.apajac.acolhimento.domain.entities.AuditoriaEntity;
+&nbsp;import com.apajac.acolhimento.services.interfaces.AuditoriaService;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.CrossOrigin;
+&nbsp;import org.springframework.web.bind.annotation.GetMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+&nbsp;import org.springframework.web.bind.annotation.RestController;
+&nbsp;import org.springframework.web.client.HttpClientErrorException;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@CrossOrigin(&quot;*&quot;)
+<b class="fc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;@RequestMapping(&quot;/lista_auditoria&quot;)
+&nbsp;public class ListarAlteracoesController {
+&nbsp;
+&nbsp;    private final AuditoriaService auditoriaService;
+&nbsp;
+&nbsp;    @GetMapping
+&nbsp;    public ResponseEntity&lt;Page&lt;AuditoriaEntity&gt;&gt; listarHistoricoDeAlteracoes(Pageable pageable){
+&nbsp;        try {
+<b class="fc">&nbsp;            Page&lt;AuditoriaEntity&gt; entities = auditoriaService.listarHistoricoDeAlteracoes(pageable);</b>
+<b class="fc">&nbsp;            return ResponseEntity.status(HttpStatus.OK).body(entities);</b>
+<b class="fc">&nbsp;        } catch (HttpClientErrorException e) {</b>
+<b class="fc">&nbsp;            throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-03 22:49</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,195 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > EnderecoIntegration</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.apajac.acolhimento.gateway</a>
+</div>
+
+<h1>Coverage Summary for Class: EnderecoIntegration (com.apajac.acolhimento.gateway)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnderecoIntegration</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.apajac.acolhimento.gateway;
+&nbsp;
+&nbsp;import com.apajac.acolhimento.domain.dtos.EnderecoDTO;
+&nbsp;import com.apajac.acolhimento.exceptions.BusinessException;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.web.client.RestTemplate;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;@Service
+<b class="nc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;public class EnderecoIntegration {
+&nbsp;
+&nbsp;    private static final String PATH_VIA_CEP = &quot;https://viacep.com.br/ws/&quot;;
+&nbsp;    private static final String EXTENSION = &quot;/json&quot;;
+&nbsp;    private static final String SLASH = &quot;/&quot;;
+&nbsp;    private static final String CIDADE = &quot;Jacareí&quot;;
+&nbsp;    private static final String UF = &quot;SP&quot;;
+&nbsp;
+&nbsp;    private final RestTemplate restTemplate;
+&nbsp;    public EnderecoDTO enderecoPorCep(String cep){
+<b class="nc">&nbsp;        return getEnderecoDTOPorCep(cep);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private EnderecoDTO getEnderecoDTOPorCep(String cep) {
+&nbsp;        try {
+<b class="nc">&nbsp;            String url = PATH_VIA_CEP + cep + EXTENSION;</b>
+<b class="nc">&nbsp;            ResponseEntity&lt;Map&gt; entity = restTemplate.getForEntity(url, Map.class);</b>
+<b class="nc">&nbsp;            Map body = entity.getBody();</b>
+&nbsp;
+<b class="nc">&nbsp;            validatedCidadeAndUf(body);</b>
+&nbsp;
+<b class="nc">&nbsp;            return EnderecoDTO.builder()</b>
+<b class="nc">&nbsp;                    .endereco((body.get(&quot;logradouro&quot;) !=null ? body.get(&quot;logradouro&quot;).toString() : null))</b>
+<b class="nc">&nbsp;                    .bairro((body.get(&quot;bairro&quot;) != null ? body.get(&quot;bairro&quot;).toString() : null))</b>
+<b class="nc">&nbsp;                    .cidade((body.get(&quot;localidade&quot;) != null ? body.get(&quot;localidade&quot;).toString() : null))</b>
+<b class="nc">&nbsp;                    .UF((body.get(&quot;uf&quot;) != null ? body.get(&quot;uf&quot;).toString() : null))</b>
+<b class="nc">&nbsp;                    .cep((body.get(&quot;cep&quot;) != null ? body.get(&quot;cep&quot;).toString() : null))</b>
+<b class="nc">&nbsp;                    .build();</b>
+<b class="nc">&nbsp;        } catch (BusinessException ex){</b>
+<b class="nc">&nbsp;            throw new BusinessException(ex.getMessage());</b>
+<b class="nc">&nbsp;        } catch (RuntimeException ex){</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Não foi possivel encontrar o Endereço para o CEP informado.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void validatedCidadeAndUf(Map body) {
+<b class="nc">&nbsp;        if (!body.get(&quot;uf&quot;).equals(UF) || !body.get(&quot;localidade&quot;).equals(CIDADE)){</b>
+<b class="nc">&nbsp;            throw new BusinessException(&quot;CEP informado não pertence ao Municipio de Jacareí&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;EnderecoDTO&gt; enderecoPorUfCidadeELogradouro(String uf, String cidade, String logradouro) {
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            List&lt;Map&gt; objects = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;            List&lt;EnderecoDTO&gt; enderecoDTOS = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;            String url = PATH_VIA_CEP + uf + SLASH + cidade + SLASH +logradouro + EXTENSION;</b>
+<b class="nc">&nbsp;            objects.addAll(restTemplate.getForEntity(url, List.class).getBody());</b>
+&nbsp;
+<b class="nc">&nbsp;            for (Map endereco: objects){</b>
+<b class="nc">&nbsp;                enderecoDTOS.add(EnderecoDTO.builder()</b>
+<b class="nc">&nbsp;                        .endereco((endereco.get(&quot;logradouro&quot;) !=null ? endereco.get(&quot;logradouro&quot;).toString() : null))</b>
+<b class="nc">&nbsp;                        .bairro((endereco.get(&quot;bairro&quot;) != null ? endereco.get(&quot;bairro&quot;).toString() : null))</b>
+<b class="nc">&nbsp;                        .cidade((endereco.get(&quot;localidade&quot;) != null ? endereco.get(&quot;localidade&quot;).toString() : null))</b>
+<b class="nc">&nbsp;                        .UF((endereco.get(&quot;uf&quot;) != null ? endereco.get(&quot;uf&quot;).toString() : null))</b>
+<b class="nc">&nbsp;                        .cep((endereco.get(&quot;cep&quot;) != null ? endereco.get(&quot;cep&quot;).toString() : null))</b>
+<b class="nc">&nbsp;                        .build());</b>
+&nbsp;            }
+<b class="nc">&nbsp;            return enderecoDTOS;</b>
+<b class="nc">&nbsp;        } catch (RuntimeException ex){</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Não foi possivel encontrar o Endereço com os dados informados.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-03 22:49</div>
+</div>
+</body>
+</html>

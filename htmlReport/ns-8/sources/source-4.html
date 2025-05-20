@@ -1,0 +1,137 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > BuscarUsuarioPorIdController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.apajac.acolhimento.controllers.usuario</a>
+</div>
+
+<h1>Coverage Summary for Class: BuscarUsuarioPorIdController (com.apajac.acolhimento.controllers.usuario)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BuscarUsuarioPorIdController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.apajac.acolhimento.controllers.usuario;
+&nbsp;
+&nbsp;import com.apajac.acolhimento.domain.dtos.UsuarioSemSenhaDTO;
+&nbsp;import com.apajac.acolhimento.domain.entities.UsuarioEntity;
+&nbsp;import com.apajac.acolhimento.mappers.UsuarioMapper;
+&nbsp;import com.apajac.acolhimento.services.interfaces.UsuarioService;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;import org.springframework.web.client.HttpClientErrorException;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@CrossOrigin(&quot;*&quot;)
+<b class="fc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;@RequestMapping(&quot;/usuario&quot;)
+&nbsp;public class BuscarUsuarioPorIdController {
+&nbsp;
+&nbsp;    private final UsuarioService usuarioService;
+&nbsp;    private final UsuarioMapper usuarioMapper;
+&nbsp;    @GetMapping(&quot;/por_id/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;UsuarioSemSenhaDTO&gt; buscarUsuario(@PathVariable(&quot;id&quot;) Long id){
+&nbsp;        try {
+<b class="fc">&nbsp;            UsuarioEntity usuario = usuarioService.buscarUsuarioPorId(id);</b>
+&nbsp;
+<b class="fc">&nbsp;            UsuarioSemSenhaDTO usuarioSemSenhaDTO = usuarioMapper.convertEntityToDto(usuario);</b>
+&nbsp;
+<b class="fc">&nbsp;            return ResponseEntity.status(HttpStatus.OK).body(usuarioSemSenhaDTO);</b>
+<b class="fc">&nbsp;        } catch (HttpClientErrorException e) {</b>
+<b class="fc">&nbsp;            throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-03 22:49</div>
+</div>
+</body>
+</html>
